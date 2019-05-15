@@ -1,0 +1,3 @@
+[submodule "src/scss/grid-kit"]
+	path = src/scss/grid-kit
+	url = git@github.com:codefoxes/grid-kit.git

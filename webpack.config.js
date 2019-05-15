@@ -1,5 +1,9 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require('path')
+
+const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js'
 
 module.exports = {
 	entry: './src/index.js',
@@ -13,6 +17,15 @@ module.exports = {
 			{
 				test: /\.(html)$/,
 				use: ['html-loader']
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					'css-hot-loader',
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'sass-loader'
+				]
 			}
 		]
 	},
@@ -28,6 +41,10 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			template: 'src/index.html'
+		}),
+		new MiniCssExtractPlugin({
+			filename: isHot ? 'css/[name].css' : 'css/[name].[contenthash].css',
+			chunkFilename: 'css/[id].css'
 		})
 	],
 	devServer: {

@@ -2,6 +2,8 @@ import React from 'react'
 
 import loadSoundBuffer from './BufferLoader'
 
+import './scss/App.scss'
+
 class App extends React.Component {
 	constructor (props) {
 		super(props)
