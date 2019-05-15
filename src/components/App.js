@@ -1,8 +1,7 @@
 import React from 'react'
-
-import loadSoundBuffer from './BufferLoader'
-
-import './scss/App.scss'
+import Header from './Header'
+import loadSoundBuffer from '../BufferLoader'
+import '../scss/app.scss'
 
 class App extends React.Component {
 	constructor (props) {
@@ -39,10 +38,12 @@ class App extends React.Component {
 	render () {
 		return (
 			<div className="component-app">
-				<h1>Musicion Component</h1>
-				<button onClick={this.playSong('SultansOfSwing.flac')}>Play Song</button>
-				<button onClick={this.pauseSong}>Pause Song</button>
-				<button onClick={this.resumeSong}>Resume Song</button>
+				<Header />
+				<main>
+					<button onClick={this.playSong('SultansOfSwing.flac')}>Play Song</button>
+					<button onClick={this.pauseSong}>Pause Song</button>
+					<button onClick={this.resumeSong}>Resume Song</button>
+				</main>
 			</div>
 		)
 	}

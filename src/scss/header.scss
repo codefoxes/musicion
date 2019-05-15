@@ -1,0 +1,47 @@
+header {
+	min-height: 90px;
+	color: #fff;
+	background: #525252;
+	background: -webkit-linear-gradient(to right, #525252, #3d72b4);
+	background: linear-gradient(to right, #525252, #3d72b4);
+
+	.titlebar {
+		-webkit-user-select: none;
+		-webkit-app-region: drag;
+	}
+
+	.control-panel {
+		.player-controls {
+			position: relative;
+			background-color: #fff;
+			border-radius: 6px;
+			width: 200px;
+			height: 40px;
+			z-index: 5;
+			margin-left: 15px;
+			box-shadow: 0px 20px 20px 5px rgba(132, 132, 132, 0.3);
+			opacity: 0.8;
+
+			.controls {
+				display: flex;
+				justify-content: flex-end;
+				height: 40px;
+				padding: 0 15px;
+
+				.prev, .play, .next {
+					width: 40px;
+					height: auto;
+					border-radius: 10px;
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: 20px;
+					margin: 5px 0;
+					background-color: #fff;
+					cursor: pointer;
+					transition: background-color .3s ease;
+					-webkit-transition: background-color .3s ease;
+				}
+			}
+		}
+	}
+}
