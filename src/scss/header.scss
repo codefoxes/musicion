@@ -13,6 +13,7 @@ header {
 	.control-panel {
 		.player-controls {
 			position: relative;
+			color: #333;
 			background-color: #fff;
 			border-radius: 6px;
 			width: 200px;
@@ -21,6 +22,18 @@ header {
 			margin-left: 15px;
 			box-shadow: 0px 20px 20px 5px rgba(132, 132, 132, 0.3);
 			opacity: 0.8;
+
+			.album-art {
+				position: absolute;
+				top: 50%;
+				left: -5px;
+				transform: translateY(-50%);
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: #ecde2a;
+				border: 2px solid #6b0d0d;
+			}
 
 			.controls {
 				display: flex;
@@ -35,7 +48,7 @@ header {
 					background-position: center center;
 					background-repeat: no-repeat;
 					background-size: 20px;
-					margin: 5px 0;
+					padding: 8px 0;
 					background-color: #fff;
 					cursor: pointer;
 					transition: background-color .3s ease;

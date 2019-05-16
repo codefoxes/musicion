@@ -12,8 +12,8 @@ class App extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		this.context = new (AudioContext || webkitAudioContext)();
+	componentDidMount () {
+		this.context = new (AudioContext || webkitAudioContext)()
 	}
 
 	playSong = songPath => e => {

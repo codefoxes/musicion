@@ -26,6 +26,10 @@ module.exports = {
 					'css-loader',
 					'sass-loader'
 				]
+			},
+			{
+				test: /\.(ttf|eot|woff|woff2|svg)$/,
+				loader: 'url-loader'
 			}
 		]
 	},
@@ -51,6 +55,7 @@ module.exports = {
 		contentBase: './dist',
 		hot: true,
 		port: 3000,
-		open: true
+		open: true,
+		overlay: true
 	}
 }
