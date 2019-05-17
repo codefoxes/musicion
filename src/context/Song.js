@@ -24,6 +24,12 @@ export default class SongContextProvider extends React.Component {
 		})
 	}
 
+	stopSong = ()  => {
+		this.setState({
+			currentState: 'stopped'
+		})
+	}
+
 	render () {
 		const { children } = this.props
 		return (
@@ -31,7 +37,8 @@ export default class SongContextProvider extends React.Component {
 				value={{
 					...this.state,
 					setCurrentSong: this.setCurrentSong,
-					playPauseSong: this.playPauseSong
+					playPauseSong: this.playPauseSong,
+					stopSong: this.stopSong
 				}}
 			>
 				{ children }

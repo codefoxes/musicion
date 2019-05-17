@@ -58,3 +58,9 @@ header {
 		}
 	}
 }
+
+.rc-slider {
+	.rc-slider-handle, .rc-slider-track {
+		transition: .05s all;
+	}
+}

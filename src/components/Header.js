@@ -9,8 +9,9 @@ class Header extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			value: 0,
-			max: 10000
+			sliderPos: 0,
+			sliderMax: 10000,
+			sliding: false
 		}
 		this.player = new Player()
 	}
@@ -19,23 +20,51 @@ class Header extends React.Component {
 		this.context.setCurrentSong('SultansOfSwing.flac')
 	}
 
+	updateSeekBar = (currentPosition) => {
+		const sliderPos = ( currentPosition / this.player.duration ) * this.state.sliderMax
+		if (! this.state.sliding) {
+			this.setState({
+				sliderPos,
+			})
+		}
+	}
+
+	onEnded = () => {
+		this.context.stopSong()
+
+		const sliderPos = 0
+		this.setState({
+			sliderPos,
+		})
+	}
+
 	playPauseSong = () => {
 		this.context.playPauseSong()
 
 		if (this.context.currentState === 'stopped') {
-			this.player.play(this.context.currentSong)
+			this.player.loadSong(this.context.currentSong, null, this.updateSeekBar, this.onEnded)
 		} else if (this.context.currentState === 'playing') {
 			this.player.pause()
 		} else if (this.context.currentState === 'paused') {
-			this.player.resume()
+			this.player.play()
 		}
 	}
 
-	onSliderChange = (value) => {
+	onSliderChange = (sliderPos) => {
+		this.state.sliding = true
 		this.setState({
-			value,
-		});
-	};
+			sliderPos,
+		})
+	}
+
+	onSliderUpdate = (sliderPos) => {
+		this.state.sliding = false
+		this.setState({
+			sliderPos,
+		})
+		const seekPos = (sliderPos / this.state.sliderMax) * this.player.duration
+		this.player.seek(seekPos)
+	}
 
 	render () {
 		return (
@@ -43,7 +72,7 @@ class Header extends React.Component {
 				{ () => (
 					<header>
 						<h1 className="titlebar center">Musicion</h1>
-						<div id="control-panel" className="grid cols-2 control-panel">
+						<div id="control-panel" className="control-panel">
 							<div className="player-controls">
 								<div className="album-art" />
 								<div className="controls center">
@@ -69,9 +98,10 @@ class Header extends React.Component {
 								</div>
 								<div className="seekbar" />
 								<Slider
-									value={ this.state.value }
+									value={ this.state.sliderPos }
+									max={ this.state.sliderMax }
 									onChange={ this.onSliderChange }
-									max={ this.state.max }
+									onAfterChange={ this.onSliderUpdate }
 								/>
 							</div>
 						</div>

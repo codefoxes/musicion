@@ -4,7 +4,8 @@ function loadSoundBuffer (url, context) {
 		request.open('GET', url, true)
 		request.responseType = 'arraybuffer'
 
-		// Decode asynchronously
+		// Todo: Handle load Error.
+		// Todo: Decode asynchronously
 		request.onload = () => {
 			context.decodeAudioData(request.response, (buffer) => {
 				resolve(buffer)
