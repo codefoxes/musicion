@@ -91,17 +91,23 @@ class Header extends React.Component {
 									</div>
 								</div>
 							</div>
-							<div className="seekbar">
+							<div className="status-bar">
 								<div className="sound-title">
-									Current Song : { this.context.currentSong } <br />
-									Song Status : { this.context.currentState }
+									Current Song : { this.context.currentSong } || Song Status : { this.context.currentState }
 								</div>
-								<div className="seekbar" />
+								<div className="seekbar">
+									<Slider
+										value={ this.state.sliderPos }
+										max={ this.state.sliderMax }
+										onChange={ this.onSliderChange }
+										onAfterChange={ this.onSliderUpdate }
+									/>
+								</div>
+							</div>
+							<div className="volume-bar">
 								<Slider
 									value={ this.state.sliderPos }
 									max={ this.state.sliderMax }
-									onChange={ this.onSliderChange }
-									onAfterChange={ this.onSliderUpdate }
 								/>
 							</div>
 						</div>

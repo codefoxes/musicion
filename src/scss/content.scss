@@ -1,0 +1,6 @@
+@import "variables";
+@import "splitpane";
+
+main.content {
+	height: calc(100% - #{$header-height});
+}

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component, Fragment } from 'react'
 import Header from './Header'
+import Content from './Content'
 import '../scss/app.scss'
 
-class App extends React.Component {
+class App extends Component {
 	constructor (props) {
 		super(props)
 		this.context = null
@@ -12,12 +13,10 @@ class App extends React.Component {
 
 	render () {
 		return (
-			<div className="component-app">
+			<Fragment>
 				<Header />
-				<main>
-					Library
-				</main>
-			</div>
+				<Content />
+			</Fragment>
 		)
 	}
 }

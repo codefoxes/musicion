@@ -38,7 +38,7 @@ module.exports = {
 	},
 	output: {
 		path: `${__dirname}/dist`,
-		publicPath: '/',
+		// publicPath: '/',
 		filename: 'bundle.js'
 	},
 	plugins: [
@@ -57,5 +57,6 @@ module.exports = {
 		port: 3000,
 		open: true,
 		overlay: true
-	}
+	},
+	target: 'electron-renderer'
 }
