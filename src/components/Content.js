@@ -1,6 +1,7 @@
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import MainMenu from './MainMenu'
+import Library from './Library'
 import '../scss/content.scss'
 
 class Content extends React.Component {
@@ -24,7 +25,7 @@ class Content extends React.Component {
 			<main className="content">
 				<SplitPane split="vertical" minSize={100} defaultSize={defaultSize} maxSize={500} onDragFinished={onDragFinished}>
 					<MainMenu />
-					<div className="library">Albums</div>
+					<Library />
 				</SplitPane>
 			</main>
 		)

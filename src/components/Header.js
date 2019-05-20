@@ -4,6 +4,7 @@ import { SongContext } from '../context/Song'
 import Player from '../services/Player'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
+import Volume from './Volume'
 
 class Header extends React.Component {
 	constructor (props) {
@@ -104,12 +105,7 @@ class Header extends React.Component {
 									/>
 								</div>
 							</div>
-							<div className="volume-bar">
-								<Slider
-									value={ this.state.sliderPos }
-									max={ this.state.sliderMax }
-								/>
-							</div>
+							<Volume />
 						</div>
 					</header>
 				)}

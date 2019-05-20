@@ -1,0 +1,17 @@
+.library {
+	.albums {
+		padding: 10px;
+
+		.album {
+			max-width: 150px;
+			min-height: 150px;
+			background: #ffcb55;
+			border-radius: 5px;
+			overflow: hidden;
+
+			img {
+				border-radius: 5px;
+			}
+		}
+	}
+}
