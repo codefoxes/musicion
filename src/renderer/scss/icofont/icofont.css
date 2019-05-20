@@ -1,19 +1,19 @@
-/*! 
-* @package IcoFont 
-* @version 1.0.1 
-* @author IcoFont https://icofont.com 
-* @copyright Copyright (c) 2015 - 2019 IcoFont 
+/*!
+* @package IcoFont
+* @version 1.0.1
+* @author IcoFont https://icofont.com
+* @copyright Copyright (c) 2015 - 2019 IcoFont
 * @license - https://icofont.com/license/
 */
 
 @font-face
 {
- 
+
   font-family: "IcoFont";
 font-weight: normal;
 font-style: "Regular";
-src: url("./fonts/icofont.woff2") format("woff2"),
-url("./fonts/icofont.woff") format("woff");
+src: url("fonts/icofont.woff2") format("woff2"),
+url("fonts/icofont.woff") format("woff");
 }
 
 [class^="icofont-"], [class*=" icofont-"]
@@ -304,4 +304,3 @@ url("./fonts/icofont.woff") format("woff");
   position: static;
   width: auto;
 }
-	

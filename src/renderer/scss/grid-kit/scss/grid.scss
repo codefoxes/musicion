@@ -1,0 +1,62 @@
+.container {
+	@extend %base-grid;
+	margin: 0 auto;
+
+	.grid {
+		@extend %base-grid;
+	}
+
+	&.fix-width {
+		max-width: $fix-width;
+	}
+}
+
+.col {
+	&-1 {
+		grid-column: auto / span 1;
+	}
+
+	&-2 {
+		grid-column: auto / span 2
+	}
+
+	&-3 {
+		grid-column: auto / span 3
+	}
+
+	&-4 {
+		grid-column: auto / span 4
+	}
+
+	&-5 {
+		grid-column: auto / span 5
+	}
+
+	&-6 {
+		grid-column: auto / span 6
+	}
+
+	&-7 {
+		grid-column: auto / span 7
+	}
+
+	&-8 {
+		grid-column: auto / span 8
+	}
+
+	&-9 {
+		grid-column: auto / span 9
+	}
+
+	&-10 {
+		grid-column: auto / span 10
+	}
+
+	&-11 {
+		grid-column: auto / span 11
+	}
+
+	&-12 {
+		grid-column: auto / span 12
+	}
+}

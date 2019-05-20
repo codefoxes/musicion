@@ -6,7 +6,7 @@ const path = require('path')
 const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js'
 
 module.exports = {
-	entry: './src/index.js',
+	entry: './src/renderer/index.js',
 	module: {
 		rules: [
 			{
@@ -51,7 +51,7 @@ module.exports = {
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
-			template: 'src/index.html'
+			template: 'src/renderer/index.html'
 		}),
 		new MiniCssExtractPlugin({
 			filename: isHot ? 'css/[name].css' : 'css/[name].[contenthash].css',

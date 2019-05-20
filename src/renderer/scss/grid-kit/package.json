@@ -1,0 +1,36 @@
+{
+  "name": "grid-kit",
+  "version": "0.1.0",
+  "description": "CSS3 Grid Framework",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^9.4.3",
+    "clean-css-cli": "^4.2.1",
+    "node-sass": "^4.11.0",
+    "postcss-cli": "^6.1.0",
+    "rimraf": "^2.6.2"
+  },
+  "scripts": {
+    "build": "npm run build-clean && npm run build-sass && npm run build-autoprefix && npm run build-cleancss",
+    "build-autoprefix": "postcss --use autoprefixer --map false --output dist/grid-kit.css dist/grid-kit.css",
+    "build-cleancss": "cleancss -o dist/grid-kit.min.css dist/grid-kit.css",
+    "build-clean": "rimraf dist",
+    "build-sass": "node-sass --output-style expanded --source-map true scss/grid-kit.scss dist/grid-kit.css",
+    "deploy": "npm run build",
+    "start": "npm run build-sass -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codefoxes/grid-kit.git"
+  },
+  "author": {
+    "name": "Codefoxes",
+    "url": "https://github.com/codefoxes"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codefoxes/grid-kit/issues"
+  },
+  "homepage": "https://github.com/codefoxes/grid-kit#readme"
+}
