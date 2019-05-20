@@ -54,7 +54,7 @@ function getAlbums (folders, cacheCover = true) {
 	const albums = []
 	files.forEach((file, i) => {
 		const tags = NodeID3.read(file)
-		if (cacheCover && tags.image.imageBuffer) {
+		if (cacheCover && tags.image && tags.image.imageBuffer) {
 			const imageName = file.replace(/\//g, '_')
 			const imagePath = `${cachePath}/${imageName}.${tags.image.mime}`
 			fs.writeFile(imagePath, tags.image.imageBuffer, 'binary', (err) => {

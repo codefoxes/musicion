@@ -2,6 +2,8 @@ import React from 'react'
 import { LibraryContext } from '../context/Library'
 import '../scss/library.scss'
 
+const defaultImage = require('./default.svg')
+
 class Library extends React.Component {
 	constructor (props) {
 		super(props)
@@ -21,6 +23,10 @@ class Library extends React.Component {
 		return splits[splits.length - 1].split('.')[0]
 	}
 
+	addDefaultSrc (e){
+		e.target.src = defaultImage
+	}
+
 	render () {
 		return (
 			<LibraryContext.Consumer>
@@ -34,48 +40,30 @@ class Library extends React.Component {
 									return (
 										<li key={i} className={`album ${expandedClass}`}>
 											<section className="album-thumbnail" onClick={() => this.expandAlbum(album.album)}>
-												<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} />
+												<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} onError={this.addDefaultSrc} />
 											</section>
 											<section className="album-details">
 												<div className="album-details-inner">
-													<div>
-														<div className="cover">
-															<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} />
-														</div>
-														<div className="songs-list">
-															<ul>
-																{album.files.map((file, j) => {
-																	return (
-																		<li key={j}>{ this.getMusicFileName(file.file) }</li>
-																	)
-																})}
-															</ul>
-														</div>
+													<div className="cover">
+														<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} onError={this.addDefaultSrc} />
+													</div>
+													<div className="album-content">
+														<ul className="songs-list">
+															{album.files.map((file, j) => {
+																return (
+																	<li className="song" key={j}>
+																		<i className="play icofont-ui-play" />
+																		<span className="song-title">{ this.getMusicFileName(file.file) }</span>
+																	</li>
+																)
+															})}
+														</ul>
 													</div>
 												</div>
 											</section>
 										</li>
 									)
 								})}
-								<li className="album">
-									<section className="album-thumbnail">
-										<img src={`file:///test`} alt="Test" />
-									</section>
-									<section className="album-details">
-										<div className="album-details-inner">
-											Details
-										</div>
-									</section>
-								</li>
-								<li className="album">
-									<section className="album-thumbnail">
-										<img src={`file:///test`} alt="Test" />
-									</section>
-									<section className="album-details">
-										<div className="album-details-inner">
-										</div>
-									</section>
-								</li>
 							</ul>
 						) : (
 							<div>No Albums Yet</div>

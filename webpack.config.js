@@ -28,8 +28,15 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.(ttf|eot|woff|woff2|svg)$/,
+				test: /\.(ttf|eot|woff|woff2)$/,
 				loader: 'url-loader'
+			},
+			{
+				test: /\.(png|jpe?g|gif|svg)$/,
+				loader: 'file-loader',
+				options: {
+					outputPath: 'images'
+				}
 			}
 		]
 	},
