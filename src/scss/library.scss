@@ -1,16 +1,67 @@
+$thumbnail-cover-height: 150px;
+$thumbnail-title-height: 20px;
+$thumbnail-height: $thumbnail-cover-height + $thumbnail-title-height;
+$thumbnail-width: 150px;
+$album-details-transition: .2s height;
+$album-details-height: 200px;
+
 .library {
-	.albums {
+	position: relative;
+	height: 100%;
+	overflow-y: auto;
+
+	.albums-grid {
 		padding: 10px;
+		width: 100%;
 
 		.album {
-			max-width: 150px;
-			min-height: 150px;
-			background: #ffcb55;
-			border-radius: 5px;
-			overflow: hidden;
+			display: inline-block;
+			margin: 10px 5px 0 5px;
+			vertical-align: top;
+			height: $thumbnail-height;
+			transition: $album-details-transition;
 
-			img {
+			&> .album-thumbnail, &> .album-thumbnail img {
+				border: none;
+				outline: none;
+				display: block;
+				position: relative;
+			}
+
+			.album-thumbnail {
+				background: #ffcb55;
+				height: $thumbnail-cover-height;
+				width: $thumbnail-width;
 				border-radius: 5px;
+
+				img {
+					border-radius: 5px;
+				}
+			}
+
+			.album-details {
+				position: absolute;
+				background: #3d72b4;
+				top: auto;
+				left: 0;
+				width: 100%;
+				margin-top: 10px;
+				text-align: left;
+				height: 0;
+				overflow: hidden;
+				transition: $album-details-transition;
+
+				.album-details-inner {
+					padding: 10px;
+				}
+			}
+
+			&.expanded {
+				height: $thumbnail-height + $album-details-height;
+
+				.album-details {
+					height: $album-details-height;
+				}
 			}
 		}
 	}
