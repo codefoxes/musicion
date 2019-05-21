@@ -1,8 +1,9 @@
 import React from 'react'
-import { LibraryContext } from '../context/Library'
-import '../scss/library.scss'
+import AlbumDetails from './AlbumDetails'
+import { LibraryContext } from '../../context/Library'
+import '../../scss/library.scss'
 
-const defaultImage = require('./default.svg')
+const defaultImage = require('../default.svg')
 
 class Library extends React.Component {
 	constructor (props) {
@@ -19,12 +20,7 @@ class Library extends React.Component {
 		this.setState( { expanded } )
 	}
 
-	getMusicFileName = (filePath) => {
-		const splits = filePath.split('/')
-		return splits[splits.length - 1].split('.')[0]
-	}
-
-	addDefaultSrc (e){
+	static addDefaultSrc (e){
 		e.target.src = defaultImage
 	}
 
@@ -43,25 +39,7 @@ class Library extends React.Component {
 											<section className="album-thumbnail" onClick={() => this.expandAlbum(album.album)}>
 												<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} onError={this.addDefaultSrc} />
 											</section>
-											<section className="album-details">
-												<div className="album-details-inner">
-													<div className="cover">
-														<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} onError={this.addDefaultSrc} />
-													</div>
-													<div className="album-content">
-														<ul className="songs-list">
-															{album.files.map((file, j) => {
-																return (
-																	<li className="song" key={j}>
-																		<i className="play icofont-ui-play" />
-																		<span className="song-title">{ this.getMusicFileName(file.file) }</span>
-																	</li>
-																)
-															})}
-														</ul>
-													</div>
-												</div>
-											</section>
+											<AlbumDetails album={album} />
 										</li>
 									)
 								})}

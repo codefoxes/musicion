@@ -1,7 +1,6 @@
 import React from 'react'
 import '../scss/header.scss'
 import { SongContext } from '../context/Song'
-import Player from '../services/Player'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
 import Volume from './Volume'
@@ -14,15 +13,16 @@ class Header extends React.Component {
 			sliderMax: 10000,
 			sliding: false
 		}
-		this.player = new Player()
 	}
 
 	componentDidMount () {
 		this.context.setCurrentSong('SultansOfSwing.flac')
+		this.context.subscribeEvent('onPlaying', this.updateSeekBar.bind(this))
+		this.context.subscribeEvent('onEnded', this.onEnded.bind(this))
 	}
 
 	updateSeekBar = (currentPosition) => {
-		const sliderPos = ( currentPosition / this.player.duration ) * this.state.sliderMax
+		const sliderPos = ( currentPosition / this.context.player.duration ) * this.state.sliderMax
 		if (! this.state.sliding) {
 			this.setState({
 				sliderPos,
@@ -31,8 +31,6 @@ class Header extends React.Component {
 	}
 
 	onEnded = () => {
-		this.context.stopSong()
-
 		const sliderPos = 0
 		this.setState({
 			sliderPos,
@@ -41,14 +39,6 @@ class Header extends React.Component {
 
 	playPauseSong = () => {
 		this.context.playPauseSong()
-
-		if (this.context.currentState === 'stopped') {
-			this.player.loadSong(this.context.currentSong, null, this.updateSeekBar, this.onEnded)
-		} else if (this.context.currentState === 'playing') {
-			this.player.pause()
-		} else if (this.context.currentState === 'paused') {
-			this.player.play()
-		}
 	}
 
 	onSliderChange = (sliderPos) => {
@@ -63,8 +53,8 @@ class Header extends React.Component {
 		this.setState({
 			sliderPos,
 		})
-		const seekPos = (sliderPos / this.state.sliderMax) * this.player.duration
-		this.player.seek(seekPos)
+		const seekPos = (sliderPos / this.state.sliderMax) * this.context.player.duration
+		this.context.player.seek(seekPos)
 	}
 
 	render () {

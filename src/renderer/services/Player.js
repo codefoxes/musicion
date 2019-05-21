@@ -2,7 +2,7 @@ import loadSoundBuffer from './BufferLoader'
 
 class Player {
 	constructor () {
-		this.context = new (AudioContext || webkitAudioContext)()
+		this.context = null
 		this.isPlaying = false
 		this.duration = 0
 		this.currentPosition = 0
@@ -11,6 +11,27 @@ class Player {
 		this.onEndedCallBack = null
 		this.buffer = null
 		this.bufferSource = null
+		this.setupAudioContext()
+	}
+
+	setupAudioContext () {
+		return new Promise((resolve) => {
+			if (this.context && this.context.close !== undefined) {
+				this.context.close().then(() => {
+					this.context = null
+					this.bufferSource = null
+					this.buffer = null
+					this.duration = 0
+					this.currentPosition = 0
+					clearInterval(this.playingIntervalID)
+					this.context = new (AudioContext || webkitAudioContext)()
+					resolve()
+				})
+			} else {
+				this.context = new (AudioContext || webkitAudioContext)()
+				resolve()
+			}
+		})
 	}
 
 	initSource () {
@@ -24,13 +45,15 @@ class Player {
 	loadSong (songPath, onStarted, onPlaying, onEnded) {
 		// Todo: Get buffer in stream rathen than waiting to complete.
 		// Todo: Handle load Error.
-		loadSoundBuffer(songPath, this.context).then((buffer) => {
-			this.buffer = buffer
-			this.duration = buffer.duration
-			this.onPlayingCallBack = onPlaying
-			this.play()
-			this.onEndedCallBack = onEnded
-			onStarted && onStarted(this.duration)
+		this.setupAudioContext().then(() => {
+			loadSoundBuffer(songPath, this.context).then((buffer) => {
+				this.buffer = buffer
+				this.duration = buffer.duration
+				this.onPlayingCallBack = onPlaying
+				this.play()
+				this.onEndedCallBack = onEnded
+				onStarted && onStarted(this.duration)
+			})
 		})
 	}
 

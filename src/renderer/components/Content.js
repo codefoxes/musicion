@@ -1,7 +1,7 @@
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import MainMenu from './MainMenu'
-import Library from './Library'
+import Library from './library/Library'
 import '../scss/content.scss'
 
 class Content extends React.Component {
