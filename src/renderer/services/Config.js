@@ -39,8 +39,10 @@ export default class Config {
 	}
 
 	static addFoldersToLibrary (folders) {
-		// Todo: Don't simply concat. Only add if does not exist.
-		configuration.library.folders = configuration.library.folders.concat(folders)
+		configuration.library.folders = configuration.library.folders.concat(
+			folders.filter(item => configuration.library.folders.indexOf(item) < 0)
+		)
+
 		try {
 			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(configuration, null, '\t'), 'utf8')
 		} catch (err) {
@@ -52,9 +54,36 @@ export default class Config {
 		return configuration.library
 	}
 
+	static addFilesToAlbum (album, i) {
+		const songFiles = []
+		configuration.library.albums[i].files.forEach((songFile) => {
+			songFiles.push(songFile.file)
+		})
+		configuration.library.albums[i].files = configuration.library.albums[i].files.concat(
+			album.files.filter(songFile => songFiles.indexOf(songFile.file) === -1)
+		)
+	}
+
 	static addAlbumsToLibrary (albums) {
-		// Todo: Don't simply concat. Only add if does not exist.
-		configuration.library.albums = configuration.library.albums.concat(albums)
+		// Todo: Different Albums can have same name.
+		const albumNames = []
+		configuration.library.albums.forEach((album) => {
+			albumNames.push(album.album)
+		})
+
+		let albumExists = false
+		albums.forEach((album) => {
+			const configAlbumIndex = albumNames.indexOf(album.album)
+			if (configAlbumIndex !== -1) {
+				albumExists = true
+				Config.addFilesToAlbum(album, configAlbumIndex)
+			}
+		})
+
+		if (!albumExists) {
+			configuration.library.albums = configuration.library.albums.concat(albums)
+		}
+
 		try {
 			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(configuration, null, '\t'), 'utf8')
 		} catch (err) {

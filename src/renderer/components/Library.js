@@ -14,6 +14,7 @@ class Library extends React.Component {
 
 	expandAlbum = (album) => {
 		const { expanded } = this.state
+		Object.keys( expanded ).forEach(a => { if (a !== album) expanded[a] = false })
 		expanded[album] = !((album in expanded) && expanded[album])
 		this.setState( { expanded } )
 	}
