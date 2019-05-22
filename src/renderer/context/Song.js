@@ -1,10 +1,14 @@
 import React from 'react'
 import Player from '../services/Player'
+import { getSongName } from '../services/Helpers'
 
 const DEFAULT_STATE = {
 	currentSong: '',
 	currentState: 'stopped',
-	player: null
+	player: null,
+	currentTags: {
+		title: ''
+	}
 }
 
 export const SongContext = React.createContext(DEFAULT_STATE)
@@ -29,6 +33,11 @@ export default class SongContextProvider extends React.Component {
 
 	setCurrentSong = currentSong  => {
 		this.setState({currentSong})
+	}
+
+	setCurrentTags = file => {
+		file.tags.title = getSongName(file)
+		this.setState({ currentTags: file.tags })
 	}
 
 	subscribeEvent = (event, subscriber) => {
@@ -57,9 +66,9 @@ export default class SongContextProvider extends React.Component {
 		})
 	}
 
-	playPauseSong = (song)  => {
+	playPauseSong = (file)  => {
 		let currentState
-		if (song === undefined || song === this.state.currentSong) {
+		if (file === undefined || file.file === this.state.currentSong) {
 			if (this.state.currentState === 'playing') {
 				currentState = 'paused'
 				this.state.player.pause()
@@ -70,8 +79,9 @@ export default class SongContextProvider extends React.Component {
 			this.setState({ currentState })
 		} else {
 			currentState = 'playing'
-			this.state.player.loadSong(song, this.onStarted, this.onPlaying, this.onEnded)
-			this.setState({ currentState, currentSong: song })
+			this.state.player.loadSong(file.file, this.onStarted, this.onPlaying, this.onEnded)
+			this.setState({ currentState, currentSong: file.file })
+			this.setCurrentTags(file)
 		}
 	}
 
@@ -79,6 +89,11 @@ export default class SongContextProvider extends React.Component {
 		this.setState({
 			currentState: 'stopped'
 		})
+	}
+
+	changeVolume = (vol) => {
+		this.state.player.volume(vol)
+		// Todo: Set Context Volume if required
 	}
 
 	render () {
@@ -90,7 +105,8 @@ export default class SongContextProvider extends React.Component {
 					setCurrentSong: this.setCurrentSong,
 					playPauseSong: this.playPauseSong,
 					stopSong: this.stopSong,
-					subscribeEvent: this.subscribeEvent
+					subscribeEvent: this.subscribeEvent,
+					changeVolume: this.changeVolume
 				}}
 			>
 				{ children }

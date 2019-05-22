@@ -1,9 +1,8 @@
 import React from 'react'
 import AlbumDetails from './AlbumDetails'
+import NoErrorImage from './NoErrorImage'
 import { LibraryContext } from '../../context/Library'
 import '../../scss/library.scss'
-
-const defaultImage = require('../default.svg')
 
 class Library extends React.Component {
 	constructor (props) {
@@ -20,10 +19,6 @@ class Library extends React.Component {
 		this.setState( { expanded } )
 	}
 
-	static addDefaultSrc (e){
-		e.target.src = defaultImage
-	}
-
 	render () {
 		return (
 			<LibraryContext.Consumer>
@@ -37,7 +32,7 @@ class Library extends React.Component {
 									return (
 										<li key={i} className={`album ${expandedClass}`}>
 											<section className="album-thumbnail" onClick={() => this.expandAlbum(album.album)}>
-												<img src={`file:///${album.files[0].tags.imagePath}`} alt={album.album} onError={this.addDefaultSrc} />
+												<NoErrorImage image={album.files[0].tags.imagePath} alt={album.album} />
 											</section>
 											<AlbumDetails album={album} />
 										</li>

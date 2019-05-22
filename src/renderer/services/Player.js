@@ -103,6 +103,20 @@ class Player {
 			clearInterval(this.playingIntervalID)
 		}
 	}
+
+	volume (vol) {
+		const gainNode = this.context.createGain()
+		gainNode.gain.setValueAtTime(vol, this.context.currentTime)
+		gainNode.connect(this.context.destination)
+
+		this.bufferSource.stop(0)
+		this.bufferSource = this.context.createBufferSource()
+		this.bufferSource.buffer = this.buffer
+
+		this.bufferSource.connect(gainNode)
+
+		this.bufferSource.start(0, this.currentPosition)
+	}
 }
 
 export default Player

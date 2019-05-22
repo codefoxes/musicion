@@ -84,7 +84,7 @@ class Header extends React.Component {
 							</div>
 							<div className="status-bar">
 								<div className="sound-title">
-									Current Song : { this.context.currentSong } || Song Status : { this.context.currentState }
+									Current Song : { this.context.currentTags.title } || Song Status : { this.context.currentState }
 								</div>
 								<div className="seekbar">
 									<Slider

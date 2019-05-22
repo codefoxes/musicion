@@ -24,7 +24,9 @@ class Volume extends React.Component {
 		this.setState({
 			volumePos,
 		})
-		// Todo: Change Volume here
+
+		// TODO: DEBOUNCE
+		this.context.changeVolume(volumePos / 100)
 	}
 
 	onVolumeUpdate = (volumePos) => {

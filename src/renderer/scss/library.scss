@@ -35,9 +35,16 @@ $cover-height: 280px;
 				height: $thumbnail-cover-height;
 				width: $thumbnail-width;
 				border-radius: 5px;
+				border: 1px solid #ccc;
+				position: relative;
 
 				img {
+					min-width: 101%;
+					min-height: 101%;
 					border-radius: 5px;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
 				}
 			}
 
@@ -64,6 +71,19 @@ $cover-height: 280px;
 						height: $cover-height;
 						width: $cover-width;
 						border-radius: 5px;
+						border: 1px solid #ccc;
+						position: relative;
+						overflow: hidden;
+
+						img {
+							min-width: 101%;
+							min-height: 101%;
+							border-radius: 5px;
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+						}
 					}
 
 					.album-content {
