@@ -1,6 +1,6 @@
 import React from 'react'
-import '../scss/header.scss'
-import { SongContext } from '../context/Song'
+import '../../scss/header.scss'
+import { SongContext } from '../../context/Song'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
 import Volume from './Volume'

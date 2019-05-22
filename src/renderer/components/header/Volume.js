@@ -1,5 +1,5 @@
 import React from 'react'
-import { SongContext } from '../context/Song'
+import { SongContext } from '../../context/Song'
 import Slider from 'rc-slider/lib/Slider'
 
 class Volume extends React.Component {

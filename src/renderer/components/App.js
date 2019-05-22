@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import Header from './Header'
+import Header from './header/Header'
 import Content from './Content'
 import '../scss/app.scss'
 
