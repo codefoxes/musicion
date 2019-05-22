@@ -53,6 +53,8 @@ class Player {
 				this.play()
 				this.onEndedCallBack = onEnded
 				onStarted && onStarted(this.duration)
+
+				this.analyser()
 			})
 		})
 	}
@@ -116,6 +118,54 @@ class Player {
 		this.bufferSource.connect(gainNode)
 
 		this.bufferSource.start(0, this.currentPosition)
+	}
+
+	analyser () {
+		// const { body } = document
+		const bodyWidth = 500
+		const bodyHeight = 500
+		const canvas = document.getElementById('canvas')
+		const ctx = canvas.getContext('2d')
+		const fftSize = 512
+		const audioAnalyser = this.context.createAnalyser()
+
+		audioAnalyser.fftSize = fftSize
+		audioAnalyser.connect(this.context.destination)
+		this.bufferSource.connect(audioAnalyser)
+
+		const drawSpectrums = () => {
+			const spectrums = new Uint8Array(audioAnalyser.frequencyBinCount)
+			audioAnalyser.getByteTimeDomainData(spectrums)
+			const length = audioAnalyser.frequencyBinCount
+			ctx.fillStyle = 'rgba(0, 210, 200, 1)'
+			ctx.lineWidth = 4
+			ctx.beginPath()
+			for (let i = 0; i < length; i += 1) {
+				const x = i / fftSize * bodyWidth
+				const y = (Math.log(256 - spectrums[i]) / Math.log(256)) * bodyHeight * 0.9;
+
+				if (i === 0) {
+					ctx.moveTo(x, y)
+				} else {
+					ctx.lineTo(x, y)
+				}
+			}
+			ctx.lineTo(bodyWidth, bodyHeight)
+			ctx.lineTo(0, bodyHeight)
+			ctx.fill()
+		}
+
+		const render = () => {
+			ctx.clearRect(0, 0, bodyWidth, bodyHeight)
+			drawSpectrums()
+		}
+
+		const renderLoop = () => {
+			requestAnimationFrame(renderLoop)
+			render()
+		}
+
+		renderLoop()
 	}
 }
 
