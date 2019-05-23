@@ -20,6 +20,8 @@ class Windows {
 			},
 			// transparent:true,
 			frame: false
+			// vibrancy: 'selection',
+			// titleBarStyle: 'hidden'
 		})
 
 		// this.mainWindow.loadFile('dist/index.html')

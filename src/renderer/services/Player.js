@@ -12,6 +12,8 @@ class Player {
 		this.buffer = null
 		this.bufferSource = null
 		this.setupAudioContext()
+		this.onSpectrumCallBack = null
+		this.audioAnalyser = null
 	}
 
 	setupAudioContext () {
@@ -34,6 +36,12 @@ class Player {
 		})
 	}
 
+	setUpAnalyser () {
+		this.audioAnalyser = this.context.createAnalyser()
+		this.audioAnalyser.fftSize = 64
+		this.audioAnalyser.connect(this.context.destination)
+	}
+
 	initSource () {
 		this.bufferSource = this.context.createBufferSource()
 		this.bufferSource.buffer = this.buffer
@@ -42,7 +50,7 @@ class Player {
 		this.bufferSource.onended = this.endOfSong.bind(this)
 	}
 
-	loadSong (songPath, onStarted, onPlaying, onEnded) {
+	loadSong (songPath, onStarted, onPlaying, onEnded, onSpectrum) {
 		// Todo: Get buffer in stream rathen than waiting to complete.
 		// Todo: Handle load Error.
 		this.setupAudioContext().then(() => {
@@ -50,11 +58,11 @@ class Player {
 				this.buffer = buffer
 				this.duration = buffer.duration
 				this.onPlayingCallBack = onPlaying
+				this.onSpectrumCallBack = onSpectrum
+				this.setUpAnalyser()
 				this.play()
 				this.onEndedCallBack = onEnded
 				onStarted && onStarted(this.duration)
-
-				this.analyser()
 			})
 		})
 	}
@@ -70,6 +78,8 @@ class Player {
 			this.currentPosition += (throttle / 1000)
 			this.onPlayingCallBack(this.currentPosition)
 		}, throttle)
+
+		this.analyse()
 	}
 
 	pause () {
@@ -118,6 +128,17 @@ class Player {
 		this.bufferSource.connect(gainNode)
 
 		this.bufferSource.start(0, this.currentPosition)
+	}
+
+	analyse () {
+		this.bufferSource.connect(this.audioAnalyser)
+
+		setInterval(() => {
+			const spectrum = new Uint8Array(this.audioAnalyser.frequencyBinCount)
+			this.audioAnalyser.getByteFrequencyData(spectrum)
+			const spectrumArray = Array.from(spectrum)
+			this.onSpectrumCallBack(spectrumArray)
+		}, 10)
 	}
 
 	analyser () {

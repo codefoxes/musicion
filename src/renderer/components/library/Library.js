@@ -20,9 +20,6 @@ class Library extends React.Component {
 	}
 
 	render () {
-		const canvasStyle = {
-			background: 'black'
-		}
 		return (
 			<LibraryContext.Consumer>
 				{ () => (
@@ -45,7 +42,6 @@ class Library extends React.Component {
 						) : (
 							<div>No Albums Yet</div>
 						)}
-						<canvas id="canvas" style={canvasStyle} height="500px" width="500px">Test Canvas</canvas>
 					</div>
 				)}
 			</LibraryContext.Consumer>

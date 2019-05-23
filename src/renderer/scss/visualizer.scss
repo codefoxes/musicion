@@ -1,0 +1,25 @@
+.player-spectrum {
+	position: absolute;
+	height: 180px;
+	-webkit-filter: url("#goo-no-comp");
+	width: 100%;
+	overflow: hidden;
+	zoom: 0.5;
+	top: 0;
+
+ 	.player-spectrum-bars {
+		display: flex;
+		height: 100%;
+	}
+
+ 	.player-spectrum-bar {
+		display: inline-block;
+		background: #4f0000;
+		flex: 1 1 auto;
+		align-self: flex-end;
+	}
+}
+
+.control-panel svg {
+	display: none;
+}

@@ -61,12 +61,13 @@ header {
 
 		.status-bar, .volume-bar {
 			width: 50%;
-			background: #fcfcfc;
+			background: #fcfcfc00;
 			padding: 5px 20px;
 			color: #000;
 			margin-right: 20px;
 			font-size: 0.7rem;
 			border-radius: 5px;
+			z-index: 5;
 		}
 
 		.volume-bar {

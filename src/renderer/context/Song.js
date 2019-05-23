@@ -21,7 +21,8 @@ export default class SongContextProvider extends React.Component {
 		this.eventSubscribers = {
 			'onStarted': [],
 			'onPlaying': [],
-			'onEnded': []
+			'onEnded': [],
+			'onSpectrum': []
 		}
 	}
 
@@ -66,6 +67,12 @@ export default class SongContextProvider extends React.Component {
 		})
 	}
 
+	onSpectrum = (spectrum) => {
+		this.eventSubscribers.onSpectrum.forEach(async (subscriber) => {
+			await subscriber(spectrum)
+		})
+	}
+
 	playPauseSong = (file)  => {
 		let currentState
 		if (file === undefined || file.file === this.state.currentSong) {
@@ -79,7 +86,7 @@ export default class SongContextProvider extends React.Component {
 			this.setState({ currentState })
 		} else {
 			currentState = 'playing'
-			this.state.player.loadSong(file.file, this.onStarted, this.onPlaying, this.onEnded)
+			this.state.player.loadSong(file.file, this.onStarted, this.onPlaying, this.onEnded, this.onSpectrum)
 			this.setState({ currentState, currentSong: file.file })
 			this.setCurrentTags(file)
 		}

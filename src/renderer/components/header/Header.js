@@ -4,6 +4,7 @@ import { SongContext } from '../../context/Song'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
 import Volume from './Volume'
+import Visualizer from './Visializer'
 
 class Header extends React.Component {
 	constructor (props) {
@@ -64,6 +65,7 @@ class Header extends React.Component {
 					<header>
 						<h1 className="titlebar center">Musicion</h1>
 						<div id="control-panel" className="control-panel">
+							<Visualizer />
 							<div className="player-controls">
 								<div className="album-art" />
 								<div className="controls center">
