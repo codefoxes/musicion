@@ -4,6 +4,7 @@ import { SongContext } from '../../context/Song'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
 import Volume from './Volume'
+import { getSongName } from '../../services/Helpers'
 
 class Header extends React.Component {
 	constructor (props) {
@@ -11,7 +12,8 @@ class Header extends React.Component {
 		this.state = {
 			sliderPos: 0,
 			sliderMax: 10000,
-			sliding: false
+			sliding: false,
+			spectrum: []
 		}
 	}
 
@@ -19,6 +21,7 @@ class Header extends React.Component {
 		this.context.setCurrentSong('SultansOfSwing.flac')
 		this.context.subscribeEvent('onPlaying', this.updateSeekBar.bind(this))
 		this.context.subscribeEvent('onEnded', this.onEnded.bind(this))
+		this.context.subscribeEvent('onSpectrum', this.onSpectrum.bind(this))
 	}
 
 	updateSeekBar = (currentPosition) => {
@@ -57,6 +60,10 @@ class Header extends React.Component {
 		this.context.player.seek(seekPos)
 	}
 
+	onSpectrum = (spectrum) => {
+		this.setState({ spectrum })
+	}
+
 	render () {
 		return (
 			<SongContext.Consumer>
@@ -64,6 +71,18 @@ class Header extends React.Component {
 					<header>
 						<h1 className="titlebar center">Musicion</h1>
 						<div id="control-panel" className="control-panel">
+							<div className="player-spectrum">
+								<div className="player-spectrum-bars">
+									{this.state.spectrum.map((freq, j) => {
+										const height = {
+											height: freq
+										}
+										return (
+											<div key={j} className="player-spectrum-bar" style={ height } />
+										)
+									})}
+								</div>
+							</div>
 							<div className="player-controls">
 								<div className="album-art" />
 								<div className="controls center">
@@ -96,6 +115,23 @@ class Header extends React.Component {
 								</div>
 							</div>
 							<Volume />
+							<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800">
+								<defs>
+									<filter id="goo">
+										<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+										<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+										<feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+									</filter>
+									<filter id="goo-no-comp">
+										<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+										<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+									</filter>
+									<filter id="goo-drops">
+										<feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+										<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+									</filter>
+								</defs>
+							</svg>
 						</div>
 					</header>
 				)}

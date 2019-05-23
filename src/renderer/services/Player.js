@@ -1,66 +1,37 @@
-import loadSoundBuffer from './BufferLoader'
+import p5 from 'p5'
+import 'p5/lib/addons/p5.sound'
 
 class Player {
 	constructor () {
-		this.context = null
 		this.isPlaying = false
 		this.duration = 0
 		this.currentPosition = 0
 		this.playingIntervalID = null
 		this.onPlayingCallBack = null
 		this.onEndedCallBack = null
-		this.buffer = null
-		this.bufferSource = null
-		this.setupAudioContext()
+		this.song = null
+		this.spectrum = []
+		this.onSpectrum = null
 	}
 
-	setupAudioContext () {
-		return new Promise((resolve) => {
-			if (this.context && this.context.close !== undefined) {
-				this.context.close().then(() => {
-					this.context = null
-					this.bufferSource = null
-					this.buffer = null
-					this.duration = 0
-					this.currentPosition = 0
-					clearInterval(this.playingIntervalID)
-					this.context = new (AudioContext || webkitAudioContext)()
-					resolve()
-				})
-			} else {
-				this.context = new (AudioContext || webkitAudioContext)()
-				resolve()
-			}
+	loadSong (songPath, onStarted, onPlaying, onEnded, onSpectrum) {
+		this.onPlayingCallBack = onPlaying
+		this.onEndedCallBack = onEnded
+		this.onSpectrum = onSpectrum
+		this.song = new p5.SoundFile(songPath, () => {
+			this.duration = this.song.duration()
+			this.song.playMode('restart')
+			this.song.onended(this.endOfSong.bind(this))
+			this.play()
+
+			this.fft = new p5.FFT(0.9, 32)
+			this.fft.setInput(this.song)
 		})
-	}
-
-	initSource () {
-		this.bufferSource = this.context.createBufferSource()
-		this.bufferSource.buffer = this.buffer
-		this.bufferSource.connect(this.context.destination)
-
-		this.bufferSource.onended = this.endOfSong.bind(this)
-	}
-
-	loadSong (songPath, onStarted, onPlaying, onEnded) {
-		// Todo: Get buffer in stream rathen than waiting to complete.
-		// Todo: Handle load Error.
-		this.setupAudioContext().then(() => {
-			loadSoundBuffer(songPath, this.context).then((buffer) => {
-				this.buffer = buffer
-				this.duration = buffer.duration
-				this.onPlayingCallBack = onPlaying
-				this.play()
-				this.onEndedCallBack = onEnded
-				onStarted && onStarted(this.duration)
-			})
-		})
+		// Access audioContext workaround: this.song._counterNode.context
 	}
 
 	play () {
-		// Todo: If this.bufferSource not loaded yet?
-		this.initSource()
-		this.bufferSource.start(0, this.currentPosition)
+		this.song.play()
 		this.isPlaying = true
 
 		const throttle = 500
@@ -68,27 +39,34 @@ class Player {
 			this.currentPosition += (throttle / 1000)
 			this.onPlayingCallBack(this.currentPosition)
 		}, throttle)
+
+		setInterval(() => {
+			this.onSpectrum(this.fft.analyze())
+		}, 10)
 	}
 
 	pause () {
-		this.stop(true)
+		this.song.pause()
+		this.isPlaying = false
+		clearInterval(this.playingIntervalID)
 	}
 
 	seek (position) {
-		this.currentPosition = position
-		if (this.isPlaying) {
-			this.stop(true)
-			this.play()
+		this.currentPosition = position + 0.1
+		if (!this.isPlaying) {
+			this.song.stop()
+		}
+		this.song.jump(position)
+		if (!this.isPlaying) {
+			setTimeout(() => {
+				this.song.pause()
+			}, 0.1 * 1000)
 		}
 	}
 
-	stop (pause = false) {
-		this.bufferSource.stop(0)
-
-		if (!pause) {
-			this.currentPosition = 0
-		}
-
+	stop () {
+		this.song.stop()
+		this.currentPosition = 0
 		this.isPlaying = false
 		clearInterval(this.playingIntervalID)
 	}
@@ -105,17 +83,7 @@ class Player {
 	}
 
 	volume (vol) {
-		const gainNode = this.context.createGain()
-		gainNode.gain.setValueAtTime(vol, this.context.currentTime)
-		gainNode.connect(this.context.destination)
-
-		this.bufferSource.stop(0)
-		this.bufferSource = this.context.createBufferSource()
-		this.bufferSource.buffer = this.buffer
-
-		this.bufferSource.connect(gainNode)
-
-		this.bufferSource.start(0, this.currentPosition)
+		this.song.setVolume(vol)
 	}
 }
 
