@@ -8,7 +8,8 @@ const DEFAULT_STATE = {
 	player: null,
 	currentTags: {
 		title: ''
-	}
+	},
+	volume: 0.8
 }
 
 export const SongContext = React.createContext(DEFAULT_STATE)
@@ -21,7 +22,8 @@ export default class SongContextProvider extends React.Component {
 		this.eventSubscribers = {
 			'onStarted': [],
 			'onPlaying': [],
-			'onEnded': []
+			'onEnded': [],
+			'onSpectrum': []
 		}
 	}
 
@@ -66,6 +68,12 @@ export default class SongContextProvider extends React.Component {
 		})
 	}
 
+	onSpectrum = (spectrum) => {
+		this.eventSubscribers.onSpectrum.forEach(async (subscriber) => {
+			await subscriber(spectrum)
+		})
+	}
+
 	playPauseSong = (file)  => {
 		let currentState
 		if (file === undefined || file.file === this.state.currentSong) {
@@ -79,7 +87,14 @@ export default class SongContextProvider extends React.Component {
 			this.setState({ currentState })
 		} else {
 			currentState = 'playing'
-			this.state.player.loadSong(file.file, this.onStarted, this.onPlaying, this.onEnded)
+			const params = {
+				onStarted: this.onStarted,
+				onPlaying: this.onPlaying,
+				onEnded: this.onEnded,
+				onSpectrum: this.onSpectrum,
+				volume: this.state.volume
+			}
+			this.state.player.loadSong('SultansOfSwing.flac', params)
 			this.setState({ currentState, currentSong: file.file })
 			this.setCurrentTags(file)
 		}
@@ -92,8 +107,8 @@ export default class SongContextProvider extends React.Component {
 	}
 
 	changeVolume = (vol) => {
-		this.state.player.volume(vol)
-		// Todo: Set Context Volume if required
+		if (this.state.player !== null) this.state.player.volume(vol)
+		this.setState({ volume: vol })
 	}
 
 	render () {

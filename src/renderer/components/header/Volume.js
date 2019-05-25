@@ -9,6 +9,9 @@ class Volume extends React.Component {
 			volumePos: 0,
 			volumeMax: 100
 		}
+	}
+
+	componentDidMount () {
 		this.getVolumePos()
 	}
 
@@ -18,6 +21,7 @@ class Volume extends React.Component {
 			defaultVolume = 50
 		}
 		this.state.volumePos = defaultVolume
+		this.context.changeVolume(defaultVolume / 100)
 	}
 
 	onVolumeChange = (volumePos) => {
