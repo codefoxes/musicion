@@ -1,22 +1,24 @@
 .player-spectrum {
 	position: absolute;
-	height: 180px;
-	-webkit-filter: url("#goo-no-comp");
+	height: 90px;
 	width: 100%;
 	overflow: hidden;
-	zoom: 0.5;
 	top: 0;
+	opacity: 0.4;
 
  	.player-spectrum-bars {
+		-webkit-filter: url("#goo-no-comp");
 		display: flex;
-		height: 100%;
+		zoom: 0.35;
+		height: calc(200% + 40px);
 	}
 
  	.player-spectrum-bar {
 		display: inline-block;
-		background: #4f0000;
+		background: #ff6824;
 		flex: 1 1 auto;
 		align-self: flex-end;
+		height: 296px;
 	}
 }
 

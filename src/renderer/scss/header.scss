@@ -1,9 +1,10 @@
 header {
 	min-height: 90px;
 	color: #fff;
-	background: #525252;
-	background: -webkit-linear-gradient(to right, #525252, #3d72b4);
-	background: linear-gradient(to right, #525252, #3d72b4);
+	background: rgba(75, 0, 255, 0.2);
+	//background: -webkit-linear-gradient(to right, #525252, #3d72b4);
+	//background: linear-gradient(to right, #525252, #3d72b4);
+	background: linear-gradient(to right, rgba(82, 82, 82, 0.6), rgba(61, 114, 180, 0.6));
 
 	.titlebar {
 		-webkit-user-select: none;
@@ -18,7 +19,7 @@ header {
 		.player-controls {
 			position: relative;
 			color: #333;
-			background-color: #fcfcfc;
+			background-color: #fcfcfc40;
 			border-radius: 6px;
 			width: 200px;
 			height: 40px;
@@ -51,7 +52,7 @@ header {
 					background-repeat: no-repeat;
 					background-size: 20px;
 					padding: 8px 0;
-					background-color: #fff;
+					//background-color: #fff;
 					cursor: pointer;
 					transition: background-color .3s ease;
 					-webkit-transition: background-color .3s ease;
@@ -60,10 +61,13 @@ header {
 		}
 
 		.status-bar, .volume-bar {
+			display: flex;
+			flex-flow: row wrap;
+			align-items: flex-end;
 			width: 50%;
 			background: #fcfcfc00;
-			padding: 5px 20px;
-			color: #000;
+			padding: 5px 20px 0 20px;
+			color: #fff;
 			margin-right: 20px;
 			font-size: 0.7rem;
 			border-radius: 5px;
@@ -72,9 +76,21 @@ header {
 
 		.volume-bar {
 			width: 10%;
+
+			.rc-slider {
+				&-handle {
+					border: solid 2px #668fc1;
+				}
+
+				&-track {
+					background-color: #668fc1;
+				}
+			}
 		}
 
 		.seekbar {
+			width: 100%;
+
 			.rc-slider {
 				&-handle {
 					display: none;
