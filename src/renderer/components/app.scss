@@ -1,10 +1,10 @@
 // @import "grid-kit/scss/grid-kit";
-@import "grid-kit/scss/reset";
-@import "grid-kit/scss/variables";
-@import "grid-kit/scss/mixins";
-@import "grid-kit/scss/content";
-@import "grid-kit/scss/utilities";
-@import "icofont/icofont.css";
+@import "../scss/grid-kit/scss/reset";
+@import "../scss/grid-kit/scss/variables";
+@import "../scss/grid-kit/scss/mixins";
+@import "../scss/grid-kit/scss/content";
+@import "../scss/grid-kit/scss/utilities";
+@import "../scss/icofont/icofont.css";
 
 @font-face {
 	font-family: system;

@@ -1,6 +1,6 @@
 import React from 'react'
-import { PlaylistContext } from '../context/PlaylistContext'
-import { getSongName } from '../services/Helpers'
+import { PlaylistContext } from '../../context/PlaylistContext'
+import { getSongName } from '../../services/Helpers'
 
 class Playlist extends React.Component {
 	constructor (props) {

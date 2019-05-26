@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
-import { LibraryContext } from '../context/Library'
-import '../scss/mainmenu.scss'
+import { LibraryContext } from '../../context/LibraryContext'
+import { PlaylistContext } from '../../context/PlaylistContext'
+import './mainmenu.scss'
 
 import { remote } from 'electron'
-import { PlaylistContext } from '../context/PlaylistContext'
 
 class MainMenu extends React.Component {
 	constructor (props) {
@@ -26,8 +26,7 @@ class MainMenu extends React.Component {
 	}
 
 	selectFolder = () => {
-		let folders
-		folders = remote.dialog.showOpenDialog({
+		const folders = remote.dialog.showOpenDialog({
 			properties: ['openDirectory']
 		})
 		if (folders !== undefined) {
@@ -40,7 +39,7 @@ class MainMenu extends React.Component {
 		if (sub !== undefined) {
 			activeMenu = sub
 		}
-		this.setState( { activeMenu } )
+		this.setState({ activeMenu })
 		this.props.changeMenu(menu, sub)
 	}
 
@@ -70,7 +69,7 @@ class MainMenu extends React.Component {
 		if (this.state.activeAction === menu) {
 			activeAction = ''
 		}
-		this.setState( { activeAction } )
+		this.setState({ activeAction })
 	}
 
 	removePlaylist = (contextPlaylist, playlist) => {
@@ -93,8 +92,10 @@ class MainMenu extends React.Component {
 									</div>
 								</div>
 								<ul className="child">
-									<li className={this.activeClass('albums')}
-										onClick={() => this.changeMenu('albums')}>Albums</li>
+									<li
+										className={this.activeClass('albums')}
+										onClick={() => this.changeMenu('albums')}
+									>Albums</li>
 								</ul>
 							</li>
 							<li>
@@ -103,7 +104,10 @@ class MainMenu extends React.Component {
 										<Fragment>
 											<div className="title">
 												<span>Playlists</span>
-												<div className="title-action" onClick={() => this.setState({ showAddPlaylist: !this.state.showAddPlaylist })}>
+												<div
+													className="title-action"
+													onClick={() => this.setState({ showAddPlaylist: !this.state.showAddPlaylist })}
+												>
 													<span className="icon">+</span>
 													<span className="tooltip">Create New</span>
 												</div>
@@ -111,29 +115,36 @@ class MainMenu extends React.Component {
 											<ul className="child">
 												{this.state.showAddPlaylist &&
 													<li className="add-playlist">
-														<input type="text"
-															onKeyDown={(e) => this.addNewPlaylist(e, contextPlaylist)}
-															ref={(ip) => { this.playlistInput = ip }} />
+														<input
+															type="text"
+															onKeyDown={e => this.addNewPlaylist(e, contextPlaylist)}
+															ref={(ip) => { this.playlistInput = ip }}
+														/>
 													</li>
 												}
 												{contextPlaylist.playlists.map((playlist, p) => (
-													<li key={`playlist${p}`}
+													<li
+														key={`playlist${p}`}
 														className={this.activeClass(playlist.name)}
-														onContextMenu={(e) => this.showActionFromRightClick(e, 'playlist', playlist.name)}
-														onClick={() => this.changeMenu('playlist', playlist.name)}>
+														onContextMenu={e => this.showActionFromRightClick(e, 'playlist', playlist.name)}
+														onClick={() => this.changeMenu('playlist', playlist.name)}
+													>
 														<span>{ playlist.name }</span>
 														<div className="menu-action">
-															<span className="icon"
-																onClick={() => this.showAction(playlist.name)}>&#8942;</span>
+															<span
+																className="icon"
+																onClick={() => this.showAction(playlist.name)}
+															>&#8942;</span>
 															<div className="dropdown">
 																<ul>
-																	<li onClick={() => this.removePlaylist(contextPlaylist, playlist.name)}>Remove Playlist</li>
+																	<li
+																		onClick={() => this.removePlaylist(contextPlaylist, playlist.name)}
+																	>Remove Playlist</li>
 																</ul>
 															</div>
 														</div>
 													</li>
-													)
-												)}
+												))}
 											</ul>
 										</Fragment>
 									)}

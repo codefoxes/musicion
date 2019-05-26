@@ -26,7 +26,7 @@ export default class PlaylistContextProvider extends React.Component {
 	}
 
 	removePlaylist = (playlistName) => {
-		const plPromise = Config.removePlaylist(playlistName)
+		Config.removePlaylist(playlistName)
 	}
 
 	playSong = (contextPlayer, file) => {
@@ -36,9 +36,7 @@ export default class PlaylistContextProvider extends React.Component {
 		contextPlayer.playPauseSong(file)
 	}
 
-	getSongs = (playlistName) => {
-		return this.state.playlists.find(playlist => playlist.name === playlistName)
-	}
+	getSongs = playlistName => this.state.playlists.find(playlist => playlist.name === playlistName)
 
 	addSong = (playlist, file) => {
 		Config.addFilesToPlaylist(playlist, file)

@@ -15,15 +15,14 @@ const DEFAULT_STATE = {
 export const PlayerContext = React.createContext(DEFAULT_STATE)
 
 export default class PlayerContextProvider extends React.Component {
-
 	constructor (props) {
 		super(props)
 		this.state = DEFAULT_STATE
 		this.eventSubscribers = {
-			'onStarted': [],
-			'onPlaying': [],
-			'onEnded': [],
-			'onSpectrum': []
+			onStarted: [],
+			onPlaying: [],
+			onEnded: [],
+			onSpectrum: []
 		}
 	}
 
@@ -33,13 +32,14 @@ export default class PlayerContextProvider extends React.Component {
 		})
 	}
 
-	setCurrentSong = currentSong  => {
-		this.setState({currentSong})
+	setCurrentSong = (currentSong) => {
+		this.setState({ currentSong })
 	}
 
-	setCurrentTags = file => {
-		file.tags.title = getSongName(file)
-		this.setState({ currentTags: file.tags })
+	setCurrentTags = (file) => {
+		const newFile = file
+		newFile.tags.title = getSongName(file)
+		this.setState({ currentTags: newFile.tags })
 	}
 
 	subscribeEvent = (event, subscriber) => {
@@ -74,7 +74,7 @@ export default class PlayerContextProvider extends React.Component {
 		})
 	}
 
-	playPauseSong = (file)  => {
+	playPauseSong = (file) => {
 		let currentState
 		if (file === undefined || file.file === this.state.currentSong) {
 			if (this.state.currentState === 'playing') {
@@ -100,7 +100,7 @@ export default class PlayerContextProvider extends React.Component {
 		}
 	}
 
-	stopSong = ()  => {
+	stopSong = () => {
 		this.setState({
 			currentState: 'stopped'
 		})

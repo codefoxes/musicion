@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../scss/header.scss'
+import './header.scss'
 import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
@@ -24,10 +24,10 @@ class Header extends React.Component {
 	}
 
 	updateSeekBar = (currentPosition) => {
-		const sliderPos = ( currentPosition / this.context.player.duration ) * this.state.sliderMax
-		if (! this.state.sliding) {
+		const sliderPos = (currentPosition / this.context.player.duration) * this.state.sliderMax
+		if (!this.state.sliding) {
 			this.setState({
-				sliderPos,
+				sliderPos
 			})
 		}
 	}
@@ -35,7 +35,7 @@ class Header extends React.Component {
 	onEnded = () => {
 		const sliderPos = 0
 		this.setState({
-			sliderPos,
+			sliderPos
 		})
 	}
 
@@ -46,21 +46,21 @@ class Header extends React.Component {
 	onSliderChange = (sliderPos) => {
 		this.state.sliding = true
 		this.setState({
-			sliderPos,
+			sliderPos
 		})
 	}
 
 	onSliderUpdate = (sliderPos) => {
 		this.state.sliding = false
 		this.setState({
-			sliderPos,
+			sliderPos
 		})
 		const seekPos = (sliderPos / this.state.sliderMax) * this.context.player.duration
 		this.context.player.seek(seekPos)
 	}
 
 	getRunningTitle = () => {
-		let title = this.context.currentTags.title
+		let { title } = this.context.currentTags
 		if ('artist' in this.context.currentTags) {
 			title += ` by ${this.context.currentTags.artist}`
 		}
@@ -101,10 +101,10 @@ class Header extends React.Component {
 								</div>
 								<div className="seekbar">
 									<Slider
-										value={ this.state.sliderPos }
-										max={ this.state.sliderMax }
-										onChange={ this.onSliderChange }
-										onAfterChange={ this.onSliderUpdate }
+										value={this.state.sliderPos}
+										max={this.state.sliderMax}
+										onChange={this.onSliderChange}
+										onAfterChange={this.onSliderUpdate}
 									/>
 								</div>
 							</div>

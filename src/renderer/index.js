@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
 import PlayerContextProvider from './context/PlayerContext'
-import LibraryContextProvider from './context/Library'
+import LibraryContextProvider from './context/LibraryContext'
 import PlaylistContextProvider from './context/PlaylistContext'
 
 const MOUNT_NODE = document.getElementById('app')

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Header from './header/Header'
-import Content from './Content'
-import '../scss/app.scss'
+import Content from './content/Content'
+import './app.scss'
 
 class App extends Component {
 	constructor (props) {

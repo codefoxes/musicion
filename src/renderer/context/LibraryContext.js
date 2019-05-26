@@ -1,6 +1,6 @@
 import React from 'react'
-import Config from '../services/Config'
 import { ipcRenderer } from 'electron'
+import Config from '../services/Config'
 
 const DEFAULT_STATE = {
 	albums: {}
@@ -9,7 +9,6 @@ const DEFAULT_STATE = {
 export const LibraryContext = React.createContext(DEFAULT_STATE)
 
 export default class LibraryContextProvider extends React.Component {
-
 	constructor (props) {
 		super(props)
 		this.state = DEFAULT_STATE

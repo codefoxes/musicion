@@ -1,8 +1,8 @@
 import React from 'react'
 import AlbumDetails from './AlbumDetails'
 import NoErrorImage from './NoErrorImage'
-import { LibraryContext } from '../../context/Library'
-import '../../scss/library.scss'
+import { LibraryContext } from '../../context/LibraryContext'
+import './library.scss'
 
 class Library extends React.Component {
 	constructor (props) {
@@ -14,9 +14,9 @@ class Library extends React.Component {
 
 	expandAlbum = (album) => {
 		const { expanded } = this.state
-		Object.keys( expanded ).forEach(a => { if (a !== album) expanded[a] = false })
+		Object.keys(expanded).forEach((a) => { if (a !== album) expanded[a] = false })
 		expanded[album] = !((album in expanded) && expanded[album])
-		this.setState( { expanded } )
+		this.setState({ expanded })
 	}
 
 	render () {

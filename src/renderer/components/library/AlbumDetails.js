@@ -7,10 +7,6 @@ import { getSongName } from '../../services/Helpers'
 import './AlbumDetails.scss'
 
 class AlbumDetails extends React.Component {
-	constructor (props) {
-		super(props)
-	}
-
 	playSong = (contextPlaylist, contextPlayer, file) => {
 		contextPlaylist.playSong(contextPlayer, file)
 	}
@@ -33,22 +29,29 @@ class AlbumDetails extends React.Component {
 									</div>
 									<div className="album-content">
 										<ul className="songs-list">
-											{album.files.map((file, j) => {
-												return (
-													<li className="song" key={j}>
-														{contextPlayer.currentState === 'playing' && contextPlayer.currentSong === file.file ? (
-															<i className="play icofont-ui-pause" onClick={() => contextPlayer.playPauseSong(file)} />
-														) : (
-															<i className="play icofont-ui-play" onClick={() => this.playSong(contextPlaylist, contextPlayer, file)} />
-														)}
-														<span className="song-title">{ getSongName(file) }</span>
-														<div className="add-to-playlist" onClick={() => this.addSongToCurrentPlaylist(contextPlaylist, file)}>
-															<span className="icon">+</span>
-															<span className="tooltip">Add to Playlist: {contextPlaylist.currentPlaylist}</span>
-														</div>
-													</li>
-												)
-											})}
+											{album.files.map((file, j) => (
+												<li className="song" key={j}>
+													{contextPlayer.currentState === 'playing' && contextPlayer.currentSong === file.file ? (
+														<i
+															className="play icofont-ui-pause"
+															onClick={() => contextPlayer.playPauseSong(file)}
+														/>
+													) : (
+														<i
+															className="play icofont-ui-play"
+															onClick={() => this.playSong(contextPlaylist, contextPlayer, file)}
+														/>
+													)}
+													<span className="song-title">{ getSongName(file) }</span>
+													<div
+														className="add-to-playlist"
+														onClick={() => this.addSongToCurrentPlaylist(contextPlaylist, file)}
+													>
+														<span className="icon">+</span>
+														<span className="tooltip">Add to Playlist: {contextPlaylist.currentPlaylist}</span>
+													</div>
+												</li>
+											))}
 										</ul>
 									</div>
 								</div>
