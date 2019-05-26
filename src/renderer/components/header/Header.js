@@ -1,10 +1,11 @@
 import React from 'react'
 import '../../scss/header.scss'
-import { SongContext } from '../../context/Song'
+import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
 import 'rc-slider/assets/index.css'
 import Volume from './Volume'
 import Visualizer from './Visializer'
+import NoErrorImage from '../library/NoErrorImage'
 
 class Header extends React.Component {
 	constructor (props) {
@@ -58,16 +59,26 @@ class Header extends React.Component {
 		this.context.player.seek(seekPos)
 	}
 
+	getRunningTitle = () => {
+		let title = this.context.currentTags.title
+		if ('artist' in this.context.currentTags) {
+			title += ` by ${this.context.currentTags.artist}`
+		}
+		return title
+	}
+
 	render () {
 		return (
-			<SongContext.Consumer>
+			<PlayerContext.Consumer>
 				{ () => (
 					<header>
 						<h1 className="titlebar center">Musicion</h1>
 						<div id="control-panel" className="control-panel">
 							<Visualizer />
 							<div className="player-controls">
-								<div className="album-art" />
+								<div className="album-art">
+									<NoErrorImage image={this.context.currentTags.imagePath} alt={this.context.currentTags.title} />
+								</div>
 								<div className="controls center">
 									<div className="prev">
 										<i className="icofont-ui-previous" />
@@ -86,7 +97,7 @@ class Header extends React.Component {
 							</div>
 							<div className="status-bar">
 								<div className="sound-title">
-									Current Song : { this.context.currentTags.title } || Song Status : { this.context.currentState }
+									{ this.getRunningTitle() }
 								</div>
 								<div className="seekbar">
 									<Slider
@@ -101,11 +112,11 @@ class Header extends React.Component {
 						</div>
 					</header>
 				)}
-			</SongContext.Consumer>
+			</PlayerContext.Consumer>
 		)
 	}
 }
 
-Header.contextType = SongContext
+Header.contextType = PlayerContext
 
 export default Header

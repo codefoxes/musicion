@@ -12,9 +12,9 @@ const DEFAULT_STATE = {
 	volume: 0.8
 }
 
-export const SongContext = React.createContext(DEFAULT_STATE)
+export const PlayerContext = React.createContext(DEFAULT_STATE)
 
-export default class SongContextProvider extends React.Component {
+export default class PlayerContextProvider extends React.Component {
 
 	constructor (props) {
 		super(props)
@@ -94,7 +94,7 @@ export default class SongContextProvider extends React.Component {
 				onSpectrum: this.onSpectrum,
 				volume: this.state.volume
 			}
-			this.state.player.loadSong('SultansOfSwing.flac', params)
+			this.state.player.loadSong(file.file, params)
 			this.setState({ currentState, currentSong: file.file })
 			this.setCurrentTags(file)
 		}
@@ -114,7 +114,7 @@ export default class SongContextProvider extends React.Component {
 	render () {
 		const { children } = this.props
 		return (
-			<SongContext.Provider
+			<PlayerContext.Provider
 				value={{
 					...this.state,
 					setCurrentSong: this.setCurrentSong,
@@ -125,7 +125,7 @@ export default class SongContextProvider extends React.Component {
 				}}
 			>
 				{ children }
-			</SongContext.Provider>
+			</PlayerContext.Provider>
 		)
 	}
 }

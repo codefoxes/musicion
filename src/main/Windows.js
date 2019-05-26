@@ -19,16 +19,16 @@ class Windows {
 				nodeIntegration: true
 			},
 			// transparent:true,
-			frame: false
-			// vibrancy: 'selection',
-			// titleBarStyle: 'hidden'
+			frame: false,
+			vibrancy: 'selection',
+			titleBarStyle: 'hidden'
 		})
 
-		// this.mainWindow.loadFile('dist/index.html')
-		this.mainWindow.loadURL('http://localhost:3000')
+		this.mainWindow.loadFile('dist/index.html')
+		// this.mainWindow.loadURL('http://localhost:3000')
 
 		// Open the DevTools.
-		this.mainWindow.webContents.openDevTools()
+		// this.mainWindow.webContents.openDevTools()
 
 		this.mainWindow.on('closed', () => {
 			this.mainWindow = null

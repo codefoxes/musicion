@@ -1,5 +1,5 @@
 import React from 'react'
-import { SongContext } from '../../context/Song'
+import { PlayerContext } from '../../context/PlayerContext'
 
 import '../../scss/visualizer.scss'
 
@@ -25,7 +25,7 @@ class Visualizer extends React.Component {
 		}).reverse()
 		const spectrum = reversed.concat(this.state.spectrum)
 		return (
-			<SongContext.Consumer>
+			<PlayerContext.Consumer>
 				{ () => {
 					return (
 						<div className="player-spectrum">
@@ -76,11 +76,11 @@ class Visualizer extends React.Component {
 						</div>
 					)
 				}}
-			</SongContext.Consumer>
+			</PlayerContext.Consumer>
 		)
 	}
 }
 
-Visualizer.contextType = SongContext
+Visualizer.contextType = PlayerContext
 
 export default Visualizer

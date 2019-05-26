@@ -34,8 +34,9 @@ header {
 				width: 60px;
 				height: 60px;
 				border-radius: 50%;
-				background: #ecde2a;
+				background: #eee;
 				border: 2px solid #6b0d0d;
+				overflow: hidden;
 			}
 
 			.controls {
@@ -74,12 +75,22 @@ header {
 			z-index: 5;
 		}
 
+		.status-bar .sound-title {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
 		.volume-bar {
 			width: 10%;
 
 			.rc-slider {
 				&-handle {
 					border: solid 2px #668fc1;
+
+					&:focus {
+						box-shadow: none;
+					}
 				}
 
 				&-track {

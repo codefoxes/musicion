@@ -1,5 +1,5 @@
 import React from 'react'
-import { SongContext } from '../../context/Song'
+import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
 
 class Volume extends React.Component {
@@ -39,7 +39,7 @@ class Volume extends React.Component {
 
 	render () {
 		return (
-			<SongContext.Consumer>
+			<PlayerContext.Consumer>
 				{ () => (
 					<div className="volume-bar">
 						<Slider
@@ -50,11 +50,11 @@ class Volume extends React.Component {
 						/>
 					</div>
 				)}
-			</SongContext.Consumer>
+			</PlayerContext.Consumer>
 		)
 	}
 }
 
-Volume.contextType = SongContext
+Volume.contextType = PlayerContext
 
 export default Volume

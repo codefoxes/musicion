@@ -4,8 +4,6 @@ $thumbnail-height: $thumbnail-cover-height + $thumbnail-title-height;
 $thumbnail-width: 150px;
 $album-details-transition: .2s height;
 $album-details-height: 320px;
-$cover-width: 280px;
-$cover-height: 280px;
 
 .library {
 	position: relative;
@@ -61,58 +59,6 @@ $cover-height: 280px;
 				overflow: hidden;
 				transition: $album-details-transition;
 				box-shadow: inset 0 11px 8px -10px #ddd, inset 0 -11px 8px -10px #ddd;
-
-				.album-details-inner {
-					padding: 20px;
-
-					.cover {
-						display: inline-block;
-						vertical-align: top;
-						background: #43a047;
-						height: $cover-height;
-						width: $cover-width;
-						border-radius: 5px;
-						border: 1px solid #ccc;
-						position: relative;
-						overflow: hidden;
-
-						img {
-							min-width: 101%;
-							min-height: 101%;
-							border-radius: 5px;
-							position: absolute;
-							top: 50%;
-							left: 50%;
-							transform: translate(-50%, -50%);
-						}
-					}
-
-					.album-content {
-						display: inline-block;
-						width: calc(100% - #{$cover-width});
-						padding-left: 20px;
-						font-size: 0.8rem;
-
-						.songs-list {
-							columns: 2;
-							-webkit-columns: 2;
-
-							.song {
-								padding: 6px 0;
-								border-bottom: 1px solid #eee;
-								break-inside: avoid-column;
-
-								.play {
-									color: #666;
-								}
-
-								.song-title {
-									padding-left: 10px;
-								}
-							}
-						}
-					}
-				}
 			}
 
 			&.expanded {
