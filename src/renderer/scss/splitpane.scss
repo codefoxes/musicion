@@ -1,0 +1,13 @@
+.SplitPane {
+	.Resizer {
+		background: rgba(0, 0, 0, 0);
+		height: 100%;
+		width: 10px;
+		z-index: 1;
+
+		&.vertical {
+			margin: 0 -5px;
+			cursor: col-resize;
+		}
+	}
+}

@@ -1,0 +1,41 @@
+$control-border-width: 1px;
+$control-radius: 4px;
+
+$control-height: 2.25em;
+$control-line-height: 1.5;
+
+$vertical-padding-base: 0.375em;
+$horizontal-padding-base: 0.625em;
+$control-padding-vertical: calc(#{$vertical-padding-base} - #{$control-border-width});
+$control-padding-horizontal: calc(#{$horizontal-padding-base} - #{$control-border-width});
+
+%block {
+	&:not(:last-child) {
+		margin-bottom: 1.5rem
+	}
+}
+
+%base-grid {
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+@mixin control() {
+	position: relative;
+	border: $control-border-width solid transparent;
+	border-radius: $control-radius;
+	box-shadow: none;
+	font-size: $font-size-normal;
+	height: $control-height;
+	line-height: $control-line-height;
+	padding: $control-padding-vertical $control-padding-horizontal;
+
+	&:focus, &:active {
+		outline: none;
+	}
+}
+
+%control {
+	@include control();
+}

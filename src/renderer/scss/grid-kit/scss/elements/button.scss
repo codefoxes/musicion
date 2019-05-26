@@ -1,0 +1,23 @@
+$button-background-color: $white;
+$button-border-color: $grey-light;
+$button-border-width: $control-border-width;
+$button-color: $grey-dark;
+
+$button-padding-vertical: calc(0.375em - #{$button-border-width});
+$button-padding-horizontal: 0.75em;
+
+.button {
+	@extend %control;
+	background-color: $button-background-color;
+	border-color: $button-border-color;
+	border-width: $button-border-width;
+	color: $button-color;
+	cursor: pointer;
+	justify-content: center;
+	padding-bottom: $button-padding-vertical;
+	padding-left: $button-padding-horizontal;
+	padding-right: $button-padding-horizontal;
+	padding-top: $button-padding-vertical;
+	text-align: center;
+	white-space: nowrap;
+}

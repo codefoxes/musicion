@@ -1,0 +1,86 @@
+$thumbnail-cover-height: 150px;
+$thumbnail-title-height: 20px;
+$thumbnail-height: $thumbnail-cover-height + $thumbnail-title-height;
+$thumbnail-width: 150px;
+$album-details-transition: .2s height;
+$album-details-height: 320px;
+
+.library {
+	position: relative;
+	height: 100%;
+	overflow-y: auto;
+	background: #fff;
+
+	.albums-grid {
+		padding: 10px;
+		width: 100%;
+
+		.album {
+			display: inline-block;
+			margin: 10px 5px 0 5px;
+			vertical-align: top;
+			height: $thumbnail-height;
+			transition: $album-details-transition;
+
+			&> .album-thumbnail, &> .album-thumbnail img {
+				border: none;
+				outline: none;
+				display: block;
+				position: relative;
+			}
+
+			.album-thumbnail {
+				background: #ffcb55;
+				height: $thumbnail-cover-height;
+				width: $thumbnail-width;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+				position: relative;
+
+				img {
+					min-width: 101%;
+					min-height: 101%;
+					border-radius: 5px;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+
+			.album-details {
+				position: absolute;
+				background: #f9f9f9;
+				top: auto;
+				left: 0;
+				width: 100%;
+				margin-top: 10px;
+				text-align: left;
+				height: 0;
+				overflow: hidden;
+				transition: $album-details-transition;
+				box-shadow: inset 0 11px 8px -10px #ddd, inset 0 -11px 8px -10px #ddd;
+			}
+
+			&.expanded {
+				height: $thumbnail-height + $album-details-height;
+
+				.album-thumbnail:after {
+					top: auto;
+					content: '';
+					height: 0;
+					width: 0;
+					position: absolute;
+					border: solid transparent;
+					border-bottom-color: #e6e6e6;
+					border-width: 11px;
+					left: 50%;
+					margin: -11px 0 0 -15px;
+				}
+
+				.album-details {
+					height: $album-details-height;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,28 @@
+// @import "grid-kit/scss/grid-kit";
+@import "../scss/grid-kit/scss/reset";
+@import "../scss/grid-kit/scss/variables";
+@import "../scss/grid-kit/scss/mixins";
+@import "../scss/grid-kit/scss/content";
+@import "../scss/grid-kit/scss/utilities";
+@import "../scss/icofont/icofont.css";
+
+@font-face {
+	font-family: system;
+	font-style: normal;
+	font-weight: 300;
+	src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
+}
+
+html, body, #app {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	font-family: "system", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: .9rem;
+}
+
+* {
+	user-select: none !important;
+}

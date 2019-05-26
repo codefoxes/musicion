@@ -1,0 +1,118 @@
+header {
+	min-height: 90px;
+	color: #fff;
+	background: rgba(75, 0, 255, 0.2);
+	//background: -webkit-linear-gradient(to right, #525252, #3d72b4);
+	//background: linear-gradient(to right, #525252, #3d72b4);
+	background: linear-gradient(to right, rgba(82, 82, 82, 0.6), rgba(61, 114, 180, 0.6));
+
+	.titlebar {
+		-webkit-user-select: none;
+		-webkit-app-region: drag;
+	}
+
+	.control-panel {
+		display: flex;
+		justify-content: space-around;
+		padding: 10px 0;
+
+		.player-controls {
+			position: relative;
+			color: #333;
+			background-color: #fcfcfc40;
+			border-radius: 6px;
+			width: 200px;
+			height: 40px;
+			z-index: 5;
+			margin-left: 15px;
+
+			.album-art {
+				position: absolute;
+				top: 50%;
+				left: -5px;
+				transform: translateY(-50%);
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: #eee;
+				border: 2px solid #6b0d0d;
+				overflow: hidden;
+			}
+
+			.controls {
+				display: flex;
+				justify-content: flex-end;
+				height: 40px;
+				padding: 0 15px;
+
+				.prev, .play, .next {
+					width: 40px;
+					height: auto;
+					border-radius: 10px;
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: 20px;
+					padding: 8px 0;
+					//background-color: #fff;
+					cursor: pointer;
+					transition: background-color .3s ease;
+					-webkit-transition: background-color .3s ease;
+				}
+			}
+		}
+
+		.status-bar, .volume-bar {
+			display: flex;
+			flex-flow: row wrap;
+			align-items: flex-end;
+			width: 50%;
+			background: #fcfcfc00;
+			padding: 5px 20px 0 20px;
+			color: #fff;
+			margin-right: 20px;
+			font-size: 0.7rem;
+			border-radius: 5px;
+			z-index: 5;
+		}
+
+		.status-bar .sound-title {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.volume-bar {
+			width: 10%;
+
+			.rc-slider {
+				&-handle {
+					border: solid 2px #668fc1;
+
+					&:focus {
+						box-shadow: none;
+					}
+				}
+
+				&-track {
+					background-color: #668fc1;
+				}
+			}
+		}
+
+		.seekbar {
+			width: 100%;
+
+			.rc-slider {
+				&-handle {
+					display: none;
+					transition: .05s all;
+				}
+
+				&-track {
+					transition: .05s all;
+					background-color: #668fc1;
+				}
+			}
+		}
+	}
+}

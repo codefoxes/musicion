@@ -1,0 +1,7 @@
+@import "../../scss/variables";
+@import "../../scss/splitpane";
+
+main.content {
+	height: calc(100% - #{$header-height});
+	position: relative;
+}
