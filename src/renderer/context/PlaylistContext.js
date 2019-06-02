@@ -54,6 +54,26 @@ export default class PlaylistContextProvider extends React.Component {
 		}
 	}
 
+	playPrevious = (contextPlayer) => {
+		// Todo: Check if index is out of range.
+		this.setState((prevState) => {
+			const newIndex = prevState.currentSongIndex - 1
+			const prevSong = this.currentSongs[newIndex]
+			contextPlayer.playPauseSong(prevSong)
+			return { currentSongIndex: newIndex }
+		})
+	}
+
+	playNext = (contextPlayer) => {
+		// Todo: Check if index is out of range.
+		this.setState((prevState) => {
+			const newIndex = prevState.currentSongIndex + 1
+			const prevSong = this.currentSongs[newIndex]
+			contextPlayer.playPauseSong(prevSong)
+			return { currentSongIndex: newIndex }
+		})
+	}
+
 	onEnded = () => {
 		const nextIndex = this.state.currentSongIndex + 1
 		if (this.contextPlayer !== null && this.currentSongs.length > nextIndex) {
@@ -86,7 +106,9 @@ export default class PlaylistContextProvider extends React.Component {
 					addSong: this.addSong,
 					addPlaylist: this.addPlaylist,
 					removePlaylist: this.removePlaylist,
-					removeSong: this.removeSong
+					removeSong: this.removeSong,
+					playPrevious: this.playPrevious,
+					playNext: this.playNext
 				}}
 			>
 				{ children }

@@ -1,11 +1,12 @@
 import React from 'react'
-import './header.scss'
-import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
-import 'rc-slider/assets/index.css'
 import Volume from './Volume'
 import Visualizer from './Visializer'
-import NoErrorImage from '../library/NoErrorImage'
+import Controls from './Controls'
+import { PlayerContext } from '../../context/PlayerContext'
+
+import './header.scss'
+import 'rc-slider/assets/index.css'
 
 class Header extends React.Component {
 	constructor (props) {
@@ -75,26 +76,7 @@ class Header extends React.Component {
 						<h1 className="titlebar center">Musicion</h1>
 						<div id="control-panel" className="control-panel">
 							<Visualizer />
-							<div className="player-controls">
-								<div className="album-art">
-									<NoErrorImage image={this.context.currentTags.imagePath} alt={this.context.currentTags.title} />
-								</div>
-								<div className="controls center">
-									<div className="prev">
-										<i className="icofont-ui-previous" />
-									</div>
-									<div className="play" onClick={this.playPauseSong}>
-										{this.context.currentState === 'playing' ? (
-											<i className="icofont-ui-pause" />
-										) : (
-											<i className="icofont-ui-play" />
-										)}
-									</div>
-									<div className="next">
-										<i className="icofont-ui-next" />
-									</div>
-								</div>
-							</div>
+							<Controls />
 							<div className="status-bar">
 								<div className="sound-title">
 									{ this.getRunningTitle() }

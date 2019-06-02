@@ -41,11 +41,12 @@ npm run electron
 - [x] Add, Remove Playlists
 - [x] Configuration management
 - [x] Side Panel with Library & Playlists
+- [x] Playlist plays the songs in order
+- [x] Working Next and Previous buttons
 
 ## Todo
 
 - [ ] Electron Bundler, Updater
-- [ ] Next, Previous buttons to do their job
 - [ ] Play button to start first album song if no song is played first
 - [ ] Add songs to other (non default) playlists
 - [ ] Add Multiple songs to playlist
