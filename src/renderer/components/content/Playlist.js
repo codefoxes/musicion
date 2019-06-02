@@ -1,6 +1,10 @@
-import React from 'react'
+import React  from 'react'
+import ReactTable from 'react-table'
+import PlayButton from './PlayButton'
 import { PlaylistContext } from '../../context/PlaylistContext'
-import { getSongName } from '../../services/Helpers'
+
+import 'react-table/react-table.css'
+import './Playlist.scss'
 
 class Playlist extends React.Component {
 	constructor (props) {
@@ -26,19 +30,62 @@ class Playlist extends React.Component {
 	}
 
 	render () {
+		const RemoveSong = ({ index }) => {
+			return (
+				<div
+					className="remove-button"
+					onClick={() => this.context.removeSong(this.props.playlist, index)}
+				>x</div>
+			)
+		}
+
+		const columns = [{
+			id: 'control',
+			Header: '',
+			accessor: '',
+			Cell: props => <PlayButton data={props} />,
+			width: 30
+		}, {
+			id: 'title',
+			Header: 'Name',
+			accessor: d => d.tags.title
+		}, {
+			id: 'album',
+			Header: 'Album',
+			accessor: d => d.tags.album
+		}, {
+			id: 'composer',
+			Header: 'Composer',
+			accessor: d => d.tags.composer
+		}, {
+			id: 'genre',
+			Header: 'Genre',
+			accessor: d => d.tags.genre
+		}, {
+			id: 'performer',
+			Header: 'Performer',
+			accessor: d => d.tags.performerInfo
+		}, {
+			id: 'year',
+			Header: 'Year',
+			accessor: d => d.tags.year
+		}, {
+			id: 'remove',
+			Header: '',
+			accessor: '',
+			Cell: props => <RemoveSong index={props.index} />,
+			width: 35
+		}]
+
 		return (
 			<PlaylistContext.Consumer>
 				{() => {
 					return (
-						<div>
-							<div>PlayList Name: { this.props.playlist }</div>
-							{this.state.songs.files.map((song, i) => {
-								return (
-									<li className="song" key={i}>
-										{ getSongName(song) }
-									</li>
-								)
-							})}
+						<div className="playlist">
+							<ReactTable
+								data={this.state.songs.files}
+								columns={columns}
+							/>
 						</div>
 					)
 				}}

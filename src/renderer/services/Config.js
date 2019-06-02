@@ -129,7 +129,7 @@ export default class Config {
 		}
 	}
 
-	static addFilesToPlaylist (playlistName, files) {
+	static addFilesToPlaylist (playlistName, files, deDuplicate = false) {
 		let playlistExists = false
 		let playlistIndex = null
 
@@ -142,17 +142,21 @@ export default class Config {
 		}
 
 		if (playlistExists) {
-			const songFiles = []
 			let newFiles = files
 			if (!Array.isArray(files)) {
 				newFiles = [files]
 			}
-			playlists[playlistIndex].files.forEach((songFile) => {
-				songFiles.push(songFile.file)
-			})
-			playlists[playlistIndex].files = playlists[playlistIndex].files.concat(
-				newFiles.filter(songFile => songFiles.indexOf(songFile.file) === -1)
-			)
+
+			if (deDuplicate) {
+				const songFiles = []
+				playlists[playlistIndex].files.forEach((songFile) => {
+					songFiles.push(songFile.file)
+				})
+				playlists[playlistIndex].files = playlists[playlistIndex].files.concat(
+					newFiles.filter(songFile => songFiles.indexOf(songFile.file) === -1)
+				)
+			}
+			playlists[playlistIndex].files = playlists[playlistIndex].files.concat(newFiles)
 		} else {
 			const newPlaylist = {
 				name: playlistName,
@@ -168,6 +172,21 @@ export default class Config {
 			}
 			playlists.push(newPlaylist)
 		}
+
+		return new Promise((resolve, reject) => {
+			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
+				if (err) {
+					reject(err)
+				} else {
+					resolve()
+				}
+			})
+		})
+	}
+
+	static removeFileFromPlaylist (playlistName, index) {
+		const playlistIndex = playlists.findIndex(playlist => playlist.name === playlistName)
+		playlists[playlistIndex].files.splice(index, 1)
 
 		return new Promise((resolve, reject) => {
 			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
