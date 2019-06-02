@@ -82,7 +82,8 @@ export default class PlayerContextProvider extends React.Component {
 				this.state.player.pause()
 			} else {
 				currentState = 'playing'
-				this.state.player.play()
+				const playing = this.state.player.play()
+				if (playing === false) currentState = 'stopped'
 			}
 			this.setState({ currentState })
 		} else {

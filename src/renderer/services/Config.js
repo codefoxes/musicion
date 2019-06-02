@@ -35,6 +35,7 @@ export default class Config {
 				// Config file does not exist. Create one.
 				Config.createConfig()
 			} else {
+				configuration = {}
 				// Reading config failed.
 			}
 		}
@@ -124,6 +125,7 @@ export default class Config {
 				Config.createPlaylistsConfig()
 				playlists = [{ name: 'Default', files: [] }]
 			} else {
+				playlists = []
 				// Reading config failed.
 			}
 		}

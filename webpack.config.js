@@ -58,12 +58,5 @@ module.exports = {
 			chunkFilename: 'css/[id].css'
 		})
 	],
-	devServer: {
-		contentBase: './dist',
-		hot: true,
-		port: 3000,
-		open: true,
-		overlay: true
-	},
 	target: 'electron-renderer'
 }

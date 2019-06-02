@@ -21,6 +21,12 @@ class Player {
 	}
 
 	setupAudioContext () {
+		/**
+		 * Set up AudioContext.
+		 *
+		 * Current Flow
+		 * BufferSource -> GainNode -> Analyzer -> Destination
+		 */
 		return new Promise((resolve) => {
 			if (this.context && this.context.close !== undefined) {
 				this.context.close().then(() => {
@@ -63,10 +69,12 @@ class Player {
 	}
 
 	setUpBuffer () {
+		if (this.buffer === null) return false
 		this.bufferSource = this.context.createBufferSource()
 		this.bufferSource.buffer = this.buffer
 		this.bufferSource.connect(this.gainNode)
 		this.bufferSource.onended = this.endOfSong.bind(this)
+		return true
 	}
 
 	loadSong (songPath, params) {
@@ -86,8 +94,8 @@ class Player {
 	}
 
 	play () {
-		// Todo: If this.bufferSource not loaded yet?
-		this.setUpBuffer()
+		const bufferLoaded = this.setUpBuffer()
+		if (!bufferLoaded) return false
 		this.bufferSource.start(0, this.currentPosition)
 		this.isPlaying = true
 
@@ -98,6 +106,7 @@ class Player {
 		}, throttle)
 
 		this.analyse()
+		return true
 	}
 
 	pause () {
@@ -135,6 +144,7 @@ class Player {
 	}
 
 	volume (vol) {
+		if (this.gainNode === null) return
 		this.gainNode.gain.value = vol
 	}
 
