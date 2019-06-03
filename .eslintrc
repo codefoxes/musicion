@@ -15,5 +15,8 @@
 		"react/jsx-indent-props": [2, "tab"],
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
 		"react/destructuring-assignment": 0
+	},
+	"settings": {
+		"import/core-modules": [ "electron" ]
 	}
 }

@@ -43,10 +43,11 @@ npm run electron
 - [x] Side Panel with Library & Playlists
 - [x] Playlist plays the songs in order
 - [x] Working Next and Previous buttons
+- [x] Electron builder for Mac and Linux
 
 ## Todo
 
-- [ ] Electron Bundler, Updater
+- [ ] Electron builder for Windows, Updater
 - [ ] Play button to start first album song if no song is played first
 - [ ] Add songs to other (non default) playlists
 - [ ] Add Multiple songs to playlist
