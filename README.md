@@ -44,12 +44,12 @@ npm run electron
 - [x] Playlist plays the songs in order
 - [x] Working Next and Previous buttons
 - [x] Electron builder for Mac and Linux
+- [x] Add songs to other (non default) playlists
 
 ## Todo
 
 - [ ] Electron builder for Windows, Updater
 - [ ] Play button to start first album song if no song is played first
-- [ ] Add songs to other (non default) playlists
 - [ ] Add Multiple songs to playlist
 - [ ] Song info panel
 - [ ] Edit id3 tags
@@ -57,6 +57,7 @@ npm run electron
 - [ ] Separate Visualizer - Full Screen
 - [ ] Add Songs from cloud (Drive, s3 etc)
 - [ ] Theming
+- [ ] Accessibility Compatible
 
 ## Technologies used
 - Electron

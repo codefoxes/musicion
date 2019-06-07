@@ -49,28 +49,37 @@ $cover-height: 280px;
 					padding-left: 10px;
 				}
 
-				.add-to-playlist {
+				%menu {
 					display: inline-block;
 					float: right;
 					width: 18px;
 					height: 18px;
-					font-size: 1rem;
-					line-height: 1;
 					text-align: center;
 					position: relative;
+				}
+
+				.menu-action {
+					@extend %menu
+				}
+
+				.add-to-playlist {
+					@extend %menu;
+					font-size: 1rem;
+					line-height: 1;
 
 					.tooltip {
 						display: none;
 						position: absolute;
 						bottom: 100%;
-						width: 140px;
+						width: 90px;
 						font-size: .7rem;
 						background: rgba(0, 0, 0, 0.5);
 						color: #fff;
 						height: 20px;
 						line-height: 1.8;
 						border-radius: 5px;
-						left: -55px;
+						left: 50%;
+						transform: translateX(-50%);
 					}
 
 					&:hover .tooltip {

@@ -16,7 +16,9 @@ class Windows {
 			width: 1000,
 			height: 700,
 			webPreferences: {
-				nodeIntegration: true
+				nodeIntegration: true,
+				// Todo: Security Risk, Maybe use only for testing.
+				webSecurity: false
 			},
 			// transparent:true,
 			frame: false,
