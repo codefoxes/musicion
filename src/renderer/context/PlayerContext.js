@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Player from '../services/Player'
 import { getSongName } from '../services/Helpers'
 
@@ -129,4 +130,8 @@ export default class PlayerContextProvider extends React.Component {
 			</PlayerContext.Provider>
 		)
 	}
+}
+
+PlayerContextProvider.propTypes = {
+	children: PropTypes.node.isRequired
 }

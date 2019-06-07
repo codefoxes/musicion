@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ipcRenderer } from 'electron'
 import Config from '../services/Config'
 
@@ -35,7 +36,7 @@ export default class LibraryContextProvider extends React.Component {
 	}
 
 	updateLibrary = () => {
-		console.log('updating')
+		// Update Library.
 	}
 
 	render () {
@@ -53,4 +54,8 @@ export default class LibraryContextProvider extends React.Component {
 			</LibraryContext.Provider>
 		)
 	}
+}
+
+LibraryContextProvider.propTypes = {
+	children: PropTypes.node.isRequired
 }

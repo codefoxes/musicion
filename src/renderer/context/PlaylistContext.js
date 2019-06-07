@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Config from '../services/Config'
 
 const DEFAULT_STATE = {
@@ -115,4 +116,8 @@ export default class PlaylistContextProvider extends React.Component {
 			</PlaylistContext.Provider>
 		)
 	}
+}
+
+PlaylistContextProvider.propTypes = {
+	children: PropTypes.node.isRequired
 }

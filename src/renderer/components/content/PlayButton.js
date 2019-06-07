@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { PlaylistContext } from '../../context/PlaylistContext'
 import { PlayerContext } from '../../context/PlayerContext'
 
@@ -7,7 +8,7 @@ function PlayButton (props) {
 	const song = data.value
 	let index = 0
 	if ('index' in data) {
-		index = data.index
+		({ index } = data)
 	}
 
 	return (
@@ -41,6 +42,12 @@ function PlayButton (props) {
 			}}
 		</PlaylistContext.Consumer>
 	)
+}
+
+PlayButton.propTypes = {
+	data: PropTypes.shape({
+		index: PropTypes.number
+	}).isRequired
 }
 
 export default PlayButton

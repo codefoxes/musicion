@@ -1,6 +1,6 @@
 import React from 'react'
-import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
+import { PlayerContext } from '../../context/PlayerContext'
 
 class Volume extends React.Component {
 	constructor (props) {
@@ -26,7 +26,7 @@ class Volume extends React.Component {
 
 	onVolumeChange = (volumePos) => {
 		this.setState({
-			volumePos,
+			volumePos
 		})
 
 		// TODO: DEBOUNCE
@@ -43,10 +43,10 @@ class Volume extends React.Component {
 				{ () => (
 					<div className="volume-bar">
 						<Slider
-							value={ this.state.volumePos }
-							max={ this.state.volumeMax }
-							onChange={ this.onVolumeChange }
-							onAfterChange={ this.onVolumeUpdate }
+							value={this.state.volumePos}
+							max={this.state.volumeMax}
+							onChange={this.onVolumeChange}
+							onAfterChange={this.onVolumeUpdate}
 						/>
 					</div>
 				)}

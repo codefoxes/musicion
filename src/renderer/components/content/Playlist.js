@@ -1,5 +1,6 @@
-import React  from 'react'
+import React from 'react'
 import ReactTable from 'react-table'
+import PropTypes from 'prop-types'
 import PlayButton from './PlayButton'
 import { PlaylistContext } from '../../context/PlaylistContext'
 
@@ -21,7 +22,7 @@ class Playlist extends React.Component {
 		this.setState({ songs })
 	}
 
-	componentDidUpdate(oldProps) {
+	componentDidUpdate (oldProps) {
 		const newProps = this.props
 		if (oldProps.playlist !== newProps.playlist) {
 			const songs = this.context.getSongs(this.props.playlist)
@@ -30,14 +31,14 @@ class Playlist extends React.Component {
 	}
 
 	render () {
-		const RemoveSong = ({ index }) => {
-			return (
-				<div
-					className="remove-button"
-					onClick={() => this.context.removeSong(this.props.playlist, index)}
-				>x</div>
-			)
-		}
+		const RemoveSong = ({ index }) => (
+			<div
+				className="remove-button"
+				onClick={() => this.context.removeSong(this.props.playlist, index)}
+			>
+				{ 'x' }
+			</div>
+		)
 
 		const columns = [{
 			id: 'control',
@@ -79,21 +80,23 @@ class Playlist extends React.Component {
 
 		return (
 			<PlaylistContext.Consumer>
-				{() => {
-					return (
-						<div className="playlist">
-							<ReactTable
-								data={this.state.songs.files}
-								columns={columns}
-							/>
-						</div>
-					)
-				}}
+				{() => (
+					<div className="playlist">
+						<ReactTable
+							data={this.state.songs.files}
+							columns={columns}
+						/>
+					</div>
+				)}
 			</PlaylistContext.Consumer>
 		)
 	}
 }
 
 Playlist.contextType = PlaylistContext
+
+Playlist.propTypes = {
+	playlist: PropTypes.string.isRequired
+}
 
 export default Playlist
