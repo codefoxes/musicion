@@ -1,7 +1,7 @@
 import React from 'react'
 import { PlaylistContext } from '../../context/PlaylistContext'
 import { PlayerContext } from '../../context/PlayerContext'
-import NoErrorImage from '../library/NoErrorImage'
+import NoErrorImage from '../shared/NoErrorImage'
 
 function Controls () {
 	return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const defaultImage = require('../default.svg')
+const defaultImage = require('./default.svg')
 
 function NoErrorImage (props) {
 	const { image, alt } = props

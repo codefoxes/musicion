@@ -1,7 +1,7 @@
 import React from 'react'
 import AlbumDetails from './AlbumDetails'
-import NoErrorImage from './NoErrorImage'
-import { LibraryContext } from '../../context/LibraryContext'
+import NoErrorImage from '../../shared/NoErrorImage'
+import { LibraryContext } from '../../../context/LibraryContext'
 import './library.scss'
 
 class Library extends React.Component {

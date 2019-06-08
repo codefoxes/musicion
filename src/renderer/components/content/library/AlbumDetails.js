@@ -1,10 +1,10 @@
 import React from 'react'
 import { remote } from 'electron'
 import PropTypes from 'prop-types'
-import NoErrorImage from './NoErrorImage'
-import { PlayerContext } from '../../context/PlayerContext'
-import { PlaylistContext } from '../../context/PlaylistContext'
-import { getSongName } from '../../services/Helpers'
+import NoErrorImage from '../../shared/NoErrorImage'
+import { PlayerContext } from '../../../context/PlayerContext'
+import { PlaylistContext } from '../../../context/PlaylistContext'
+import { getSongName } from '../../../services/Helpers'
 
 import './AlbumDetails.scss'
 

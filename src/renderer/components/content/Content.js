@@ -1,8 +1,8 @@
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import MainMenu from '../menu/MainMenu'
-import Library from '../library/Library'
-import Playlist from './Playlist'
+import Library from './library/Library'
+import Playlist from './playlist/Playlist'
 import './content.scss'
 
 class Content extends React.Component {

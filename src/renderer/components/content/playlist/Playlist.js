@@ -2,7 +2,7 @@ import React from 'react'
 import ReactTable from 'react-table'
 import PropTypes from 'prop-types'
 import PlayButton from './PlayButton'
-import { PlaylistContext } from '../../context/PlaylistContext'
+import { PlaylistContext } from '../../../context/PlaylistContext'
 
 import 'react-table/react-table.css'
 import './Playlist.scss'

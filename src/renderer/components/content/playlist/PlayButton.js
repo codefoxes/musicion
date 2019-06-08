@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { PlaylistContext } from '../../context/PlaylistContext'
-import { PlayerContext } from '../../context/PlayerContext'
+import { PlaylistContext } from '../../../context/PlaylistContext'
+import { PlayerContext } from '../../../context/PlayerContext'
 
 function PlayButton (props) {
 	const { data, playlist } = props
