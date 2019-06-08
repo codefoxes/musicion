@@ -13,10 +13,6 @@ function AlbumDetails (props) {
 		contextPlaylist.playSong(contextPlayer, file)
 	}
 
-	const addSongToCurrentPlaylist = (contextPlaylist, file) => {
-		contextPlaylist.addSong(contextPlaylist.currentPlaylist, file)
-	}
-
 	const addSongToPlaylist = (contextPlaylist, file, playlist) => {
 		const playlistName = (playlist === undefined) ? contextPlaylist.currentPlaylist : playlist
 		contextPlaylist.addSong(playlistName, file)
@@ -81,7 +77,7 @@ function AlbumDetails (props) {
 												</div>
 												<div
 													className="add-to-playlist"
-													onClick={() => addSongToCurrentPlaylist(contextPlaylist, file)}
+													onClick={() => addSongToPlaylist(contextPlaylist, file)}
 												>
 													<span className="icon">+</span>
 													<span className="tooltip">{ `Add to: ${contextPlaylist.currentPlaylist}` }</span>

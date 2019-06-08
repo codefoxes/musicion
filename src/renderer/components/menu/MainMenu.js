@@ -108,7 +108,7 @@ class MainMenu extends React.Component {
 												<span>Playlists</span>
 												<div
 													className="title-action"
-													onClick={() => this.setState(prev => ({ showAddPlaylist: !prev }))}
+													onClick={() => this.setState(prev => ({ showAddPlaylist: !prev.showAddPlaylist }))}
 												>
 													<span className="icon">+</span>
 													<span className="tooltip">Create New</span>

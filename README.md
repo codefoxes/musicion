@@ -45,12 +45,12 @@ npm run electron
 - [x] Working Next and Previous buttons
 - [x] Electron builder for Mac and Linux
 - [x] Add songs to other (non default) playlists
+- [x] Add Multiple (Album) songs to playlist
 
 ## Todo
 
 - [ ] Electron builder for Windows, Updater
 - [ ] Play button to start first album song if no song is played first
-- [ ] Add Multiple songs to playlist
 - [ ] Song info panel
 - [ ] Edit id3 tags
 - [ ] Side panels toggler
@@ -58,6 +58,8 @@ npm run electron
 - [ ] Add Songs from cloud (Drive, s3 etc)
 - [ ] Theming
 - [ ] Accessibility Compatible
+- [ ] On action visualization (Add to Playlist success)
+- [ ] Auto cleanup default playlist
 
 ## Technologies used
 - Electron
