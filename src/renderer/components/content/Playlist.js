@@ -44,7 +44,7 @@ class Playlist extends React.Component {
 			id: 'control',
 			Header: '',
 			accessor: '',
-			Cell: props => <PlayButton data={props} />,
+			Cell: props => <PlayButton data={props} playlist={this.props.playlist} />,
 			width: 30
 		}, {
 			id: 'title',

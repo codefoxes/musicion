@@ -4,7 +4,7 @@ import { PlaylistContext } from '../../context/PlaylistContext'
 import { PlayerContext } from '../../context/PlayerContext'
 
 function PlayButton (props) {
-	const { data } = props
+	const { data, playlist } = props
 	const song = data.value
 	let index = 0
 	if ('index' in data) {
@@ -31,7 +31,7 @@ function PlayButton (props) {
 									) : (
 										<i
 											className="play icofont-ui-play"
-											onClick={() => contextPlaylist.playSong(contextPlayer, song, index)}
+											onClick={() => contextPlaylist.playSong(contextPlayer, song, index, playlist)}
 										/>
 									)
 								}
@@ -47,7 +47,12 @@ function PlayButton (props) {
 PlayButton.propTypes = {
 	data: PropTypes.shape({
 		index: PropTypes.number
-	}).isRequired
+	}).isRequired,
+	playlist: PropTypes.string
+}
+
+PlayButton.defaultProps = {
+	playlist: undefined
 }
 
 export default PlayButton

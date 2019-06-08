@@ -38,16 +38,20 @@ export default class PlaylistContextProvider extends React.Component {
 		Config.removePlaylist(playlistName)
 	}
 
-	playSong = (contextPlayer, file, index = null) => {
+	playSong = (contextPlayer, file, index = null, playlist = null) => {
 		this.contextPlayer = contextPlayer
+		let { currentPlaylist } = this.state
+		if (playlist !== null) {
+			currentPlaylist = playlist
+		}
 		let currentSongIndex = 0
 		if (index !== null) {
 			currentSongIndex = index
 		} else {
-			this.addSong(this.state.currentPlaylist, file)
+			this.addSong(currentPlaylist, file)
 			currentSongIndex = this.currentSongs.length - 1
 		}
-		this.setState({ currentSongIndex })
+		this.setState({ currentSongIndex, currentPlaylist })
 		contextPlayer.playPauseSong(file)
 		if (!this.endSubscribed) {
 			contextPlayer.subscribeEvent('onEnded', this.onEnded.bind(this))
