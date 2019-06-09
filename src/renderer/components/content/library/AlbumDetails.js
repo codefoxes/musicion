@@ -37,7 +37,7 @@ function AlbumDetails (props) {
 		contextMenu.popup()
 	}
 
-	const { album } = props
+	const { album, toggleInfoPanel } = props
 
 	return (
 		<PlaylistContext.Consumer>
@@ -54,30 +54,31 @@ function AlbumDetails (props) {
 										{album.files.map(file => (
 											<li
 												className="song"
+												onClick={() => toggleInfoPanel(file)}
 												onContextMenu={() => showContextMenu(contextPlaylist, file)}
 												key={file.file}
 											>
 												{contextPlayer.currentState === 'playing' && contextPlayer.currentSong === file.file ? (
 													<i
 														className="play icofont-ui-pause"
-														onClick={() => contextPlayer.playPauseSong(file)}
+														onClick={(e) => { contextPlayer.playPauseSong(file); e.stopPropagation() }}
 													/>
 												) : (
 													<i
 														className="play icofont-ui-play"
-														onClick={() => playSong(contextPlaylist, contextPlayer, file)}
+														onClick={(e) => { playSong(contextPlaylist, contextPlayer, file); e.stopPropagation() }}
 													/>
 												)}
 												<span className="song-title">{ getSongName(file) }</span>
 												<div
 													className="menu-action"
-													onClick={() => showContextMenu(contextPlaylist, file)}
+													onClick={(e) => { showContextMenu(contextPlaylist, file); e.stopPropagation() }}
 												>
 													<span className="icon">&#8942;</span>
 												</div>
 												<div
 													className="add-to-playlist"
-													onClick={() => addSongToPlaylist(contextPlaylist, file)}
+													onClick={(e) => { addSongToPlaylist(contextPlaylist, file); e.stopPropagation() }}
 												>
 													<span className="icon">+</span>
 													<span className="tooltip">{ `Add to: ${contextPlaylist.currentPlaylist}` }</span>
@@ -101,7 +102,8 @@ AlbumDetails.propTypes = {
 			album: PropTypes.string,
 			files: PropTypes.array
 		}
-	).isRequired
+	).isRequired,
+	toggleInfoPanel: PropTypes.func.isRequired
 }
 
 export default AlbumDetails

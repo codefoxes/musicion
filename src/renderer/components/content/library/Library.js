@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { remote } from 'electron'
 import AlbumDetails from './AlbumDetails'
+import InfoPanel from './InfoPanel'
 import NoErrorImage from '../../shared/NoErrorImage'
 import { LibraryContext } from '../../../context/LibraryContext'
 import { PlaylistContext } from '../../../context/PlaylistContext'
@@ -10,7 +11,9 @@ class Library extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			expanded: {}
+			expanded: {},
+			showInfo: false,
+			infoFile: null
 		}
 	}
 
@@ -44,41 +47,57 @@ class Library extends React.Component {
 		contextMenu.popup()
 	}
 
+	toggleInfoPanel = (file) => {
+		this.setState(prev => ({ infoFile: file, showInfo: (file !== prev.infoFile) ? true : !prev.showInfo }))
+	}
+
+	handleInfoChange = (file) => {
+		this.setState(prev => ({ infoFile: file }))
+	}
+
 	render () {
 		return (
 			<LibraryContext.Consumer>
 				{ () => (
-					<div className="library">
-						{this.context.library && this.context.library.albums ? (
-							<ul className="albums-grid">
-								{this.context.library.albums.map((album, i) => {
-									const { expanded } = this.state
-									const expandedClass = (album.album in expanded) && expanded[album.album] ? 'expanded' : ''
-									return (
-										<li key={i} className={`album ${expandedClass}`}>
-											<PlaylistContext.Consumer>
-												{contextPlaylist => (
-													<section
-														className="album-thumbnail"
-														onClick={() => this.expandAlbum(album.album)}
-														onContextMenu={() => this.showAlbumContextMenu(contextPlaylist, album)}
-													>
-														<div className="image-wrap">
-															<NoErrorImage image={album.files[0].tags.imagePath} alt={album.album} />
-														</div>
-														<div className="album-name">{ album.album }</div>
-													</section>
-												)}
-											</PlaylistContext.Consumer>
-											<AlbumDetails album={album} />
-										</li>
-									)
-								})}
-							</ul>
-						) : (
-							<div>No Albums Yet</div>
-						)}
-					</div>
+					<Fragment>
+						<div className="library">
+							{this.context.library && this.context.library.albums ? (
+								<ul className="albums-grid">
+									{this.context.library.albums.map((album, i) => {
+										const { expanded } = this.state
+										const expandedClass = (album.album in expanded) && expanded[album.album] ? 'expanded' : ''
+										return (
+											<li key={i} className={`album ${expandedClass}`}>
+												<PlaylistContext.Consumer>
+													{contextPlaylist => (
+														<section
+															className="album-thumbnail"
+															onClick={() => this.expandAlbum(album.album)}
+															onContextMenu={() => this.showAlbumContextMenu(contextPlaylist, album)}
+														>
+															<div className="image-wrap">
+																<NoErrorImage image={album.files[0].tags.imagePath} alt={album.album} />
+															</div>
+															<div className="album-name">{ album.album }</div>
+														</section>
+													)}
+												</PlaylistContext.Consumer>
+												<AlbumDetails album={album} toggleInfoPanel={this.toggleInfoPanel} />
+											</li>
+										)
+									})}
+								</ul>
+							) : (
+								<div>No Albums Yet</div>
+							)}
+						</div>
+						<InfoPanel
+							show={this.state.showInfo}
+							file={this.state.infoFile}
+							toggleInfoPanel={this.toggleInfoPanel}
+							handleInfoChange={this.handleInfoChange}
+						/>
+					</Fragment>
 				)}
 			</LibraryContext.Consumer>
 		)

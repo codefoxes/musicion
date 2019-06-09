@@ -76,3 +76,7 @@ th {
 	padding: 0;
 	text-align: left;
 }
+
+input:focus {
+	outline: none;
+}
