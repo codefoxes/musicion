@@ -63,7 +63,10 @@ class Library extends React.Component {
 														onClick={() => this.expandAlbum(album.album)}
 														onContextMenu={() => this.showAlbumContextMenu(contextPlaylist, album)}
 													>
-														<NoErrorImage image={album.files[0].tags.imagePath} alt={album.album} />
+														<div className="image-wrap">
+															<NoErrorImage image={album.files[0].tags.imagePath} alt={album.album} />
+														</div>
+														<div className="album-name">{ album.album }</div>
 													</section>
 												)}
 											</PlaylistContext.Consumer>

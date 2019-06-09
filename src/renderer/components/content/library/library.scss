@@ -30,12 +30,15 @@ $album-details-height: 320px;
 			}
 
 			.album-thumbnail {
-				background: #ffcb55;
-				height: $thumbnail-cover-height;
-				width: $thumbnail-width;
-				border-radius: 5px;
-				border: 1px solid #ccc;
 				position: relative;
+
+				.image-wrap {
+					background: #ffcb55;
+					height: $thumbnail-cover-height;
+					width: $thumbnail-width;
+					border-radius: 5px;
+					border: 1px solid #ccc;
+				}
 
 				img {
 					min-width: 101%;
@@ -44,6 +47,10 @@ $album-details-height: 320px;
 					top: 50%;
 					left: 50%;
 					transform: translate(-50%, -50%);
+				}
+
+				.album-name {
+					padding: 3px 0;
 				}
 			}
 
