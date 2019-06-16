@@ -12,3 +12,27 @@
 		}
 	}
 }
+
+.splitter {
+	display: flex;
+	height: 100%;
+}
+
+.gutter {
+	background-repeat: no-repeat;
+	background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+	cursor: col-resize;
+	width: 10px !important;
+	margin-left: -5px;
+
+	&:nth-last-child(2) {
+		width: 0 !important;
+	}
+}
+
+.gutter.gutter-vertical {
+	cursor: row-resize;
+}

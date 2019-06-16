@@ -1,4 +1,5 @@
 import React from 'react'
+import Split from 'react-split'
 import SplitPane from 'react-split-pane'
 import MainMenu from '../menu/MainMenu'
 import Library from './library/Library'
@@ -11,7 +12,16 @@ class Content extends React.Component {
 		super(props)
 		this.state = {
 			activeMenu: 'albums',
-			activePlaylist: 'default'
+			activePlaylist: 'default',
+			splitterDefault: [25, 75]
+		}
+	}
+
+	componentDidMount () {
+		const sizes = localStorage.getItem('sidebar')
+		if (sizes) {
+			const splitterDefault = JSON.parse(sizes)
+			this.setState({ splitterDefault })
 		}
 	}
 
@@ -20,13 +30,8 @@ class Content extends React.Component {
 	}
 
 	render () {
-		let defaultSize = parseInt(localStorage.getItem('sidebar'), 10)
-		if (Number.isNaN(defaultSize)) {
-			defaultSize = 200
-		}
-
 		const onDragFinished = (size) => {
-			localStorage.setItem('sidebar', size)
+			localStorage.setItem('sidebar', JSON.stringify(size))
 		}
 
 		let activeMenu
@@ -43,17 +48,16 @@ class Content extends React.Component {
 			<main className="content">
 				<SettingsContext.Consumer>
 					{(contextSettings) => {
+						let defaultSizes = this.state.splitterDefault
+						let collapseIndex = null
 						if (!contextSettings.settings.showSidebar) {
-							defaultSize = 0
-						} else {
-							// Todo: Get old value
-							defaultSize = 200
+							collapseIndex = 0
 						}
 						return (
-							<SplitPane split="vertical" minSize={100} defaultSize={defaultSize} maxSize={500} onDragFinished={onDragFinished}>
+							<Split direction="horizontal" sizes={defaultSizes} gutterSize={0} className="splitter" onDragEnd={onDragFinished} snapOffset={0} collapsed={collapseIndex}>
 								<MainMenu changeMenu={this.changeMenu} activeMenu={this.state.activeMenu} />
 								{ activeMenu }
-							</SplitPane>
+							</Split>
 						)
 					}}
 				</SettingsContext.Consumer>
