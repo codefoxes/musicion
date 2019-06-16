@@ -47,13 +47,13 @@ npm run electron
 - [x] Add songs to other (non default) playlists
 - [x] Add Multiple (Album) songs to playlist
 - [x] Song info panel
+- [x] Side panels toggler
 
 ## Todo
 
 - [ ] Electron builder for Windows, Updater
 - [ ] Play button to start first album song if no song is played first
 - [ ] Edit id3 tags
-- [ ] Side panels toggler
 - [ ] Separate Visualizer - Full Screen
 - [ ] Add Songs from cloud (Drive, s3 etc)
 - [ ] Theming

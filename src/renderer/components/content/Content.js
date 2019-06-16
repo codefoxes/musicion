@@ -43,14 +43,19 @@ class Content extends React.Component {
 			<main className="content">
 				<SettingsContext.Consumer>
 					{(contextSettings) => {
+						let className = ''
 						if (!contextSettings.settings.showSidebar) {
-							defaultSize = 0
-						} else {
-							// Todo: Get old value
-							defaultSize = 200
+							className = 'collapsed'
 						}
 						return (
-							<SplitPane split="vertical" minSize={100} defaultSize={defaultSize} maxSize={500} onDragFinished={onDragFinished}>
+							<SplitPane
+								split="vertical"
+								minSize={100}
+								defaultSize={defaultSize}
+								maxSize={500}
+								onDragFinished={onDragFinished}
+								className={className}
+							>
 								<MainMenu changeMenu={this.changeMenu} activeMenu={this.state.activeMenu} />
 								{ activeMenu }
 							</SplitPane>
