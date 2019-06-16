@@ -1,0 +1,9 @@
+@import "../../scss/variables";
+
+footer {
+	height: $footer-height;
+	position: relative;
+	background: #fbfbfb;
+	font-size: 0.8rem;
+	border-top: 1px solid #ddd;
+}

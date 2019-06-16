@@ -46,12 +46,12 @@ npm run electron
 - [x] Electron builder for Mac and Linux
 - [x] Add songs to other (non default) playlists
 - [x] Add Multiple (Album) songs to playlist
+- [x] Song info panel
 
 ## Todo
 
 - [ ] Electron builder for Windows, Updater
 - [ ] Play button to start first album song if no song is played first
-- [ ] Song info panel
 - [ ] Edit id3 tags
 - [ ] Side panels toggler
 - [ ] Separate Visualizer - Full Screen

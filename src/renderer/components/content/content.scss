@@ -2,7 +2,7 @@
 @import "../../scss/splitpane";
 
 main.content {
-	height: calc(100% - #{$header-height});
+	height: calc(100% - #{$header-height} - #{$footer-height});
 	position: relative;
 	font-size: 0.8rem;
 }

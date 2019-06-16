@@ -14,9 +14,12 @@ function InfoPanel (props) {
 		)
 	}
 
+	const newFile = JSON.parse(JSON.stringify(file))
+	const { tags } = newFile
+
 	const handleChange = (e, field) => {
-		file.tags[field] = e.target.value
-		handleInfoChange(file)
+		newFile.tags[field] = e.target.value
+		handleInfoChange(newFile)
 	}
 
 	return (
@@ -26,47 +29,47 @@ function InfoPanel (props) {
 				<div className="heading">Song Details</div>
 				<div className="field-wrap title">
 					<div className="filed-heading">Title</div>
-					<input type="text" className="field" value={file.tags.title || ''} onChange={e => handleChange(e, 'title')} />
+					<input disabled type="text" className="field" value={tags.title || ''} onChange={e => handleChange(e, 'title')} />
 				</div>
 				<div className="field-wrap album">
 					<div className="filed-heading">Album</div>
-					<input type="text" className="field" value={file.tags.album || ''} onChange={e => handleChange(e, 'album')} />
+					<input disabled type="text" className="field" value={tags.album || ''} onChange={e => handleChange(e, 'album')} />
 				</div>
 				<div className="field-wrap artist">
 					<div className="filed-heading">Artist</div>
-					<input type="text" className="field" value={file.tags.artist || ''} onChange={e => handleChange(e, 'artist')} />
+					<input disabled type="text" className="field" value={tags.artist || ''} onChange={e => handleChange(e, 'artist')} />
 				</div>
 				<div className="field-wrap composer">
 					<div className="filed-heading">Composer</div>
-					<input type="text" className="field" value={file.tags.composer || ''} onChange={e => handleChange(e, 'composer')} />
+					<input disabled type="text" className="field" value={tags.composer || ''} onChange={e => handleChange(e, 'composer')} />
 				</div>
 				<div className="field-wrap encodingTechnology">
 					<div className="filed-heading">Encoding</div>
 					<div className="field">
-						{ file.tags.encodingTechnology || ''}
+						{ tags.encodingTechnology || ''}
 					</div>
 				</div>
 				<div className="field-wrap genre">
 					<div className="filed-heading">Genre</div>
-					<input type="text" className="field" value={file.tags.genre || ''} onChange={e => handleChange(e, 'genre')} />
+					<input disabled type="text" className="field" value={tags.genre || ''} onChange={e => handleChange(e, 'genre')} />
 				</div>
 				<div className="field-wrap performerInfo">
 					<div className="filed-heading">Performer</div>
-					<input type="text" className="field" value={file.tags.performerInfo || ''} onChange={e => handleChange(e, 'performerInfo')} />
+					<input disabled type="text" className="field" value={tags.performerInfo || ''} onChange={e => handleChange(e, 'performerInfo')} />
 				</div>
 				<div className="field-wrap year">
 					<div className="filed-heading">Year</div>
-					<input type="text" className="field" value={file.tags.year || ''} onChange={e => handleChange(e, 'year')} />
+					<input disabled type="text" className="field" value={tags.year || ''} onChange={e => handleChange(e, 'year')} />
 				</div>
 				<div className="field-wrap artwork">
 					<div className="filed-heading">Artwork</div>
-					<NoErrorImage image={file.tags.imagePath} alt={file.tags.title || ''} />
+					<NoErrorImage image={tags.imagePath} alt={tags.title || ''} />
 				</div>
 			</div>
-			<div className="actions">
-				<button type="button">Cancel</button>
-				<button type="button" className="last">Save</button>
-			</div>
+			{/* <div className="actions"> */}
+			{/* <button type="button" onClick={() => toggleInfoPanel(file)}>Cancel</button> */}
+			{/* <button type="button" className="last">Save</button> */}
+			{/* </div> */}
 		</div>
 	)
 }
