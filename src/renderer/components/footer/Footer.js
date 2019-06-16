@@ -1,15 +1,23 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import { SettingsContext } from '../../context/SettingsContext'
 
 import './Footer.scss'
 
-function Footer (props) {
+function Footer () {
 	return (
-		<footer />
+		<footer>
+			<SettingsContext.Consumer>
+				{(contextSettings) => {
+					const hiddenClass = contextSettings.settings.showSidebar ? '' : 'hidden'
+					return (
+						<div className={`toggler ${hiddenClass}`} onClick={() => contextSettings.dispatch('toggle_sidebar')}>
+							<i className="icofont-square-left" />
+						</div>
+					)
+				}}
+			</SettingsContext.Consumer>
+		</footer>
 	)
-}
-
-Footer.propTypes = {
 }
 
 export default Footer

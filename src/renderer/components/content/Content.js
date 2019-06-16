@@ -3,6 +3,7 @@ import SplitPane from 'react-split-pane'
 import MainMenu from '../menu/MainMenu'
 import Library from './library/Library'
 import Playlist from './playlist/Playlist'
+import { SettingsContext } from '../../context/SettingsContext'
 import './content.scss'
 
 class Content extends React.Component {
@@ -40,10 +41,22 @@ class Content extends React.Component {
 
 		return (
 			<main className="content">
-				<SplitPane split="vertical" minSize={100} defaultSize={defaultSize} maxSize={500} onDragFinished={onDragFinished}>
-					<MainMenu changeMenu={this.changeMenu} activeMenu={this.state.activeMenu} />
-					{ activeMenu }
-				</SplitPane>
+				<SettingsContext.Consumer>
+					{(contextSettings) => {
+						if (!contextSettings.settings.showSidebar) {
+							defaultSize = 0
+						} else {
+							// Todo: Get old value
+							defaultSize = 200
+						}
+						return (
+							<SplitPane split="vertical" minSize={100} defaultSize={defaultSize} maxSize={500} onDragFinished={onDragFinished}>
+								<MainMenu changeMenu={this.changeMenu} activeMenu={this.state.activeMenu} />
+								{ activeMenu }
+							</SplitPane>
+						)
+					}}
+				</SettingsContext.Consumer>
 			</main>
 		)
 	}

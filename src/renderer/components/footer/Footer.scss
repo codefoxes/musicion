@@ -6,4 +6,16 @@ footer {
 	background: #fbfbfb;
 	font-size: 0.8rem;
 	border-top: 1px solid #ddd;
+	padding: 0 5px;
+
+	.toggler {
+		display: inline-block;
+		font-size: 1rem;
+		color: #627386;
+		transition: transform .2s;
+
+		&.hidden {
+			transform: scaleX(-1);
+		}
+	}
 }
