@@ -52,6 +52,7 @@ function getAlbums (folders, cacheCover = true) {
 		files = getMusicFiles(folder)
 	})
 	const albums = []
+	// Todo: Runs every time, optimize.
 	files.forEach((file, i) => {
 		const tags = NodeID3.read(file)
 		if (cacheCover && tags.image && tags.image.imageBuffer) {

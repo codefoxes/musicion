@@ -1,6 +1,6 @@
 import React from 'react'
+import BackendService from 'backend'
 import PropTypes from 'prop-types'
-import { ipcRenderer } from 'electron'
 import Config from '../services/Config'
 
 const DEFAULT_STATE = {
@@ -18,16 +18,18 @@ export default class LibraryContextProvider extends React.Component {
 	}
 
 	componentDidMount () {
-		// ipcRenderer.send('get-albums', this.state.library.folders)
-		ipcRenderer.on('albums', (event, albums) => {
-			this.addAlbums(albums)
-		})
+		BackendService.onMessage('albums', this.onAlbums.bind(this))
+		BackendService.sendMessage('get-albums', this.state.library.folders)
+	}
+
+	onAlbums (e, albums) {
+		this.addAlbums(albums)
 	}
 
 	addFolders = (folders) => {
 		const library = Config.addFoldersToLibrary(folders)
 		this.setState({ library })
-		ipcRenderer.send('get-albums', this.state.library.folders)
+		BackendService.sendMessage('get-albums', this.state.library.folders)
 	}
 
 	addAlbums = (albums) => {

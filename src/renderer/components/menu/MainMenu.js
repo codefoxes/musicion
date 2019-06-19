@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
+import BackendService from 'backend'
 import PropTypes from 'prop-types'
-import { remote } from 'electron'
 import { LibraryContext } from '../../context/LibraryContext'
 import { PlaylistContext } from '../../context/PlaylistContext'
 import './mainmenu.scss'
@@ -26,12 +26,7 @@ class MainMenu extends React.Component {
 	}
 
 	selectFolder = () => {
-		const folders = remote.dialog.showOpenDialog({
-			properties: ['openDirectory']
-		})
-		if (folders !== undefined) {
-			this.addFolders(folders)
-		}
+		BackendService.selectFolder(this.addFolders)
 	}
 
 	changeMenu = (menu, sub) => {

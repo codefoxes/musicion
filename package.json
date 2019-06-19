@@ -4,7 +4,9 @@
 	"description": "Multi Platform Music Player",
 	"main": "main.js",
 	"scripts": {
-		"start": "webpack-dev-server --config ./webpack/dev.js",
+		"start": "webpack-dev-server --config ./webpack/browser-dev.js",
+		"es": "webpack-dev-server --config ./webpack/electron-dev.js",
+		"ed": "electron .",
 		"electron": "webpack --config ./webpack/prod.js && electron .",
 		"test": "echo \"No test specified\" && exit 0",
 		"dist": "electron-builder"
