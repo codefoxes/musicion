@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { remote } from 'electron'
+import BackendService from 'backend'
 import AlbumDetails from './AlbumDetails'
 import InfoPanel from './InfoPanel'
 import NoErrorImage from '../../shared/NoErrorImage'
@@ -36,15 +36,11 @@ class Library extends React.Component {
 				click: () => { this.addAlbumToPlaylist(contextPlaylist, album, playlist.name) }
 			})
 		})
-
-		const { Menu, MenuItem } = remote
-		const template = new MenuItem({
+		const menuObject = {
 			label: 'Add to Playlist',
 			submenu: playlistsMenu
-		})
-		const contextMenu = new Menu()
-		contextMenu.append(template)
-		contextMenu.popup()
+		}
+		BackendService.showContextMenu(menuObject)
 	}
 
 	toggleInfoPanel = (file) => {

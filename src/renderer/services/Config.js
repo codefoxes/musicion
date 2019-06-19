@@ -1,9 +1,4 @@
-import fs from 'graceful-fs'
-import { remote } from 'electron'
-
-const userPath = remote.app.getPath('userData')
-const fileName = 'musicion-config.json'
-const playlistsFileName = 'musicion-playlists.json'
+import BackendService from 'backend'
 
 let configuration
 let playlists
@@ -13,32 +8,9 @@ export default class Config {
 		return configuration
 	}
 
-	static createConfig () {
-		const config = { library: { folders: [], albums: [] } }
-		try {
-			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(config, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
-	}
-
 	static loadConfig () {
 		// Todo: Maybe asynchronous
-		try {
-			const configContent = fs.readFileSync(`${userPath}/${fileName}`, 'utf8')
-			configuration = JSON.parse(configContent)
-		} catch (err) {
-			if (err.message.includes('no such file')) {
-				// Config file does not exist. Create one.
-				Config.createConfig()
-			} else {
-				configuration = {}
-				// Reading config failed.
-			}
-		}
+		configuration = BackendService.getConfig()
 	}
 
 	static addFoldersToLibrary (folders) {
@@ -46,14 +18,7 @@ export default class Config {
 			folders.filter(item => configuration.library.folders.indexOf(item) < 0)
 		)
 
-		try {
-			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(configuration, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
+		BackendService.saveConfig(configuration)
 		return configuration.library
 	}
 
@@ -87,14 +52,7 @@ export default class Config {
 			configuration.library.albums = configuration.library.albums.concat(albums)
 		}
 
-		try {
-			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(configuration, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
+		BackendService.saveConfig(configuration)
 		return configuration.library
 	}
 
@@ -102,33 +60,9 @@ export default class Config {
 		return playlists
 	}
 
-	static createPlaylistsConfig () {
-		const config = [{ name: 'Default', files: [] }]
-		try {
-			fs.writeFileSync(`${userPath}/${playlistsFileName}`, JSON.stringify(config, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
-	}
-
 	static loadPlaylists () {
 		if (playlists !== undefined) return
-		try {
-			const configContent = fs.readFileSync(`${userPath}/${playlistsFileName}`, 'utf8')
-			playlists = JSON.parse(configContent)
-		} catch (err) {
-			if (err.message.includes('no such file')) {
-				// Config file does not exist. Create one.
-				Config.createPlaylistsConfig()
-				playlists = [{ name: 'Default', files: [] }]
-			} else {
-				playlists = []
-				// Reading config failed.
-			}
-		}
+		playlists = BackendService.getPlaylists()
 	}
 
 	static addFilesToPlaylist (playlistName, files, deDuplicate = false) {
@@ -175,30 +109,14 @@ export default class Config {
 			playlists.push(newPlaylist)
 		}
 
-		return new Promise((resolve, reject) => {
-			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve()
-				}
-			})
-		})
+		return BackendService.savePlaylists(playlists)
 	}
 
 	static removeFileFromPlaylist (playlistName, index) {
 		const playlistIndex = playlists.findIndex(playlist => playlist.name === playlistName)
 		playlists[playlistIndex].files.splice(index, 1)
 
-		return new Promise((resolve, reject) => {
-			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve()
-				}
-			})
-		})
+		return BackendService.savePlaylists(playlists)
 	}
 
 	static removePlaylist (playlistName) {
@@ -208,14 +126,6 @@ export default class Config {
 			}
 		})
 
-		return new Promise((resolve, reject) => {
-			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve()
-				}
-			})
-		})
+		return BackendService.savePlaylists(playlists)
 	}
 }

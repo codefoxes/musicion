@@ -1,5 +1,5 @@
 import React from 'react'
-import { remote } from 'electron'
+import BackendService from 'backend'
 import PropTypes from 'prop-types'
 import NoErrorImage from '../../shared/NoErrorImage'
 import { PlayerContext } from '../../../context/PlayerContext'
@@ -26,15 +26,11 @@ function AlbumDetails (props) {
 				click () { addSongToPlaylist(contextPlaylist, file, playlist.name) }
 			})
 		})
-
-		const { Menu, MenuItem } = remote
-		const template = new MenuItem({
+		const menuObject = {
 			label: 'Add to Playlist',
 			submenu: playlistsMenu
-		})
-		const contextMenu = new Menu()
-		contextMenu.append(template)
-		contextMenu.popup()
+		}
+		BackendService.showContextMenu(menuObject)
 	}
 
 	const { album, toggleInfoPanel } = props

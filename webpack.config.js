@@ -57,6 +57,5 @@ module.exports = {
 			filename: isHot ? 'css/[name].css' : 'css/[name].[contenthash].css',
 			chunkFilename: 'css/[id].css'
 		})
-	],
-	target: 'electron-renderer'
+	]
 }
