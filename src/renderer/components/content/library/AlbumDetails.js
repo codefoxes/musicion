@@ -1,4 +1,5 @@
 import React from 'react'
+import BackendService from 'backend'
 import PropTypes from 'prop-types'
 import NoErrorImage from '../../shared/NoErrorImage'
 import { PlayerContext } from '../../../context/PlayerContext'
@@ -25,6 +26,11 @@ function AlbumDetails (props) {
 				click () { addSongToPlaylist(contextPlaylist, file, playlist.name) }
 			})
 		})
+		const menuObject = {
+			label: 'Add to Playlist',
+			submenu: playlistsMenu
+		}
+		BackendService.showContextMenu(menuObject)
 	}
 
 	const { album, toggleInfoPanel } = props

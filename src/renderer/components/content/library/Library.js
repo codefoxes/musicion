@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import BackendService from 'backend'
 import AlbumDetails from './AlbumDetails'
 import InfoPanel from './InfoPanel'
 import NoErrorImage from '../../shared/NoErrorImage'
@@ -35,6 +36,11 @@ class Library extends React.Component {
 				click: () => { this.addAlbumToPlaylist(contextPlaylist, album, playlist.name) }
 			})
 		})
+		const menuObject = {
+			label: 'Add to Playlist',
+			submenu: playlistsMenu
+		}
+		BackendService.showContextMenu(menuObject)
 	}
 
 	toggleInfoPanel = (file) => {

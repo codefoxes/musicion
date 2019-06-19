@@ -16,4 +16,6 @@ export default class BackendService {
 			resolve()
 		})
 	}
+
+	static showContextMenu () {}
 }

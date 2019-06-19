@@ -95,4 +95,12 @@ export default class BackendService {
 			return playlists
 		}
 	}
+
+	static showContextMenu (menuObject) {
+		const { Menu, MenuItem } = remote
+		const template = new MenuItem(menuObject)
+		const contextMenu = new Menu()
+		contextMenu.append(template)
+		contextMenu.popup()
+	}
 }
