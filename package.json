@@ -8,6 +8,9 @@
 		"es": "webpack-dev-server --config ./webpack/electron-dev.js",
 		"ed": "electron .",
 		"electron": "webpack --config ./webpack/prod.js && electron .",
+		"pcreate": "phonegap create phonegap --id 'com.codefoxes.musicion' --name 'musicion'",
+		"ps": "webpack --watch --config ./webpack/cordova-dev.js",
+		"pd": "cd phonegap && phonegap serve",
 		"test": "echo \"No test specified\" && exit 0",
 		"dist": "electron-builder"
 	},
