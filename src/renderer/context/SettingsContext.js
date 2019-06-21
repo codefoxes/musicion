@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { mediaQuery } from '../services/MediaQuery'
 
 const DEFAULT_STATE = {
 	settings: {
-		showSidebar: true
-	}
+		showSidebar: (mediaQuery.currentMedia !== 'mobile')
+	},
+	currentMedia: mediaQuery.currentMedia,
+	currentSize: mediaQuery.currentSize
 }
 
 export const SettingsContext = React.createContext(DEFAULT_STATE)
@@ -13,6 +16,17 @@ export default class SettingsContextProvider extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = DEFAULT_STATE
+		mediaQuery.onChange(this.onMediaChange)
+	}
+
+	onMediaChange = () => {
+		if (mediaQuery.currentMedia === this.state.currentMedia) return
+		this.setState((prev) => {
+			const { settings } = prev
+			const { currentMedia, currentSize } = mediaQuery
+			settings.showSidebar = (currentMedia !== 'mobile')
+			return { currentMedia, currentSize, settings }
+		})
 	}
 
 	dispatch = (action, args) => {

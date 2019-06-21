@@ -1,10 +1,13 @@
+@import "../../scss/variables";
+
 header {
-	min-height: 90px;
+	min-height: $header-height;
 	color: #fff;
 	background: rgba(75, 0, 255, 0.2);
 	//background: -webkit-linear-gradient(to right, #525252, #3d72b4);
 	//background: linear-gradient(to right, #525252, #3d72b4);
 	background: linear-gradient(to right, rgba(40, 40, 40, 0.9), rgba(25, 50, 80, 0.9));
+	order: 1;
 
 	.titlebar {
 		-webkit-user-select: none;
@@ -14,7 +17,8 @@ header {
 	.control-panel {
 		display: flex;
 		justify-content: space-around;
-		padding: 10px 0;
+		flex-wrap: wrap;
+		position: relative;
 
 		.player-controls {
 			position: relative;
@@ -67,9 +71,7 @@ header {
 			align-items: flex-end;
 			width: 50%;
 			background: #fcfcfc00;
-			padding: 5px 20px 0 20px;
 			color: #fff;
-			margin-right: 20px;
 			font-size: 0.7rem;
 			border-radius: 5px;
 			z-index: 5;
@@ -79,6 +81,11 @@ header {
 			text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap;
+		}
+
+		.status-bar {
+			width: 100%;
+			order: 2;
 		}
 
 		.volume-bar {
@@ -108,6 +115,7 @@ header {
 
 		.seekbar {
 			width: 100%;
+			margin-bottom: -19px;
 
 			.rc-slider {
 				&-handle {
@@ -138,4 +146,8 @@ header {
 			}
 		}
 	}
+}
+
+.tablet header {
+	order: 0;
 }

@@ -1,26 +1,29 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Header from './header/Header'
 import Content from './content/Content'
 import Footer from './footer/Footer'
+import { SettingsContext } from '../context/SettingsContext'
 import './app.scss'
 
 class App extends Component {
 	constructor (props) {
 		super(props)
-		this.context = null
 		this.state = {
 		}
 	}
 
 	render () {
+		const classes = `app ${this.context.currentMedia} ${this.context.currentSize}`
 		return (
-			<Fragment>
+			<div className={classes}>
 				<Header />
 				<Content />
 				<Footer />
-			</Fragment>
+			</div>
 		)
 	}
 }
+
+App.contextType = SettingsContext
 
 export default App
