@@ -9,23 +9,33 @@ function Controls () {
 			{contextPlaylist => (
 				<PlayerContext.Consumer>
 					{contextPlayer => (
-						<div className="player-controls">
-							<div className="album-art">
-								<NoErrorImage image={contextPlayer.currentTags.imagePath} alt={contextPlayer.currentTags.title} />
-							</div>
-							<div className="controls center">
-								<div className="prev" onClick={() => contextPlaylist.playPrevious(contextPlayer)}>
-									<i className="icofont-ui-previous" />
-								</div>
-								<div className="play" onClick={() => contextPlayer.playPauseSong()}>
-									{contextPlayer.currentState === 'playing' ? (
-										<i className="icofont-ui-pause" />
-									) : (
-										<i className="icofont-ui-play" />
-									)}
-								</div>
-								<div className="next" onClick={() => contextPlaylist.playNext(contextPlayer)}>
-									<i className="icofont-ui-next" />
+						<div className="item player-controls">
+							<div className="controls-wrapper">
+								<ul className="controls center">
+									<li className="control-item prev" onClick={() => contextPlaylist.playPrevious(contextPlayer)}>
+										<button type="button" className="control-button">
+											<i className="icofont-ui-previous" />
+										</button>
+									</li>
+									<li className="control-item play" onClick={() => contextPlayer.playPauseSong()}>
+										<button type="button" className="control-button">
+											{contextPlayer.currentState === 'playing' ? (
+												<i className="icofont-ui-pause" />
+											) : (
+												<i className="icofont-ui-play" />
+											)}
+										</button>
+									</li>
+									<li className="control-item next" onClick={() => contextPlaylist.playNext(contextPlayer)}>
+										<button type="button" className="control-button">
+											<i className="icofont-ui-next" />
+										</button>
+									</li>
+								</ul>
+								<div className="album-art">
+									<div className="album-wrapper">
+										<NoErrorImage image={contextPlayer.currentTags.imagePath} alt={contextPlayer.currentTags.title} />
+									</div>
 								</div>
 							</div>
 						</div>

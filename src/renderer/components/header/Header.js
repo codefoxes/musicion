@@ -73,13 +73,15 @@ class Header extends React.Component {
 			<PlayerContext.Consumer>
 				{ () => (
 					<header>
-						<h1 className="titlebar center">Musicion</h1>
 						<div id="control-panel" className="control-panel">
 							<Visualizer />
+							<div className="item control-home" />
 							<Controls />
 							<div className="status-bar">
-								<div className="sound-title">
-									{ this.getRunningTitle() }
+								<div className="sound-details">
+									<div className="sound-title">
+										{ this.getRunningTitle() }
+									</div>
 								</div>
 								<div className="seekbar">
 									<Slider
