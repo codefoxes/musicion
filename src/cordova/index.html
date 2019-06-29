@@ -4,9 +4,22 @@
     <title>Musicion Player</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#38423b">
+    <link rel="manifest" href="manifest.json">
   </head>
   <body>
     <div id="app"></div>
     <script type="text/javascript" src="cordova.js"></script>
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/worker.js').then(function() {
+          console.log('Service Worker Registered');
+        });
+      }
+    </script>
+    <noscript>
+      <h1>Musicion</h1>
+      <p>Musicion requires Javascript to run. Please enable Javascript to enjoy Musicion!</p>
+    </noscript>
   </body>
 </html>

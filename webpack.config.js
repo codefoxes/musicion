@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 
-const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js'
+const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js' || process.argv.includes('--watch')
 
 module.exports = {
 	entry: './src/renderer/index.js',
@@ -35,6 +35,7 @@ module.exports = {
 				test: /\.(png|jpe?g|gif|svg)$/,
 				loader: 'file-loader',
 				options: {
+					name: '[name].[ext]',
 					outputPath: 'images'
 				}
 			}
