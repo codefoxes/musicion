@@ -6,6 +6,7 @@ $album_art_width: 60px;
 	-webkit-user-select: none;
 	-webkit-app-region: drag;
 	min-height: $titlebar-height;
+	border-bottom: 1px solid #ccc;
 }
 
 header {

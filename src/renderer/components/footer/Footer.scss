@@ -5,17 +5,18 @@ footer {
 	position: relative;
 	background: #fbfbfb;
 	font-size: 0.8rem;
-	border-top: 1px solid #ddd;
 	padding: 0 5px;
 	order: 2;
 
 	.toggler {
 		display: inline-block;
 		transition: transform .2s;
-
 		position: absolute;
 		font-size: 2rem;
-		color: #ddd;
+		color: #fff;
+		bottom: 13px;
+		z-index: 105;
+		left: 15%;
 
 		&.hidden {
 			transform: scaleX(-1);
@@ -25,11 +26,13 @@ footer {
 
 .tablet footer {
 	height: $footer-height-tablet;
+	border-top: 1px solid #ddd;
 
 	.toggler {
 		position: relative;
 		bottom: initial;
 		font-size: 1rem;
 		color: #627386;
+		left: unset;
 	}
 }

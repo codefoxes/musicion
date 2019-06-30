@@ -57,19 +57,19 @@ $cover-height: 280px;
 
 .album-details {
 	position: fixed;
-	top: 0;
+	top: $titlebar-height;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	transition: transform .2s;
-	transform: perspective(50px) translate3d(200%, 0, -10px);
+	transform: translateX(100%);
 	z-index: 90;
 }
 
 .album.expanded {
 	.album-details {
 		position: fixed;
-		top: 0;
+		top: $titlebar-height;
 		left: 0;
 		width: 100%;
 		height: 100%;
@@ -77,9 +77,9 @@ $cover-height: 280px;
 		background: #f9f9f9;
 		text-align: left;
 		overflow: auto;
-		box-shadow: inset 0 11px 8px -10px #ddd, inset 0 -11px 8px -10px #ddd;
-		padding-top: $titlebar-height;
-		transform: perspective(50px) translate3d(0, 0, 0);
+		// box-shadow: inset 0 11px 8px -10px #ddd, inset 0 -11px 8px -10px #ddd;
+		padding-top: 20px;
+		transform: translateX(0);
 	}
 }
 
@@ -102,6 +102,7 @@ $cover-height: 280px;
 	.album-content {
 		display: inline-block;
 		width: 100%;
+		padding-top: 10px;
 
 		.songs-list {
 			.song {
