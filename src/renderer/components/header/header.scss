@@ -149,6 +149,7 @@ header {
 		.volume-bar {
 			position: relative;
 			order: 2;
+			z-index: 15;
 
 			.volume-wrapper {
 				position: absolute;

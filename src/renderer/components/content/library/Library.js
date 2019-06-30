@@ -78,7 +78,7 @@ class Library extends React.Component {
 														</section>
 													)}
 												</PlaylistContext.Consumer>
-												<AlbumDetails album={album} toggleInfoPanel={this.toggleInfoPanel} />
+												<AlbumDetails album={album} toggleInfoPanel={this.toggleInfoPanel} expandAlbum={this.expandAlbum} />
 											</li>
 										)
 									})}

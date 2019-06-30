@@ -1,3 +1,5 @@
+@import "../../../scss/variables";
+
 .info-panel {
 	position: absolute;
 	top: 0;
@@ -12,6 +14,7 @@
 	box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 	color: #768090;
 	overflow-y: auto;
+	z-index: 95;
 
 	&.show {
 		transform: translateX(0);
@@ -49,14 +52,7 @@
 	}
 
 	.close {
-		position: absolute;
-		right: 20px;
-		top: 23px;
-		background: #768090;
-		color: #fff;
-		width: 20px;
-		height: 20px;
-		border-radius: 50%;
+		@extend %close-button;
 	}
 
 	.actions {

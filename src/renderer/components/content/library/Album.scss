@@ -1,0 +1,247 @@
+@import "../../../scss/variables";
+
+$thumbnail-cover-height: 150px;
+$thumbnail-title-height: 25px;
+$thumbnail-height: $thumbnail-cover-height + $thumbnail-title-height;
+$thumbnail-width: 150px;
+$album-details-transition: .2s height;
+$album-details-height: 320px;
+$album-details-margin-y: 10px;
+$cover-width: 280px;
+$cover-height: 280px;
+
+.albums-grid {
+	padding: 10px;
+	width: 100%;
+
+	.album {
+		display: inline-block;
+		margin: 10px 5px 0 5px;
+		vertical-align: top;
+		height: $thumbnail-height;
+		transition: $album-details-transition;
+
+		&> .album-thumbnail, &> .album-thumbnail img {
+			border: none;
+			outline: none;
+			display: block;
+			position: relative;
+		}
+
+		.album-thumbnail {
+			position: relative;
+
+			.image-wrap {
+				background: #ffcb55;
+				height: $thumbnail-cover-height;
+				width: $thumbnail-width;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+			}
+
+			img {
+				min-width: 101%;
+				min-height: 101%;
+				border-radius: 5px;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.album-name {
+				padding: 3px 0;
+			}
+		}
+	}
+}
+
+.album-details {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: transform .2s;
+	transform: perspective(50px) translate3d(200%, 0, -10px);
+	z-index: 90;
+}
+
+.album.expanded {
+	.album-details {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		background: #f9f9f9;
+		text-align: left;
+		overflow: auto;
+		box-shadow: inset 0 11px 8px -10px #ddd, inset 0 -11px 8px -10px #ddd;
+		padding-top: $titlebar-height;
+		transform: perspective(50px) translate3d(0, 0, 0);
+	}
+}
+
+.album-details-inner {
+	.cover {
+		background: #43a047;
+		width: $cover-width;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+		margin: auto;
+		max-width: 80%;
+
+		img {
+			min-width: 100%;
+			border-radius: 5px;
+			vertical-align: middle;
+		}
+	}
+
+	.album-content {
+		display: inline-block;
+		width: 100%;
+
+		.songs-list {
+			.song {
+				padding: 10px;
+				border-bottom: 1px solid #eee;
+				break-inside: avoid-column;
+
+				.play {
+					color: #666;
+				}
+
+				.song-title {
+					padding-left: 10px;
+				}
+
+				%menu {
+					display: inline-block;
+					float: right;
+					width: 18px;
+					height: 18px;
+					text-align: center;
+					position: relative;
+				}
+
+				.menu-action {
+					@extend %menu
+				}
+
+				.add-to-playlist {
+					@extend %menu;
+					font-size: 1rem;
+					line-height: 1;
+
+					.tooltip {
+						display: none;
+						position: absolute;
+						bottom: 100%;
+						width: 90px;
+						font-size: .7rem;
+						background: rgba(0, 0, 0, 0.5);
+						color: #fff;
+						height: 20px;
+						line-height: 1.8;
+						border-radius: 5px;
+						left: 50%;
+						transform: translateX(-50%);
+					}
+
+					&:hover .tooltip {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+
+	.close {
+		@extend %close-button;
+	}
+}
+
+.tablet {
+	.album {
+		.album-details {
+			position: absolute;
+			background: #f9f9f9;
+			top: auto;
+			left: 0;
+			width: 100%;
+			padding: 0;
+			margin-top: $album-details-margin-y;
+			text-align: left;
+			height: 0;
+			overflow: hidden;
+			transition: $album-details-transition;
+			box-shadow: inset 0 11px 8px -10px #ddd, inset 0 -11px 8px -10px #ddd;
+			transform: none;
+		}
+	}
+
+	.album.expanded {
+		height: $thumbnail-height + $album-details-height + $album-details-margin-y;
+
+		.album-thumbnail:after {
+			top: auto;
+			content: '';
+			height: 0;
+			width: 0;
+			position: absolute;
+			border: solid transparent;
+			border-bottom-color: #e6e6e6;
+			border-width: 11px;
+			left: 50%;
+			margin: -11px 0 0 -15px;
+		}
+
+		.album-details {
+			height: $album-details-height;
+			transition: $album-details-transition;
+		}
+	}
+
+	.album-details-inner {
+		padding: 20px;
+
+		.cover {
+			display: inline-block;
+			vertical-align: top;
+			background: #43a047;
+			height: $cover-height;
+			width: $cover-width;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			position: relative;
+			overflow: hidden;
+
+			img {
+				min-width: 101%;
+				min-height: 101%;
+				border-radius: 5px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+		}
+
+		.album-content {
+			display: inline-block;
+			width: calc(100% - #{$cover-width});
+			padding-left: 20px;
+
+			.songs-list {
+				columns: 2;
+				-webkit-columns: 2;
+			}
+		}
+
+		.close {
+			display: none;
+		}
+	}
+}

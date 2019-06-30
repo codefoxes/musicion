@@ -6,7 +6,7 @@ import { PlayerContext } from '../../../context/PlayerContext'
 import { PlaylistContext } from '../../../context/PlaylistContext'
 import { getSongName } from '../../../services/Helpers'
 
-import './AlbumDetails.scss'
+import './Album.scss'
 
 function AlbumDetails (props) {
 	const playSong = (contextPlaylist, contextPlayer, file) => {
@@ -33,7 +33,7 @@ function AlbumDetails (props) {
 		BackendService.showContextMenu(menuObject)
 	}
 
-	const { album, toggleInfoPanel } = props
+	const { album, toggleInfoPanel, expandAlbum } = props
 
 	return (
 		<PlaylistContext.Consumer>
@@ -83,6 +83,7 @@ function AlbumDetails (props) {
 										))}
 									</ul>
 								</div>
+								<div className="close center" onClick={() => expandAlbum(album.album)}>x</div>
 							</div>
 						</section>
 					)}
@@ -99,7 +100,8 @@ AlbumDetails.propTypes = {
 			files: PropTypes.array
 		}
 	).isRequired,
-	toggleInfoPanel: PropTypes.func.isRequired
+	toggleInfoPanel: PropTypes.func.isRequired,
+	expandAlbum: PropTypes.func.isRequired
 }
 
 export default AlbumDetails
