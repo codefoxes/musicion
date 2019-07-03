@@ -1,5 +1,6 @@
 import React from 'react'
 import SplitPane from 'react-split-pane'
+import Split from 'react-split'
 import MainMenu from '../menu/MainMenu'
 import Library from './library/Library'
 import Playlist from './playlist/Playlist'
@@ -50,10 +51,10 @@ class Content extends React.Component {
 							defaultSize = 200
 						}
 						return (
-							<SplitPane split="vertical" minSize={100} defaultSize={defaultSize} maxSize={500} onDragFinished={onDragFinished}>
+							<Split sizes={[25, 75]} direction="horizontal" className="splitter">
 								<MainMenu changeMenu={this.changeMenu} activeMenu={this.state.activeMenu} />
 								{ activeMenu }
-							</SplitPane>
+							</Split>
 						)
 					}}
 				</SettingsContext.Consumer>
