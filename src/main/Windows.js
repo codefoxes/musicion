@@ -1,4 +1,5 @@
 const { BrowserWindow } = require('electron')
+const Updater = require('./Updater')
 
 // Keep global reference to window object, else window will close when garbage collected
 // Todo: Usually reference in main.js. Does this work here?
@@ -38,6 +39,10 @@ class Windows {
 
 		// Todo: Better way to do this?
 		mainWindow = this.mainWindow
+
+		// Run Auto Updater
+		const autoUpdater = new Updater()
+		autoUpdater.start()
 	}
 
 	createWindow (name, file, options) {

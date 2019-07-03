@@ -45,6 +45,8 @@
 		"webpack-merge": "^4.2.1"
 	},
 	"dependencies": {
+		"adm-zip": "^0.4.13",
+		"dirsum": "^0.1.1",
 		"fsevents": "^2.0.7",
 		"graceful-fs": "^4.1.15",
 		"howler": "^2.1.2",
