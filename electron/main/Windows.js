@@ -1,13 +1,16 @@
 const { BrowserWindow } = require('electron')
+const url = require('url')
+const path = require('path')
+const Updater = require('./Updater')
 
-// Keep global reference to window object, else window will close when garbage collected
-// Todo: Usually reference in main.js. Does this work here?
-let mainWindow
+let instance
 
 class Windows {
-	constructor () {
+	constructor (mainWindow) {
+		if (instance !== undefined) return instance
 		this.mainWindow = mainWindow
 		this.subWindows = {}
+		instance = this
 	}
 
 	createMainWindow () {
@@ -26,7 +29,13 @@ class Windows {
 			titleBarStyle: 'hidden'
 		})
 
-		this.mainWindow.loadFile('dist/index.html')
+		const indexUrl = url.format({
+			protocol: 'file',
+			slashes: true,
+			pathname: path.join(__dirname, '..', 'renderer', 'index.html')
+		})
+
+		this.mainWindow.loadURL(indexUrl)
 		// this.mainWindow.loadURL('http://localhost:3000')
 
 		// Open the DevTools.
@@ -36,8 +45,11 @@ class Windows {
 			this.mainWindow = null
 		})
 
-		// Todo: Better way to do this?
-		mainWindow = this.mainWindow
+		// Run Auto Updater
+		const autoUpdater = new Updater()
+		autoUpdater.start()
+
+		return this.mainWindow
 	}
 
 	createWindow (name, file, options) {
