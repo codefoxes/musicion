@@ -19,10 +19,13 @@ class Updater {
 	}
 
 	start () {
-		this.checkUpdate()
+		setTimeout(() => {
+			this.checkUpdate()
+		}, 0)
 	}
 
 	update (downloadUrl, sourceFile, targetPath) {
+		fs.unlinkSync(sourceFile)
 		const file = fs.createWriteStream(sourceFile)
 		https.get(downloadUrl, (response) => {
 			response.pipe(file)
@@ -46,12 +49,12 @@ class Updater {
 	conditionalUpdate (data) {
 		const pathSafeVersion = data.version.split('.').join('_')
 		const fileName = `musicion_${pathSafeVersion}.zip`
-		const sourcePath = path.join(this.appPath, 'musicion-sources', 'downloads')
+		const sourcePath = path.join(this.appPath, 'musicion_sources', 'downloads')
 		const sourceFile = path.join(sourcePath, fileName)
-		const targetPath = path.join(this.appPath, 'musicion-sources', 'src', pathSafeVersion)
+		const targetPath = path.join(this.appPath, 'musicion_sources', 'versions', pathSafeVersion)
 
 		if (data.update) {
-			this.update(data.download, sourceFile, targetPath)
+			this.update(data.downloads.softupdate, sourceFile, targetPath)
 			return
 		}
 
@@ -62,7 +65,7 @@ class Updater {
 
 			if (!fileExists) {
 				fs.mkdirSync(sourcePath, { recursive: true })
-				this.update(data.download, sourceFile, targetPath)
+				this.update(data.downloads.softupdate, sourceFile, targetPath)
 				return
 			}
 
@@ -73,7 +76,7 @@ class Updater {
 				}
 				const checksumMatch = (checksum === data.checksum)
 				if (!checksumMatch) {
-					this.update(data.download, sourceFile, targetPath)
+					this.update(data.downloads.softupdate, sourceFile, targetPath)
 				}
 			})
 		})

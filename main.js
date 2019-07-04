@@ -1,37 +1,37 @@
-const { app, ipcMain } = require('electron')
-const Windows = require('./src/main/Windows')
-const MessageHandler = require('./src/main/MessageHandler')
+/* eslint global-require: 0, import/no-dynamic-require: 0, import/no-extraneous-dependencies: 0 */
+const { app } = require('electron')
+const fs = require('fs')
+const path = require('path')
 
-try {
-	const path = require('path')
-	require('electron-reload')(__dirname, {
-		electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-		hardResetMethod: 'exit'
-	})
-} catch (err) {}
+// Keep global reference to window object, else window will close when garbage collected
+let mainWindow = null
+let Initiator = () => {}
 
-const windowsManager = new Windows()
-
-app.on('ready', () => {
-	windowsManager.createMainWindow()
-})
-
-app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
-		app.quit()
+if (app.isPackaged) {
+	const appPath = app.getPath('userData')
+	const versionFile = path.join(appPath, 'musicion_sources', 'current_version.txt')
+	let currentVersion = app.getVersion()
+	try {
+		currentVersion = fs.readFileSync(versionFile, 'utf-8').trim()
+	} catch (err) { /* We already know currentVersion */ }
+	const pathSafeVersion = currentVersion.split('.').join('_')
+	const targetPath = path.join(appPath, 'musicion_sources', 'versions', pathSafeVersion, 'main_process', 'Initiator.js')
+	if (fs.existsSync(targetPath)) {
+		Initiator = require(targetPath)
+	} else {
+		Initiator = require('./main_process/Initiator')
 	}
+} else {
+	Initiator = require('./main_process/Initiator')
+
+	try {
+		require('electron-reload')(__dirname, {
+			electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+			hardResetMethod: 'exit'
+		})
+	} catch (err) { /* electron-reload unavailable */ }
+}
+
+Initiator.startApp(mainWindow).then((win) => {
+	mainWindow = win
 })
-
-app.on('activate', () => {
-	if (windowsManager.mainWindow === null) {
-		windowsManager.createMainWindow()
-	}
-})
-
-const messages = new MessageHandler()
-messages.registerIpcListeners()
-
-ipcMain.on('reload-window', () => windowsManager.mainWindow.reload())
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
