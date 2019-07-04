@@ -1,6 +1,6 @@
 const { app } = require('electron')
 const path = require('path')
-const fs = require('graceful-fs')
+const fs = require('fs')
 const NodeID3 = require('node-id3')
 
 const userPath = app.getPath('userData')

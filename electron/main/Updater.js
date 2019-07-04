@@ -1,6 +1,6 @@
 const path = require('path')
 const https = require('https')
-const fs = require('graceful-fs')
+const fs = require('fs')
 const dirsum = require('dirsum')
 const AdmZip = require('adm-zip')
 const { app } = require('electron')

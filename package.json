@@ -8,7 +8,7 @@
 		"es": "webpack-dev-server --config ./webpack/electron-dev.js",
 		"ed": "electron .",
 		"ebuild": "rm -rf renderer && webpack --config ./webpack/electron-prod.js",
-		"esubuild": "node ./build/soft-update.js",
+		"esubuild": "node ./build_scripts/soft_update.js",
 		"electron": "webpack --config ./webpack/prod.js && electron .",
 		"pcreate": "phonegap create phonegap --id 'com.codefoxes.musicion' --name 'musicion'",
 		"ps": "rm -rf phonegap/www/* && webpack --watch --config ./webpack/cordova-dev.js",
@@ -29,6 +29,7 @@
 		"copy-webpack-plugin": "^5.0.3",
 		"css-hot-loader": "^1.4.4",
 		"css-loader": "^2.1.1",
+		"dirsum": "^0.1.1",
 		"electron": "^5.0.2",
 		"electron-builder": "^20.41.0",
 		"electron-reload": "^1.4.0",
@@ -48,12 +49,8 @@
 		"webpack-merge": "^4.2.1"
 	},
 	"dependencies": {
-		"adm-zip": "^0.4.13",
-		"dirsum": "^0.1.1",
 		"fsevents": "^2.0.7",
 		"graceful-fs": "^4.1.15",
-		"howler": "^2.1.2",
-		"node-id3": "^0.1.7",
 		"prop-types": "^15.7.2",
 		"rc-slider": "^8.6.11",
 		"react": "^16.8.6",
@@ -64,6 +61,19 @@
 	"build": {
 		"appId": "com.codefoxes.musicion",
 		"compression": "maximum",
+		"files": [
+			"**/*",
+			"!**/build_scripts/*",
+			"!**/dist/*",
+			"!**/phonegap/*",
+			"!**/src/*",
+			"!**/webpack/*",
+			{
+				"from": "electron/main/node_modules/",
+				"to": "electron/main/node_modules/",
+				"filter": ["**/*"]
+			}
+		],
 		"dmg": {
 			"contents": [
 				{

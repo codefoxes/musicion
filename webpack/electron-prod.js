@@ -9,5 +9,9 @@ module.exports = merge(common, {
 			backend: path.resolve(__dirname, '../src/renderer/services/backend/Electron.js')
 		}
 	},
+	output: {
+		path: `${__dirname}/../electron/renderer`,
+		filename: 'bundle.js'
+	},
 	target: 'electron-renderer'
 })

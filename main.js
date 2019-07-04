@@ -15,14 +15,14 @@ if (app.isPackaged) {
 		currentVersion = fs.readFileSync(versionFile, 'utf-8').trim()
 	} catch (err) { /* We already know currentVersion */ }
 	const pathSafeVersion = currentVersion.split('.').join('_')
-	const targetPath = path.join(appPath, 'musicion_sources', 'versions', pathSafeVersion, 'main_process', 'Initiator.js')
+	const targetPath = path.join(appPath, 'musicion_sources', 'versions', pathSafeVersion, 'electron', 'main', 'Initiator.js')
 	if (fs.existsSync(targetPath)) {
 		Initiator = require(targetPath)
 	} else {
-		Initiator = require('./main_process/Initiator')
+		Initiator = require('./electron/main/Initiator')
 	}
 } else {
-	Initiator = require('./main_process/Initiator')
+	Initiator = require('./electron/main/Initiator')
 
 	try {
 		require('electron-reload')(__dirname, {
