@@ -49,6 +49,7 @@
 		"webpack-merge": "^4.2.1"
 	},
 	"dependencies": {
+		"firebase": "^6.2.4",
 		"fsevents": "^2.0.7",
 		"graceful-fs": "^4.1.15",
 		"prop-types": "^15.7.2",
@@ -71,7 +72,9 @@
 			{
 				"from": "electron/main/node_modules/",
 				"to": "electron/main/node_modules/",
-				"filter": ["**/*"]
+				"filter": [
+					"**/*"
+				]
 			}
 		],
 		"dmg": {
