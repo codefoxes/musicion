@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const url = require('url')
 const path = require('path')
 
@@ -13,8 +13,7 @@ class Windows {
 	}
 
 	createMainWindow () {
-		// Create the browser window.
-		this.mainWindow = new BrowserWindow({
+		const options = {
 			width: 1000,
 			height: 700,
 			webPreferences: {
@@ -22,11 +21,18 @@ class Windows {
 				// Todo: Security Risk, Maybe use only for testing.
 				webSecurity: false
 			},
-			// transparent:true,
 			frame: false,
 			vibrancy: 'selection',
-			titleBarStyle: 'hidden'
-		})
+			titleBarStyle: 'hidden',
+			webviewTag: true
+		}
+
+		if (app.isPackaged) {
+			options.devTools = false
+		}
+
+		// Create the browser window.
+		this.mainWindow = new BrowserWindow(options)
 
 		const indexUrl = url.format({
 			protocol: 'file',
@@ -34,11 +40,11 @@ class Windows {
 			pathname: path.join(__dirname, '..', 'renderer', 'index.html')
 		})
 
-		this.mainWindow.loadURL(indexUrl)
-		// this.mainWindow.loadURL('http://localhost:3000')
-
-		// Open the DevTools.
-		// this.mainWindow.webContents.openDevTools()
+		if (app.isPackaged) {
+			this.mainWindow.loadURL(indexUrl)
+		} else {
+			this.mainWindow.loadURL('http://localhost:3000')
+		}
 
 		this.mainWindow.on('closed', () => {
 			this.mainWindow = null

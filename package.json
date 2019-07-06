@@ -7,7 +7,7 @@
 		"start": "webpack-dev-server --config ./webpack/browser-dev.js",
 		"es": "webpack-dev-server --config ./webpack/electron-dev.js",
 		"ed": "electron .",
-		"ebuild": "rm -rf renderer && webpack --config ./webpack/electron-prod.js",
+		"ebuild": "rm -rf electron/renderer && webpack --config ./webpack/electron-prod.js",
 		"esubuild": "node ./build_scripts/soft_update.js",
 		"electron": "webpack --config ./webpack/prod.js && electron .",
 		"pcreate": "phonegap create phonegap --id 'com.codefoxes.musicion' --name 'musicion'",

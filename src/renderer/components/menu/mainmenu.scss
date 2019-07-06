@@ -111,3 +111,22 @@
 		}
 	}
 }
+
+.main-menu {
+	.ad-area {
+		position: absolute;
+		bottom: 0;
+		max-height: 60px;
+		width: 100%;
+	}
+
+	.ad-placeholder {
+		border: 1px dashed #ccc;
+		padding: 12px 0;
+		text-align: center;
+		color: #666;
+		border-radius: 6px;
+		font-size: 12px;
+		margin: 5px;
+	}
+}

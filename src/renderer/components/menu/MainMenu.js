@@ -76,7 +76,7 @@ class MainMenu extends React.Component {
 		return (
 			<LibraryContext.Consumer>
 				{ () => (
-					<div className="main-menu">
+					<div className="main-menu" id="main-menu">
 						<ul>
 							<li>
 								<div className="title">
@@ -152,6 +152,9 @@ class MainMenu extends React.Component {
 								</PlaylistContext.Consumer>
 							</li>
 						</ul>
+						<div className="ad-area">
+							<div className="ad-placeholder">Advertisements</div>
+						</div>
 					</div>
 				)}
 			</LibraryContext.Consumer>

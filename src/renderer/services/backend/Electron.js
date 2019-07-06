@@ -40,10 +40,9 @@ export default class BackendService {
 			if (err.message.includes('no such file')) {
 				// Config file does not exist. Create one.
 				return BackendService.createConfig()
-			} else {
-				return {}
-				// Reading config failed.
 			}
+			return {}
+			// Reading config failed.
 		}
 	}
 

@@ -79,7 +79,7 @@ class Player {
 
 	loadSong (songPath, params) {
 		this.setUpSongControls(params)
-		// Todo: Get buffer in stream rathen than waiting to complete.
+		// Todo: Get buffer in stream rather than waiting to complete.
 		// Todo: Handle load Error.
 		this.setupAudioContext().then(() => {
 			loadSoundBuffer(songPath, this.context).then((buffer) => {

@@ -48,10 +48,11 @@ npm run electron
 - [x] Add Multiple (Album) songs to playlist
 - [x] Song info panel
 - [x] Side panels toggler
+- [x] Soft Updater
 
 ## Todo
 
-- [ ] Electron builder for Windows, Updater
+- [ ] Electron builder for Windows
 - [ ] Play button to start first album song if no song is played first
 - [ ] Edit id3 tags
 - [ ] Separate Visualizer - Full Screen
