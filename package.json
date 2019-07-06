@@ -30,6 +30,7 @@
 		"css-hot-loader": "^1.4.4",
 		"css-loader": "^2.1.1",
 		"dirsum": "^0.1.1",
+		"dotenv-webpack": "^1.7.0",
 		"electron": "^5.0.2",
 		"electron-builder": "^20.41.0",
 		"electron-reload": "^1.4.0",

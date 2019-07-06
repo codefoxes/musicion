@@ -1,6 +1,7 @@
 const { app, ipcMain } = require('electron')
 const Windows = require('./Windows')
 const MessageHandler = require('./MessageHandler')
+const Updater = require('./Updater')
 
 class Deferred {
 	constructor () {
@@ -16,9 +17,17 @@ const Initiator = {
 		const dfd = new Deferred()
 		const windowsManager = new Windows(mainWindow)
 
-		app.on('ready', () => {
+		const createMainWindow = () => {
 			const win = windowsManager.createMainWindow()
 			dfd.resolve(win)
+
+			// Run Auto Updater
+			const autoUpdater = new Updater()
+			autoUpdater.start()
+		}
+
+		app.on('ready', () => {
+			createMainWindow()
 		})
 
 		app.on('window-all-closed', () => {
@@ -29,13 +38,11 @@ const Initiator = {
 
 		app.on('activate', () => {
 			if (windowsManager.mainWindow === null) {
-				const win = windowsManager.createMainWindow()
-				dfd.resolve(win)
+				createMainWindow()
 			}
 		})
 
-		const messages = new MessageHandler()
-		messages.registerIpcListeners()
+		MessageHandler.registerIpcListeners()
 
 		ipcMain.on('reload-window', () => windowsManager.mainWindow.reload())
 

@@ -11,8 +11,8 @@ export default class BackendService {
 	}
 
 	static onMessage (channel, callback) {
-		ipcRenderer.on(channel, (event, albums) => {
-			callback(event, albums)
+		ipcRenderer.on(channel, (event, message) => {
+			callback(event, message)
 		})
 	}
 

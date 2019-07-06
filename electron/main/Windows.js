@@ -1,7 +1,6 @@
 const { BrowserWindow } = require('electron')
 const url = require('url')
 const path = require('path')
-const Updater = require('./Updater')
 
 let instance
 
@@ -44,10 +43,6 @@ class Windows {
 		this.mainWindow.on('closed', () => {
 			this.mainWindow = null
 		})
-
-		// Run Auto Updater
-		const autoUpdater = new Updater()
-		autoUpdater.start()
 
 		return this.mainWindow
 	}

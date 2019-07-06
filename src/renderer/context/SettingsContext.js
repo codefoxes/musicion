@@ -19,7 +19,7 @@ export default class SettingsContextProvider extends React.Component {
 		this.state = DEFAULT_STATE
 		mediaQuery.onChange(this.onMediaChange)
 		const fb = new Firebase()
-		fb.logCurrentVersion()
+		fb.initialize()
 	}
 
 	onMediaChange = () => {

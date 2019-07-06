@@ -3,6 +3,9 @@ const { app } = require('electron')
 const fs = require('fs')
 const path = require('path')
 
+// THIS FILE DOES NOT SOFT UPDATE
+// EDIT THIS FILE ONLY IF FACILITATING HARD UPDATE.
+
 // Keep global reference to window object, else window will close when garbage collected
 let mainWindow = null
 let Initiator = () => {}
