@@ -1,9 +1,13 @@
 const path = require('path')
 const https = require('https')
 const fs = require('fs')
+const os = require('os')
 const dirsum = require('dirsum')
 const AdmZip = require('adm-zip')
 const { app } = require('electron')
+
+const MessageHandler = require('./MessageHandler')
+const { machineIdSync } = require('./MachineId')
 
 const websiteUrl = 'musicion.codefoxes.com'
 
@@ -19,21 +23,34 @@ class Updater {
 	}
 
 	start () {
+		// Todo: Don't use same thread, Maybe use child process.
 		setTimeout(() => {
-			this.checkUpdate()
+			if (app.isPackaged) {
+				this.checkUpdate()
+			}
 		}, 0)
 	}
 
-	update (downloadUrl, sourceFile, targetPath) {
+	notifyUpdate (updatedVersion) {
+		this.updated = true
+		MessageHandler.sendMessage('logVersion', {
+			mid: machineIdSync({ original: true }),
+			username: os.userInfo().username,
+			version: updatedVersion,
+			oldVersion: this.currentVersion
+		})
+	}
+
+	update (data, sourceFile, targetPath) {
 		fs.unlinkSync(sourceFile)
 		const file = fs.createWriteStream(sourceFile)
-		https.get(downloadUrl, (response) => {
+		https.get(data.downloads.softupdate, (response) => {
 			response.pipe(file)
 			file.on('finish', () => {
 				// Finished. Unzip now.
 				const zip = new AdmZip(sourceFile)
 				zip.extractAllTo(targetPath, true)
-				this.updated = true
+				this.notifyUpdate(data.version)
 			})
 		})
 	}
@@ -54,7 +71,7 @@ class Updater {
 		const targetPath = path.join(this.appPath, 'musicion_sources', 'versions', pathSafeVersion)
 
 		if (data.update) {
-			this.update(data.downloads.softupdate, sourceFile, targetPath)
+			this.update(data, sourceFile, targetPath)
 			return
 		}
 
@@ -65,7 +82,7 @@ class Updater {
 
 			if (!fileExists) {
 				fs.mkdirSync(sourcePath, { recursive: true })
-				this.update(data.downloads.softupdate, sourceFile, targetPath)
+				this.update(data, sourceFile, targetPath)
 				return
 			}
 
@@ -76,7 +93,7 @@ class Updater {
 				}
 				const checksumMatch = (checksum === data.checksum)
 				if (!checksumMatch) {
-					this.update(data.downloads.softupdate, sourceFile, targetPath)
+					this.update(data, sourceFile, targetPath)
 				}
 			})
 		})

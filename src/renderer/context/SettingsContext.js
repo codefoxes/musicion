@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { mediaQuery } from '../services/MediaQuery'
+import Firebase from '../services/Firebase'
 
 const DEFAULT_STATE = {
 	settings: {
@@ -17,6 +18,8 @@ export default class SettingsContextProvider extends React.Component {
 		super(props)
 		this.state = DEFAULT_STATE
 		mediaQuery.onChange(this.onMediaChange)
+		const fb = new Firebase()
+		fb.initialize()
 	}
 
 	onMediaChange = () => {

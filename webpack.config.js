@@ -1,7 +1,8 @@
+const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path')
+const Dotenv = require('dotenv-webpack')
 
 const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js' || process.argv.includes('--watch')
 const ver = require('./package.json').version
@@ -46,7 +47,7 @@ module.exports = {
 		extensions: ['*', '.js', '.jsx']
 	},
 	output: {
-		path: `${__dirname}/renderer`,
+		path: `${__dirname}/dist`,
 		// publicPath: '/',
 		filename: 'bundle.js'
 	},
@@ -58,6 +59,7 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: isHot ? 'css/[name].css' : `css/[name].${ver}.css`,
 			chunkFilename: 'css/[id].css'
-		})
+		}),
+		new Dotenv()
 	]
 }
