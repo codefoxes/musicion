@@ -34,23 +34,19 @@ export default class Config {
 
 	static addAlbumsToLibrary (albums) {
 		// Todo: Different Albums can have same name.
-		const albumNames = []
+		const albumIds = []
 		configuration.library.albums.forEach((album) => {
-			albumNames.push(album.album)
+			albumIds.push(album.albumId)
 		})
 
-		let albumExists = false
 		albums.forEach((album) => {
-			const configAlbumIndex = albumNames.indexOf(album.album)
+			const configAlbumIndex = albumIds.indexOf(album.albumId)
 			if (configAlbumIndex !== -1) {
-				albumExists = true
 				Config.addFilesToAlbum(album, configAlbumIndex)
+			} else {
+				configuration.library.albums.push(album)
 			}
 		})
-
-		if (!albumExists) {
-			configuration.library.albums = configuration.library.albums.concat(albums)
-		}
 
 		BackendService.saveConfig(configuration)
 		return configuration.library

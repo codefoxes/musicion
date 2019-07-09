@@ -50,6 +50,11 @@ $cover-height: 280px;
 
 			.album-name {
 				padding: 3px 0;
+				width: 150px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				max-height: 25px;
+				white-space: nowrap;
 			}
 		}
 	}

@@ -11,6 +11,7 @@
   "dependencies": {
     "adm-zip": "^0.4.13",
     "dirsum": "^0.1.1",
+    "jsmediatags": "^3.9.2",
     "node-id3": "^0.1.7"
   }
 }

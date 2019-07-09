@@ -1,7 +1,14 @@
 const { app } = require('electron')
 const path = require('path')
 const fs = require('fs')
-const NodeID3 = require('node-id3')
+const crypto = require('crypto')
+const jsmediatags = require('jsmediatags')
+
+/**
+ * Looks like better alternative:
+ * https://github.com/borewit/music-metadata
+ * But is much larger than jsmediatags
+ */
 
 const userPath = app.getPath('userData')
 const cachePath = `${userPath}/musicion-cache`
@@ -26,6 +33,27 @@ function endsWithAny (string, suffixes) {
 	return suffixes.some(suffix => string.endsWith(suffix))
 }
 
+function formatTags (rawTags) {
+	let formattedTags = {
+		album: 'Untitled'
+	}
+
+	let hashable = 'Untitled'
+	if ('tags' in rawTags) {
+		formattedTags = rawTags.tags
+		const tagsObject = rawTags.tags
+		if (!('album' in tagsObject)) {
+			tagsObject.album = 'Untitled'
+		}
+		hashable = tagsObject.album
+		if ('picture' in tagsObject && 'data' in tagsObject.picture) {
+			hashable = `${hashable}${tagsObject.picture.data.join('')}`
+		}
+	}
+	formattedTags.albumId = crypto.createHash('md5').update(hashable).digest('hex')
+	return formattedTags
+}
+
 function getMusicFiles (dir) {
 	const supportedMusicExtensions = [
 		'.mp3',
@@ -38,43 +66,63 @@ function getMusicFiles (dir) {
 	return walkSync(dir, [], filter)
 }
 
-function getAlbums (folders, cacheCover = true) {
-	let promiseResolve
-	let promiseReject
-
-	const albumPromise = new Promise((resolve, reject) => {
-		promiseResolve = resolve
-		promiseReject = reject
+function getMediaTags (media) {
+	return new Promise((resolve, reject) => {
+		jsmediatags.read(media, {
+			onSuccess: (tags) => {
+				const formatted = formatTags(tags)
+				resolve(formatted)
+			},
+			onError: (error) => {
+				reject(error)
+			}
+		})
 	})
+}
 
+async function asyncForEach (array, callback) {
+	const cbRes = []
+	for (let index = 0; index < array.length; index += 1) {
+		cbRes.push(callback(array[index], index, array))
+	}
+	await Promise.all(cbRes)
+}
+
+async function getAlbums (folders, cacheCover = true) {
 	let files = []
 	folders.forEach((folder) => {
-		files = getMusicFiles(folder)
+		files = files.concat(getMusicFiles(folder))
 	})
 	const albums = []
 	// Todo: Runs every time, optimize.
-	files.forEach((file, i) => {
-		const tags = NodeID3.read(file)
-		if (cacheCover && tags.image && tags.image.imageBuffer) {
+	await asyncForEach(files, async (file, i) => {
+		let tags = {}
+		try {
+			tags = await getMediaTags(file)
+		} catch (err) {
+			if (err) return false
+		}
+
+		if (cacheCover && ('picture' in tags) && ('data' in tags.picture)) {
 			const imageName = file.replace(/\//g, '_')
-			const imagePath = `${cachePath}/${imageName}.${tags.image.mime}`
-			fs.writeFile(imagePath, tags.image.imageBuffer, 'binary', (err) => {
-				if (err) {
-					promiseReject(err)
-				}
-				if (files.length === i + 1) {
-					promiseResolve(albums)
-				}
+			const ext = tags.picture.format.split('/')[1]
+			const imagePath = `${cachePath}/${imageName}.${ext}`
+			// Todo: Handle error. Try Catch?
+			const arr = Uint8Array.from(tags.picture.data)
+			await fs.writeFile(imagePath, arr, (err) => {
+				if (err) { /**/ }
+				if (files.length === i + 1) { /**/ }
 			})
 			tags.imagePath = imagePath
-			delete tags.image
-			delete tags.raw
+
+			if ('picture' in tags) delete tags.picture
+			if ('APIC' in tags) delete tags.APIC
 		}
 
 		let index
 		const albumExists = albums.some((album, j) => {
 			index = j
-			return album.album === tags.album
+			return album.albumId === tags.albumId
 		})
 		if (albumExists && index !== undefined) {
 			albums[index].files.push({
@@ -83,6 +131,7 @@ function getAlbums (folders, cacheCover = true) {
 			})
 		} else {
 			albums.push({
+				albumId: tags.albumId,
 				album: tags.album,
 				files: [{
 					file,
@@ -90,8 +139,9 @@ function getAlbums (folders, cacheCover = true) {
 				}]
 			})
 		}
+		return true
 	})
-	return albumPromise
+	return albums
 }
 
 module.exports = {

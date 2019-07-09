@@ -59,16 +59,16 @@ class Library extends React.Component {
 						<div className="library">
 							{this.context.library && this.context.library.albums ? (
 								<ul className="albums-grid">
-									{this.context.library.albums.map((album, i) => {
+									{this.context.library.albums.map((album) => {
 										const { expanded } = this.state
-										const expandedClass = (album.album in expanded) && expanded[album.album] ? 'expanded' : ''
+										const expandedClass = (album.albumId in expanded) && expanded[album.albumId] ? 'expanded' : ''
 										return (
-											<li key={i} className={`album ${expandedClass}`}>
+											<li key={album.albumId} className={`album ${expandedClass}`}>
 												<PlaylistContext.Consumer>
 													{contextPlaylist => (
 														<section
 															className="album-thumbnail"
-															onClick={() => this.expandAlbum(album.album)}
+															onClick={() => this.expandAlbum(album.albumId)}
 															onContextMenu={() => this.showAlbumContextMenu(contextPlaylist, album)}
 														>
 															<div className="image-wrap">
