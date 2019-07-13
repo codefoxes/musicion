@@ -20,6 +20,10 @@ class Updater {
 		this.currentVersion = app.getVersion()
 		this.appPath = app.getPath('userData')
 		this.updated = false
+		try {
+			const versionFile = path.join(this.appPath, 'musicion_sources', 'current_version.txt')
+			this.currentVersion = fs.readFileSync(versionFile, 'utf-8').trim()
+		} catch (err) { /* We already know currentVersion */ }
 	}
 
 	start () {
@@ -42,7 +46,9 @@ class Updater {
 	}
 
 	update (data, sourceFile, targetPath) {
-		fs.unlinkSync(sourceFile)
+		try {
+			fs.unlinkSync(sourceFile)
+		} catch (e) { /**/ }
 		const file = fs.createWriteStream(sourceFile)
 		https.get(data.downloads.softupdate, (response) => {
 			response.pipe(file)

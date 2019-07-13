@@ -1,0 +1,22 @@
+{
+	"name": "frontend",
+	"version": "1.0.0",
+	"description": "Musicion Frontend",
+	"main": "renderer/index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"firebase": "^6.2.4",
+		"fsevents": "^2.0.7",
+		"graceful-fs": "^4.1.15",
+		"prop-types": "^15.7.2",
+		"rc-slider": "^8.6.11",
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6",
+		"react-split-pane": "^0.1.87",
+		"react-table": "^6.10.0"
+	}
+}
