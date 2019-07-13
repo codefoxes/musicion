@@ -8,7 +8,6 @@ const mm = require('music-metadata')
 
 const userPath = app.getPath('userData')
 const cachePath = `${userPath}/musicion-cache`
-// TODO: CREATE THIS DIRECTORY ON INSTALLATION.
 
 function walkSync (dir, fileList = [], filter) {
 	let newFileList = fileList
@@ -85,6 +84,10 @@ async function asyncForEach (array, callback) {
 }
 
 async function getAlbums (folders, cacheCover = true) {
+	if (!fs.existsSync(cachePath)) {
+		fs.mkdirSync(cachePath)
+	}
+
 	let files = []
 	folders.forEach((folder) => {
 		files = files.concat(getMusicFiles(folder))
