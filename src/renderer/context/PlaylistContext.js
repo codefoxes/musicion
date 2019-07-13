@@ -40,8 +40,10 @@ export default class PlaylistContextProvider extends React.Component {
 
 	playSong = (contextPlayer, file, index = null, playlist = null) => {
 		this.contextPlayer = contextPlayer
+		let reload = false
 		let { currentPlaylist } = this.state
 		if (playlist !== null) {
+			if (file.file === contextPlayer.currentSong && currentPlaylist !== playlist) reload = true
 			currentPlaylist = playlist
 		}
 		let currentSongIndex = 0
@@ -52,7 +54,7 @@ export default class PlaylistContextProvider extends React.Component {
 			currentSongIndex = this.currentSongs.length - 1
 		}
 		this.setState({ currentSongIndex, currentPlaylist })
-		contextPlayer.playPauseSong(file)
+		contextPlayer.playPauseSong(file, reload)
 		if (!this.endSubscribed) {
 			contextPlayer.subscribeEvent('onEnded', this.onEnded.bind(this))
 			this.endSubscribed = true

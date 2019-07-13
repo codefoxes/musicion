@@ -10,7 +10,7 @@ import './Album.scss'
 
 function AlbumDetails (props) {
 	const playSong = (contextPlaylist, contextPlayer, file) => {
-		contextPlaylist.playSong(contextPlayer, file)
+		contextPlaylist.playSong(contextPlayer, file, null, 'Default')
 	}
 
 	const addSongToPlaylist = (contextPlaylist, file, playlist) => {

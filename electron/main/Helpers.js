@@ -2,13 +2,9 @@ const { app } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const crypto = require('crypto')
-const jsmediatags = require('jsmediatags')
+const mm = require('music-metadata')
 
-/**
- * Looks like better alternative:
- * https://github.com/borewit/music-metadata
- * But is much larger than jsmediatags
- */
+// Todo: music-metadata is huge, can optimize?
 
 const userPath = app.getPath('userData')
 const cachePath = `${userPath}/musicion-cache`
@@ -38,19 +34,22 @@ function formatTags (rawTags) {
 		album: 'Untitled'
 	}
 
-	let hashable = 'Untitled'
-	if ('tags' in rawTags) {
-		formattedTags = rawTags.tags
-		const tagsObject = rawTags.tags
-		if (!('album' in tagsObject)) {
-			tagsObject.album = 'Untitled'
+	const hash = crypto.createHash('md5')
+	if ('common' in rawTags) {
+		formattedTags = rawTags.common
+		const tagsObject = rawTags.common
+
+		if ('picture' in tagsObject && tagsObject.picture !== undefined) {
+			if (Array.isArray(tagsObject.picture) && tagsObject.picture.length > 0) {
+				hash.update(tagsObject.picture[0].data)
+			}
 		}
-		hashable = tagsObject.album
-		if ('picture' in tagsObject && 'data' in tagsObject.picture) {
-			hashable = `${hashable}${tagsObject.picture.data.join('')}`
+		if ('format' in rawTags) {
+			formattedTags.format = rawTags.format
 		}
 	}
-	formattedTags.albumId = crypto.createHash('md5').update(hashable).digest('hex')
+	hash.update(formattedTags.album)
+	formattedTags.albumId = hash.digest('hex')
 	return formattedTags
 }
 
@@ -68,14 +67,11 @@ function getMusicFiles (dir) {
 
 function getMediaTags (media) {
 	return new Promise((resolve, reject) => {
-		jsmediatags.read(media, {
-			onSuccess: (tags) => {
-				const formatted = formatTags(tags)
-				resolve(formatted)
-			},
-			onError: (error) => {
-				reject(error)
-			}
+		mm.parseFile(media).then((metadata) => {
+			const formatted = formatTags(metadata)
+			resolve(formatted)
+		}).catch((error) => {
+			reject(error)
 		})
 	})
 }
@@ -103,20 +99,38 @@ async function getAlbums (folders, cacheCover = true) {
 			if (err) return false
 		}
 
-		if (cacheCover && ('picture' in tags) && ('data' in tags.picture)) {
-			const imageName = file.replace(/\//g, '_')
-			const ext = tags.picture.format.split('/')[1]
+		const imageName = file.replace(/\//g, '_')
+		if (cacheCover && ('picture' in tags) && ('data' in tags.picture || Array.isArray(tags.picture))) {
+			let pictureObject = null
+			if (Array.isArray(tags.picture)) {
+				[pictureObject] = tags.picture
+			} else {
+				pictureObject = tags.picture
+			}
+			const ext = pictureObject.format.split('/')[1]
 			const imagePath = `${cachePath}/${imageName}.${ext}`
 			// Todo: Handle error. Try Catch?
-			const arr = Uint8Array.from(tags.picture.data)
-			await fs.writeFile(imagePath, arr, (err) => {
-				if (err) { /**/ }
-				if (files.length === i + 1) { /**/ }
-			})
-			tags.imagePath = imagePath
+			try {
+				await fs.writeFile(imagePath, pictureObject.data, 'binary', (err) => {
+					if (err) { /**/ }
+					if (files.length === i + 1) { /**/ }
+				})
+				tags.imagePath = imagePath
+			} catch (e) { /**/ }
 
 			if ('picture' in tags) delete tags.picture
 			if ('APIC' in tags) delete tags.APIC
+		} else if (!('picture' in tags)) {
+			const folder = splitByLastChar(file, '/')[0]
+			if (fs.existsSync(`${folder}/cover.jpg`)) {
+				fs.copyFile(`${folder}/cover.jpg`, `${cachePath}/${imageName}.jpg`, () => {})
+				tags.imagePath = `${cachePath}/${imageName}.jpg`
+			} else if (fs.existsSync(`${folder}/cover.png`)) {
+				fs.copyFile(`${folder}/cover.png`, `${cachePath}/${imageName}.png`, () => {})
+				tags.imagePath = `${cachePath}/${imageName}.jpg`
+			} else {
+				// Scan for covers in the folder.
+			}
 		}
 
 		let index
@@ -142,6 +156,11 @@ async function getAlbums (folders, cacheCover = true) {
 		return true
 	})
 	return albums
+}
+
+function splitByLastChar (text, char) {
+	const index = text.lastIndexOf(char)
+	return [text.slice(0, index), text.slice(index + 1)]
 }
 
 module.exports = {

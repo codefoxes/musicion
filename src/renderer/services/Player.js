@@ -83,6 +83,7 @@ class Player {
 		// Todo: Handle load Error.
 		this.setupAudioContext().then(() => {
 			loadSoundBuffer(songPath, this.context).then((buffer) => {
+				if (this.bufferSource !== null) this.stop()
 				this.buffer = buffer
 				this.duration = buffer.duration
 				this.setUpAnalyser()

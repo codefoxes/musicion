@@ -75,9 +75,9 @@ export default class PlayerContextProvider extends React.Component {
 		})
 	}
 
-	playPauseSong = (file) => {
+	playPauseSong = (file, reload = false) => {
 		let currentState
-		if (file === undefined || file.file === this.state.currentSong) {
+		if (file === undefined || (file.file === this.state.currentSong && reload !== true)) {
 			if (this.state.currentState === 'playing') {
 				currentState = 'paused'
 				this.state.player.pause()

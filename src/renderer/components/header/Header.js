@@ -19,7 +19,7 @@ class Header extends React.Component {
 	}
 
 	componentDidMount () {
-		this.context.setCurrentSong('SultansOfSwing.flac')
+		// this.context.setCurrentSong('')
 		this.context.subscribeEvent('onPlaying', this.updateSeekBar.bind(this))
 		this.context.subscribeEvent('onEnded', this.onEnded.bind(this))
 	}
