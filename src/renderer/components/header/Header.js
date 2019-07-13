@@ -68,6 +68,30 @@ class Header extends React.Component {
 		return title
 	}
 
+	timeDetails = () => {
+		const time = {
+			current: '',
+			duration: ''
+		}
+		if (this.context.player !== null && 'duration' in this.context.player && this.context.player.duration !== 0) {
+			const totalMinutes = Math.floor(this.context.player.duration / 60)
+			const totalSeconds = Math.round(this.context.player.duration % 60)
+
+			const currentTime = (this.state.sliderPos / this.state.sliderMax ) * this.context.player.duration
+
+			const currentMinutes = Math.floor(currentTime / 60)
+			const currentSeconds = Math.round(currentTime % 60)
+			time.duration = `${totalMinutes}:${totalSeconds}`
+			time.current = `${currentMinutes}:${currentSeconds}`
+		}
+		return (
+			<div className="time">
+				<div className="current">{ time.current }</div>
+				<div className="duration">{ time.duration }</div>
+			</div>
+		)
+	}
+
 	render () {
 		return (
 			<PlayerContext.Consumer>
@@ -82,6 +106,7 @@ class Header extends React.Component {
 									<div className="sound-title">
 										{ this.getRunningTitle() }
 									</div>
+									<this.timeDetails />
 								</div>
 								<div className="seekbar">
 									<Slider
