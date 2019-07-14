@@ -8,12 +8,27 @@ const { app } = require('electron')
 
 const MessageHandler = require('./MessageHandler')
 const { machineIdSync } = require('./MachineId')
+const { startMainLog } = require('./Logger')
 
 const websiteUrl = 'musicion.codefoxes.com'
 
 process.on('uncaughtException', (error) => {
 	console.log(error)
 })
+
+const rmDirRecursive = (folder) => {
+	if (fs.existsSync(folder)) {
+		fs.readdirSync(folder).forEach((single) => {
+			const curPath = `${folder}/${single}`
+			if (fs.lstatSync(curPath).isDirectory()) { // recurse
+				rmDirRecursive(curPath)
+			} else { // delete file
+				fs.unlinkSync(curPath)
+			}
+		})
+		fs.rmdirSync(folder)
+	}
+}
 
 class Updater {
 	constructor () {
@@ -24,6 +39,8 @@ class Updater {
 			const versionFile = path.join(this.appPath, 'musicion_sources', 'current_version.txt')
 			this.currentVersion = fs.readFileSync(versionFile, 'utf-8').trim()
 		} catch (err) { /* We already know currentVersion */ }
+
+		this.logger = startMainLog(`${app.getPath('userData')}/musicion_main.log`, !app.isPackaged)
 	}
 
 	start () {
@@ -46,16 +63,28 @@ class Updater {
 	}
 
 	update (data, sourceFile, targetPath) {
+		this.logger.info('Update started.')
 		try {
+			this.logger.info(`Deleting ${sourceFile}.`)
 			fs.unlinkSync(sourceFile)
-		} catch (e) { /**/ }
+		} catch (e) {
+			this.logger.error(e.message)
+		}
 		const file = fs.createWriteStream(sourceFile)
 		https.get(data.downloads.softupdate, (response) => {
 			response.pipe(file)
 			file.on('finish', () => {
 				// Finished. Unzip now.
+				try {
+					this.logger.info(`Download finished. Deleting ${targetPath}.`)
+					rmDirRecursive(targetPath)
+				} catch (e) {
+					this.logger.error(e.message)
+				}
+
 				const zip = new AdmZip(sourceFile)
 				zip.extractAllTo(targetPath, true)
+				this.logger.info('Update complete. Notifying renderer now.')
 				this.notifyUpdate(data.version)
 			})
 		})
@@ -76,7 +105,10 @@ class Updater {
 		const sourceFile = path.join(sourcePath, fileName)
 		const targetPath = path.join(this.appPath, 'musicion_sources', 'versions', pathSafeVersion)
 
+		this.logger.info('Conditional update started.')
+
 		if (data.update) {
+			this.logger.info('New version available.')
 			this.update(data, sourceFile, targetPath)
 			return
 		}
@@ -87,11 +119,13 @@ class Updater {
 			fileExists = !err
 
 			if (!fileExists) {
+				this.logger.info('Source files do not exist.')
 				fs.mkdirSync(sourcePath, { recursive: true })
 				this.update(data, sourceFile, targetPath)
 				return
 			}
 
+			this.logger.info('Source files exist. Checking for checksum.')
 			let checksum = '0'
 			dirsum.digest(targetPath, 'sha1', (error, hashes) => {
 				if (error === undefined && Object.prototype.hasOwnProperty.call(hashes, 'hash')) {
@@ -99,13 +133,17 @@ class Updater {
 				}
 				const checksumMatch = (checksum === data.checksum)
 				if (!checksumMatch) {
+					this.logger.info(`Checksum does not match: ${checksum}, ${data.checksum}`)
 					this.update(data, sourceFile, targetPath)
+				} else {
+					this.logger.info('Checksum matches. No update required.')
 				}
 			})
 		})
 	}
 
 	checkUpdate () {
+		this.logger.info('Checking for update')
 		https.get({
 			hostname: websiteUrl,
 			path: `/update.php?v=${this.currentVersion}`,
