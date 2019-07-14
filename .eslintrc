@@ -1,6 +1,7 @@
 {
 	"extends": [
-		"airbnb-standard"
+		"airbnb-standard",
+		"plugin:jest/recommended"
 	],
 	"parser": "babel-eslint",
 	"env": {
@@ -25,5 +26,6 @@
 	},
 	"settings": {
 		"import/core-modules": [ "electron" ]
-	}
+	},
+	"plugins": [ "jest" ]
 }
