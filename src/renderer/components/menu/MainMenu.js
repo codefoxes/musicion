@@ -86,7 +86,7 @@ class MainMenu extends React.Component {
 										<span className="tooltip">Add Folder</span>
 									</div>
 								</div>
-								<ul className="child">
+								<ul className="child albums">
 									<li
 										className={this.activeClass('albums')}
 										onClick={() => this.changeMenu('albums')}
@@ -109,7 +109,7 @@ class MainMenu extends React.Component {
 													<span className="tooltip">Create New</span>
 												</div>
 											</div>
-											<ul className="child">
+											<ul className="child playlists-list">
 												{this.state.showAddPlaylist && (
 													<li className="add-playlist">
 														<input
