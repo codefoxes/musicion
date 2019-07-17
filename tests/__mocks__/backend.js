@@ -4,7 +4,8 @@ jest.mock('backend', () => ({
 	sendMessage: jest.fn(),
 	getConfig: () => ({
 		library: {
-			folders: []
+			folders: [],
+			albums: []
 		}
 	}),
 	getPlaylists: () => ([

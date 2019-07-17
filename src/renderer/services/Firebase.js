@@ -35,13 +35,13 @@ class Firebase {
 		}
 		// Todo: Retry if failed.
 		db.collection('anonymousUsers').doc(userId).set(userData).then(() => {
-			console.log('Success')
+			// console.log('Success')
 		})
 	}
 
 	signIn () {
 		firebase.auth().signInAnonymously().catch((error) => {
-			console.log(error.message)
+			// console.log(error.message)
 		})
 
 		firebase.auth().onAuthStateChanged((user) => {
