@@ -4,11 +4,11 @@ module.exports = {
 		'src/node_modules'
 	],
 	modulePathIgnorePatterns: [
-		'dist',
-		'build',
-		'build_scripts',
-		'phonegap',
-		'node_modules'
+		'<rootDir>/dist',
+		'<rootDir>/build',
+		'<rootDir>/build_scripts',
+		'<rootDir>/phonegap',
+		'<rootDir>/node_modules'
 	],
 	moduleNameMapper: {
 		'renderer(.*)$': '<rootDir>/src/renderer/$1',
