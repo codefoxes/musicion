@@ -29,7 +29,8 @@ module.exports = {
 		'!**/phonegap/**',
 		'!**/dist/**',
 		'!**/build**',
-		'!**/webpack**'
+		'!**/webpack**',
+		'!**/webpack/**'
 	],
 	coverageDirectory: 'dist/coverage'
 }
