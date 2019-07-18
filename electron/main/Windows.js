@@ -2,6 +2,8 @@ const { app, BrowserWindow } = require('electron')
 const url = require('url')
 const path = require('path')
 
+require('./library/Menu')
+
 let instance
 
 class Windows {

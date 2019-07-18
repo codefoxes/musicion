@@ -1,6 +1,6 @@
 const { ipcMain } = require('electron')
 const { getAlbums } = require('./Helpers')
-const Windows = require('./Windows')
+const Windows = require('../Windows')
 
 const MessageHandler = {
 	registerIpcListeners: () => {

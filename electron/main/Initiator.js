@@ -1,7 +1,7 @@
 const { app, ipcMain } = require('electron')
 const Windows = require('./Windows')
-const MessageHandler = require('./MessageHandler')
-const Updater = require('./Updater')
+const MessageHandler = require('./library/MessageHandler')
+const Updater = require('./library/Updater')
 
 class Deferred {
 	constructor () {
