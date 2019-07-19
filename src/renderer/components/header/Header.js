@@ -77,7 +77,7 @@ class Header extends React.Component {
 			const totalMinutes = Math.floor(this.context.player.duration / 60)
 			const totalSeconds = Math.round(this.context.player.duration % 60)
 
-			const currentTime = (this.state.sliderPos / this.state.sliderMax ) * this.context.player.duration
+			const currentTime = (this.state.sliderPos / this.state.sliderMax) * this.context.player.duration
 
 			const currentMinutes = Math.floor(currentTime / 60)
 			const currentSeconds = Math.round(currentTime % 60)
