@@ -97,16 +97,121 @@ describe('Electron platform manager, Section: fs', () => {
 		expect(config).toMatch('{\n\t"test": "test"\n}')
 	})
 
-	it('Save config throws error on no access.', () => {
+	it('Save config throws error on unknown file.', () => {
 		mock({
-			undefined: mock.file({
-				mode: 0o444
-			})
+			undefined: 'test-file'
 		})
 
 		expect(() => {
 			BackendService.saveConfig({ test: 'test' })
 		}).toThrow()
 		mock.restore()
+	})
+
+	it('Save config throws error on no access.', () => {
+		mock({
+			'undefined/musicion-config.json': mock.file({
+				mode: 0o444
+			})
+		})
+
+		try {
+			BackendService.saveConfig({ test: 'test' })
+		} catch (e) {
+			expect(e.code).toBe('EACCES')
+		}
+		mock.restore()
+	})
+
+	it('Saves playlists sync.', () => {
+		mock({
+			undefined: {
+				'musicion-playlists.json': '{}'
+			}
+		})
+
+		const fs = require('fs')
+		BackendService.savePlaylistsSync({ test: 'test' })
+		const config = fs.readFileSync('undefined/musicion-playlists.json', 'utf8')
+		mock.restore()
+
+		expect(config).toMatch('{\n\t"test": "test"\n}')
+	})
+
+	it('Save playlists sync throws error on no access.', () => {
+		mock({
+			'undefined/musicion-playlists.json': mock.file({
+				mode: 0o444
+			})
+		})
+
+		try {
+			BackendService.savePlaylistsSync({ test: 'test' })
+		} catch (e) {
+			expect(e.code).toBe('EACCES')
+		}
+		mock.restore()
+	})
+
+	it('Save playlists.', () => {
+		mock({
+			undefined: {
+				'musicion-playlists.json': '{}'
+			}
+		})
+
+		return BackendService.savePlaylists({ test: 'test' }).then(() => {
+			const fs = require('fs')
+			const config = fs.readFileSync('undefined/musicion-playlists.json', 'utf8')
+			mock.restore()
+
+			expect(config).toMatch('{\n\t"test": "test"\n}')
+		})
+	})
+
+	it('Save playlists throws error on no access.', () => {
+		mock({
+			'undefined/musicion-playlists.json': mock.file({
+				mode: 0o444
+			})
+		})
+
+		return BackendService.savePlaylists({ test: 'test' }).catch((e) => {
+			mock.restore()
+
+			expect(e.code).toBe('EACCES')
+		})
+	})
+
+	it('Gets playlists.', () => {
+		mock({
+			undefined: {
+				'musicion-playlists.json': '{"test": "playlist"}'
+			}
+		})
+
+		const playlists = BackendService.getPlaylists()
+		mock.restore()
+
+		expect(playlists).toMatchObject({ test: 'playlist' })
+	})
+
+	it('Saves and gets playlists upon no file.', () => {
+		mock({
+			undefined: mock.directory()
+		})
+
+		const playlists = BackendService.getPlaylists()
+		mock.restore()
+
+		expect(playlists[0]).toMatchObject({ name: 'Default' })
+	})
+
+	it('Shows context menu.', () => {
+		const menuObject = {}
+
+		expect(() => {
+			BackendService.showContextMenu(menuObject)
+		}).not.toThrow()
 	})
 })

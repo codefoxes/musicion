@@ -11,7 +11,12 @@ const electron = {
 		dialog: {
 			mockFolders: undefined,
 			showOpenDialog: () => electron.remote.dialog.mockFolders
-		}
+		},
+		Menu: jest.fn(() => ({
+			append: jest.fn(),
+			popup: jest.fn()
+		})),
+		MenuItem: jest.fn()
 	},
 	ipcRenderer: {
 		send: jest.fn(),
