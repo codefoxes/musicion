@@ -1,6 +1,16 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=9e837a3d0437b4b0388ad27d385fbf1a5c0534d10c6f134871661421c31bb5ee
+    - CODECOV_TOKEN="0a108e66-bd96-41df-90f8-f5fb86679821"
 language: node_js
 node_js: '12'
 install: npm i && cd src && npm i && cd ..
 script: npm run test:cov
 notifications:
   email: false
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
