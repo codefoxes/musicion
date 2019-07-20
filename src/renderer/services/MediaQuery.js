@@ -10,14 +10,18 @@ export const mediaQuery = {
 
 const queryObjects = []
 
-function listener (e, queryObject) {
-	mediaQuery.currentSize = ''
-	if (e.matches) {
+function updateMediaQueryObject (matches, queryObject) {
+	if (matches) {
 		mediaQuery.currentMedia = queryObject.device
 		if (queryObject.device === 'tablet-only') mediaQuery.currentSize = 'tablet'
 		if (queryObject.device === 'desktop-only') mediaQuery.currentSize = 'tablet desktop'
 		if (queryObject.device === 'widescreen') mediaQuery.currentSize = 'tablet desktop'
 	}
+}
+
+function listener (e, queryObject) {
+	mediaQuery.currentSize = ''
+	updateMediaQueryObject(e.matches, queryObject)
 	callbacks.forEach(cb => cb())
 }
 
@@ -32,12 +36,7 @@ function useMediaQuery (queryInput, device) {
 	queryObjects.forEach((queryObject) => {
 		queryObject.queryList.addListener((e) => { listener(e, queryObject) })
 		const { matches } = queryObject.queryList
-		if (matches) {
-			mediaQuery.currentMedia = queryObject.device
-			if (queryObject.device === 'tablet-only') mediaQuery.currentSize = 'tablet'
-			if (queryObject.device === 'desktop-only') mediaQuery.currentSize = 'tablet desktop'
-			if (queryObject.device === 'widescreen') mediaQuery.currentSize = 'tablet desktop'
-		}
+		updateMediaQueryObject(matches, queryObject)
 	})
 }
 
