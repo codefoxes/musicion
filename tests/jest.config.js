@@ -33,5 +33,5 @@ module.exports = {
 		'!**/webpack**',
 		'!**/webpack/**'
 	],
-	coverageDirectory: 'dist/coverage'
+	coverageDirectory: 'coverage'
 }

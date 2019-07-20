@@ -3,3 +3,4 @@ dist/
 phonegap/
 electron/renderer/
 .env
+coverage
