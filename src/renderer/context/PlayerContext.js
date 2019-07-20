@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Player from '../services/Player'
 import { getSongName } from '../services/Helpers'
 
@@ -74,15 +75,16 @@ export default class PlayerContextProvider extends React.Component {
 		})
 	}
 
-	playPauseSong = (file) => {
+	playPauseSong = (file, reload = false) => {
 		let currentState
-		if (file === undefined || file.file === this.state.currentSong) {
+		if (file === undefined || (file.file === this.state.currentSong && reload !== true)) {
 			if (this.state.currentState === 'playing') {
 				currentState = 'paused'
 				this.state.player.pause()
 			} else {
 				currentState = 'playing'
-				this.state.player.play()
+				const playing = this.state.player.play()
+				if (playing === false) currentState = 'stopped'
 			}
 			this.setState({ currentState })
 		} else {
@@ -128,4 +130,8 @@ export default class PlayerContextProvider extends React.Component {
 			</PlayerContext.Provider>
 		)
 	}
+}
+
+PlayerContextProvider.propTypes = {
+	children: PropTypes.node.isRequired
 }

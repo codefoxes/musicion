@@ -1,0 +1,44 @@
+.playlist {
+	height: 100%;
+	background: #fff;
+
+	i.play {
+		width: 100%;
+		height: 100%;
+		display: inline-block;
+		text-align: center;
+	}
+
+	.remove-button {
+		background: #eee;
+		width: 14px;
+		height: 14px;
+		color: #e53935;
+		text-align: center;
+		line-height: 1;
+		border-radius: 50%;
+		border: 1px solid #e53935;
+	}
+}
+
+.ReactTable {
+	height: 100%;
+	border: none;
+
+	.rt-thead .rt-th {
+		padding: 7px 5px;
+	}
+}
+
+.rt-table {
+	font-size: 0.75rem;
+
+	.rt-tbody .rt-tr-group:nth-child(even) {
+		background: #f9f9f9;
+	}
+
+	.rt-thead.-header {
+		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+		z-index: 1;
+	}
+}

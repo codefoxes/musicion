@@ -1,13 +1,18 @@
+/* eslint react/no-unused-state: 0 */
+/* Bug with eslint */
 import React from 'react'
-import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
+import { PlayerContext } from '../../context/PlayerContext'
+import { SettingsContext } from '../../context/SettingsContext'
 
 class Volume extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
 			volumePos: 0,
-			volumeMax: 100
+			volumeMax: 100,
+			showVolume: false,
+			volumeChanging: false
 		}
 	}
 
@@ -27,6 +32,7 @@ class Volume extends React.Component {
 	onVolumeChange = (volumePos) => {
 		this.setState({
 			volumePos,
+			volumeChanging: true
 		})
 
 		// TODO: DEBOUNCE
@@ -35,22 +41,48 @@ class Volume extends React.Component {
 
 	onVolumeUpdate = (volumePos) => {
 		localStorage.setItem('volume', volumePos)
+		this.setState({
+			volumeChanging: false,
+			showVolume: false
+		})
+	}
+
+	showVolume = () => this.setState({ showVolume: true })
+
+	hideVolume = () => {
+		this.setState((prev) => {
+			if (!prev.volumeChanging) {
+				return { showVolume: false }
+			}
+			return { showVolume: true }
+		})
 	}
 
 	render () {
 		return (
-			<PlayerContext.Consumer>
-				{ () => (
-					<div className="volume-bar">
-						<Slider
-							value={ this.state.volumePos }
-							max={ this.state.volumeMax }
-							onChange={ this.onVolumeChange }
-							onAfterChange={ this.onVolumeUpdate }
-						/>
-					</div>
-				)}
-			</PlayerContext.Consumer>
+			<SettingsContext.Consumer>
+				{ (contextSettings) => {
+					let classes = `item volume-bar`
+					const vertical = contextSettings.currentMedia === 'mobile'
+					if (this.state.showVolume) classes = `${classes} show`
+					return (
+						<div className={classes}>
+							<div className="volume-wrapper" onMouseOver={this.showVolume} onMouseOut={this.hideVolume}>
+								<div className="speaker">
+									<i className="icofont-ui-volume" />
+								</div>
+								<Slider
+									value={this.state.volumePos}
+									max={this.state.volumeMax}
+									onChange={this.onVolumeChange}
+									onAfterChange={this.onVolumeUpdate}
+									vertical={vertical}
+								/>
+							</div>
+						</div>
+					)
+				}}
+			</SettingsContext.Consumer>
 		)
 	}
 }

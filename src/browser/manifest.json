@@ -1,0 +1,13 @@
+{
+	"name": "Musicion PWA",
+	"short_name": "Musicion",
+	"icons": [{
+		"src": "/images/musicion.png",
+		"sizes": "512x512",
+		"type": "image/png"
+	}],
+	"start_url": "/index.html",
+	"display": "standalone",
+	"background_color": "#FF9800",
+	"theme_color": "#FF9800"
+}

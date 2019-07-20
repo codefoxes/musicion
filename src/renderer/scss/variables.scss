@@ -1,1 +1,15 @@
-$header-height: 90px;
+$titlebar-height: 22px;
+$header-height: 75px;
+$footer-height: 0px;
+$footer-height-tablet: $footer-height + 25px;
+
+%close-button {
+	position: absolute;
+	right: 20px;
+	top: 23px;
+	background: #768090;
+	color: #fff;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+}

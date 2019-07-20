@@ -3,7 +3,6 @@
 Multi-platform music player
 
 ## Features
-
 - Minimal UI Approach
 - Music Visualization
 - Supported Music file formats
@@ -17,7 +16,6 @@ Multi-platform music player
 ## Installation
 
 ### From package
-
 - Released package will be available after Beta release.
 - Installation will be as easy as Download and Open.
 - Current Status: alpha.
@@ -31,7 +29,6 @@ npm run electron
 ```
 
 ## Done
- 
 - [x] Player controls - Play, Pause, Seekbar, Volume
 - [x] Add folders to library
 - [x] Library albums grid
@@ -41,20 +38,25 @@ npm run electron
 - [x] Add, Remove Playlists
 - [x] Configuration management
 - [x] Side Panel with Library & Playlists
+- [x] Playlist plays the songs in order
+- [x] Working Next and Previous buttons
+- [x] Electron builder for Mac and Linux
+- [x] Add songs to other (non default) playlists
+- [x] Add Multiple (Album) songs to playlist
+- [x] Song info panel
+- [x] Side panels toggler
+- [x] Soft Updater
 
 ## Todo
-
-- [ ] Electron Bundler, Updater
-- [ ] Next, Previous buttons to do their job
+- [ ] Electron builder for Windows
 - [ ] Play button to start first album song if no song is played first
-- [ ] Add songs to other (non default) playlists
-- [ ] Add Multiple songs to playlist
-- [ ] Song info panel
 - [ ] Edit id3 tags
-- [ ] Side panels toggler
 - [ ] Separate Visualizer - Full Screen
 - [ ] Add Songs from cloud (Drive, s3 etc)
 - [ ] Theming
+- [ ] Accessibility Compatible
+- [ ] On action visualization (Add to Playlist success)
+- [ ] Auto cleanup default playlist
 
 ## Technologies used
 - Electron

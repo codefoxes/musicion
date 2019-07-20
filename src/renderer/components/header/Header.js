@@ -1,11 +1,12 @@
 import React from 'react'
-import './header.scss'
-import { PlayerContext } from '../../context/PlayerContext'
 import Slider from 'rc-slider/lib/Slider'
-import 'rc-slider/assets/index.css'
 import Volume from './Volume'
 import Visualizer from './Visializer'
-import NoErrorImage from '../library/NoErrorImage'
+import Controls from './Controls'
+import { PlayerContext } from '../../context/PlayerContext'
+
+import './header.scss'
+import 'rc-slider/assets/index.css'
 
 class Header extends React.Component {
 	constructor (props) {
@@ -18,7 +19,7 @@ class Header extends React.Component {
 	}
 
 	componentDidMount () {
-		this.context.setCurrentSong('SultansOfSwing.flac')
+		// this.context.setCurrentSong('')
 		this.context.subscribeEvent('onPlaying', this.updateSeekBar.bind(this))
 		this.context.subscribeEvent('onEnded', this.onEnded.bind(this))
 	}
@@ -67,37 +68,45 @@ class Header extends React.Component {
 		return title
 	}
 
+	timeDetails = () => {
+		const time = {
+			current: '',
+			duration: ''
+		}
+		if (this.context.player !== null && 'duration' in this.context.player && this.context.player.duration !== 0) {
+			const totalMinutes = Math.floor(this.context.player.duration / 60)
+			const totalSeconds = Math.round(this.context.player.duration % 60)
+
+			const currentTime = (this.state.sliderPos / this.state.sliderMax) * this.context.player.duration
+
+			const currentMinutes = Math.floor(currentTime / 60)
+			const currentSeconds = Math.round(currentTime % 60)
+			time.duration = `${totalMinutes}:${totalSeconds}`
+			time.current = `${currentMinutes}:${currentSeconds}`
+		}
+		return (
+			<div className="time">
+				<div className="current">{ time.current }</div>
+				<div className="duration">{ time.duration }</div>
+			</div>
+		)
+	}
+
 	render () {
 		return (
 			<PlayerContext.Consumer>
 				{ () => (
 					<header>
-						<h1 className="titlebar center">Musicion</h1>
 						<div id="control-panel" className="control-panel">
 							<Visualizer />
-							<div className="player-controls">
-								<div className="album-art">
-									<NoErrorImage image={this.context.currentTags.imagePath} alt={this.context.currentTags.title} />
-								</div>
-								<div className="controls center">
-									<div className="prev">
-										<i className="icofont-ui-previous" />
-									</div>
-									<div className="play" onClick={this.playPauseSong}>
-										{this.context.currentState === 'playing' ? (
-											<i className="icofont-ui-pause" />
-										) : (
-											<i className="icofont-ui-play" />
-										)}
-									</div>
-									<div className="next">
-										<i className="icofont-ui-next" />
-									</div>
-								</div>
-							</div>
+							<div className="item control-home" />
+							<Controls />
 							<div className="status-bar">
-								<div className="sound-title">
-									{ this.getRunningTitle() }
+								<div className="sound-details">
+									<div className="sound-title">
+										{ this.getRunningTitle() }
+									</div>
+									<this.timeDetails />
 								</div>
 								<div className="seekbar">
 									<Slider

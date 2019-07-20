@@ -1,6 +1,7 @@
 {
 	"extends": [
-		"airbnb-standard"
+		"airbnb-standard",
+		"plugin:jest/recommended"
 	],
 	"parser": "babel-eslint",
 	"env": {
@@ -8,12 +9,24 @@
 	},
 	"rules": {
 		"semi": [2, "never"],
-		"max-len": [2, { "code": 140 }],
+		"max-len": [2, { "code": 160 }],
 		"no-tabs": 0,
-		"indent": [2, "tab"],
+		"indent": [2, "tab", { "SwitchCase": 1 }],
+		"object-curly-newline": [2, { "ExportDeclaration": { "minProperties": 5 } }],
+		"standard/no-callback-literal": 0,
 		"react/jsx-indent": [2, "tab"],
 		"react/jsx-indent-props": [2, "tab"],
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-		"react/destructuring-assignment": 0
-	}
+		"react/destructuring-assignment": 0,
+
+		// Todo: Make Musicion a11y compatible.
+		"jsx-a11y/no-static-element-interactions": 0,
+		"jsx-a11y/click-events-have-key-events": 0,
+		"jsx-a11y/mouse-events-have-key-events": 0,
+		"jsx-a11y/no-noninteractive-element-interactions": 0
+	},
+	"settings": {
+		"import/core-modules": [ "electron" ]
+	},
+	"plugins": [ "jest" ]
 }

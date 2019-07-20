@@ -8,6 +8,7 @@
 		&.vertical {
 			margin: 0 -5px;
 			cursor: col-resize;
+			min-width: 10px;
 		}
 	}
 }

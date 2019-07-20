@@ -1,9 +1,4 @@
-import fs from 'graceful-fs'
-import { remote } from 'electron'
-
-const userPath = remote.app.getPath('userData')
-const fileName = 'musicion-config.json'
-const playlistsFileName = 'musicion-playlists.json'
+import BackendService from 'backend'
 
 let configuration
 let playlists
@@ -13,31 +8,9 @@ export default class Config {
 		return configuration
 	}
 
-	static createConfig () {
-		const config = { library: { folders: [], albums: [] } }
-		try {
-			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(config, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
-	}
-
 	static loadConfig () {
 		// Todo: Maybe asynchronous
-		try {
-			const configContent = fs.readFileSync(`${userPath}/${fileName}`, 'utf8')
-			configuration = JSON.parse(configContent)
-		} catch (err) {
-			if (err.message.includes('no such file')) {
-				// Config file does not exist. Create one.
-				Config.createConfig()
-			} else {
-				// Reading config failed.
-			}
-		}
+		configuration = BackendService.getConfig()
 	}
 
 	static addFoldersToLibrary (folders) {
@@ -45,14 +18,7 @@ export default class Config {
 			folders.filter(item => configuration.library.folders.indexOf(item) < 0)
 		)
 
-		try {
-			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(configuration, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
+		BackendService.saveConfig(configuration)
 		return configuration.library
 	}
 
@@ -68,32 +34,21 @@ export default class Config {
 
 	static addAlbumsToLibrary (albums) {
 		// Todo: Different Albums can have same name.
-		const albumNames = []
+		const albumIds = []
 		configuration.library.albums.forEach((album) => {
-			albumNames.push(album.album)
+			albumIds.push(album.albumId)
 		})
 
-		let albumExists = false
 		albums.forEach((album) => {
-			const configAlbumIndex = albumNames.indexOf(album.album)
+			const configAlbumIndex = albumIds.indexOf(album.albumId)
 			if (configAlbumIndex !== -1) {
-				albumExists = true
 				Config.addFilesToAlbum(album, configAlbumIndex)
+			} else {
+				configuration.library.albums.push(album)
 			}
 		})
 
-		if (!albumExists) {
-			configuration.library.albums = configuration.library.albums.concat(albums)
-		}
-
-		try {
-			fs.writeFileSync(`${userPath}/${fileName}`, JSON.stringify(configuration, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
+		BackendService.saveConfig(configuration)
 		return configuration.library
 	}
 
@@ -101,35 +56,12 @@ export default class Config {
 		return playlists
 	}
 
-	static createPlaylistsConfig () {
-		const config = [{ name: 'Default', files: [] }]
-		try {
-			fs.writeFileSync(`${userPath}/${playlistsFileName}`, JSON.stringify(config, null, '\t'), 'utf8')
-		} catch (err) {
-			if (err.code === 'EACCES') {
-				err.message = `${err.message}\nYou don't have access to this file.\n`
-			}
-			throw err
-		}
-	}
-
 	static loadPlaylists () {
 		if (playlists !== undefined) return
-		try {
-			const configContent = fs.readFileSync(`${userPath}/${playlistsFileName}`, 'utf8')
-			playlists = JSON.parse(configContent)
-		} catch (err) {
-			if (err.message.includes('no such file')) {
-				// Config file does not exist. Create one.
-				Config.createPlaylistsConfig()
-				playlists = [{ name: 'Default', files: [] }]
-			} else {
-				// Reading config failed.
-			}
-		}
+		playlists = BackendService.getPlaylists()
 	}
 
-	static addFilesToPlaylist (playlistName, files) {
+	static addFilesToPlaylist (playlistName, files, deDuplicate = false) {
 		let playlistExists = false
 		let playlistIndex = null
 
@@ -142,17 +74,21 @@ export default class Config {
 		}
 
 		if (playlistExists) {
-			const songFiles = []
 			let newFiles = files
 			if (!Array.isArray(files)) {
 				newFiles = [files]
 			}
-			playlists[playlistIndex].files.forEach((songFile) => {
-				songFiles.push(songFile.file)
-			})
-			playlists[playlistIndex].files = playlists[playlistIndex].files.concat(
-				newFiles.filter(songFile => songFiles.indexOf(songFile.file) === -1)
-			)
+
+			if (deDuplicate) {
+				const songFiles = []
+				playlists[playlistIndex].files.forEach((songFile) => {
+					songFiles.push(songFile.file)
+				})
+				playlists[playlistIndex].files = playlists[playlistIndex].files.concat(
+					newFiles.filter(songFile => songFiles.indexOf(songFile.file) === -1)
+				)
+			}
+			playlists[playlistIndex].files = playlists[playlistIndex].files.concat(newFiles)
 		} else {
 			const newPlaylist = {
 				name: playlistName,
@@ -169,15 +105,14 @@ export default class Config {
 			playlists.push(newPlaylist)
 		}
 
-		return new Promise((resolve, reject) => {
-			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve()
-				}
-			})
-		})
+		return BackendService.savePlaylists(playlists)
+	}
+
+	static removeFileFromPlaylist (playlistName, index) {
+		const playlistIndex = playlists.findIndex(playlist => playlist.name === playlistName)
+		playlists[playlistIndex].files.splice(index, 1)
+
+		return BackendService.savePlaylists(playlists)
 	}
 
 	static removePlaylist (playlistName) {
@@ -187,14 +122,6 @@ export default class Config {
 			}
 		})
 
-		return new Promise((resolve, reject) => {
-			fs.writeFile(`${userPath}/${playlistsFileName}`, JSON.stringify(playlists, null, '\t'), 'utf8', (err) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve()
-				}
-			})
-		})
+		return BackendService.savePlaylists(playlists)
 	}
 }

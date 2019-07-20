@@ -1,9 +1,11 @@
+const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path')
+const Dotenv = require('dotenv-webpack')
 
-const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js'
+const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js' || process.argv.includes('--watch')
+const ver = require('./package.json').version
 
 module.exports = {
 	entry: './src/renderer/index.js',
@@ -11,8 +13,12 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
+				include: path.resolve(__dirname, 'src'),
 				exclude: /node_modules/,
-				use: ['babel-loader']
+				use: [{
+					loader: 'babel-loader',
+					options: { root: 'src' }
+				}]
 			},
 			{
 				test: /\.(html)$/,
@@ -35,6 +41,7 @@ module.exports = {
 				test: /\.(png|jpe?g|gif|svg)$/,
 				loader: 'file-loader',
 				options: {
+					name: '[name].[ext]',
 					outputPath: 'images'
 				}
 			}
@@ -54,16 +61,9 @@ module.exports = {
 			template: 'src/renderer/index.html'
 		}),
 		new MiniCssExtractPlugin({
-			filename: isHot ? 'css/[name].css' : 'css/[name].[contenthash].css',
+			filename: isHot ? 'css/[name].css' : `css/[name].${ver}.css`,
 			chunkFilename: 'css/[id].css'
-		})
-	],
-	devServer: {
-		contentBase: './dist',
-		hot: true,
-		port: 3000,
-		open: true,
-		overlay: true
-	},
-	target: 'electron-renderer'
+		}),
+		new Dotenv()
+	]
 }

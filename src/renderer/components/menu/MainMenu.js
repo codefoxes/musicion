@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
+import BackendService from 'backend'
+import PropTypes from 'prop-types'
 import { LibraryContext } from '../../context/LibraryContext'
 import { PlaylistContext } from '../../context/PlaylistContext'
 import './mainmenu.scss'
-
-import { remote } from 'electron'
 
 class MainMenu extends React.Component {
 	constructor (props) {
@@ -26,12 +26,7 @@ class MainMenu extends React.Component {
 	}
 
 	selectFolder = () => {
-		const folders = remote.dialog.showOpenDialog({
-			properties: ['openDirectory']
-		})
-		if (folders !== undefined) {
-			this.addFolders(folders)
-		}
+		BackendService.selectFolder(this.addFolders)
 	}
 
 	changeMenu = (menu, sub) => {
@@ -61,7 +56,7 @@ class MainMenu extends React.Component {
 	}
 
 	showActionFromRightClick = (e, menu, sub) => {
-		console.log(e.clientX, e.clientY)
+		// console.log(e.clientX, e.clientY)
 	}
 
 	showAction = (menu) => {
@@ -81,7 +76,7 @@ class MainMenu extends React.Component {
 		return (
 			<LibraryContext.Consumer>
 				{ () => (
-					<div className="main-menu">
+					<div className="main-menu" id="main-menu">
 						<ul>
 							<li>
 								<div className="title">
@@ -91,11 +86,13 @@ class MainMenu extends React.Component {
 										<span className="tooltip">Add Folder</span>
 									</div>
 								</div>
-								<ul className="child">
+								<ul className="child albums">
 									<li
 										className={this.activeClass('albums')}
 										onClick={() => this.changeMenu('albums')}
-									>Albums</li>
+									>
+										{ 'Albums' }
+									</li>
 								</ul>
 							</li>
 							<li>
@@ -106,14 +103,14 @@ class MainMenu extends React.Component {
 												<span>Playlists</span>
 												<div
 													className="title-action"
-													onClick={() => this.setState({ showAddPlaylist: !this.state.showAddPlaylist })}
+													onClick={() => this.setState(prev => ({ showAddPlaylist: !prev.showAddPlaylist }))}
 												>
 													<span className="icon">+</span>
 													<span className="tooltip">Create New</span>
 												</div>
 											</div>
-											<ul className="child">
-												{this.state.showAddPlaylist &&
+											<ul className="child playlists-list">
+												{this.state.showAddPlaylist && (
 													<li className="add-playlist">
 														<input
 															type="text"
@@ -121,10 +118,10 @@ class MainMenu extends React.Component {
 															ref={(ip) => { this.playlistInput = ip }}
 														/>
 													</li>
-												}
-												{contextPlaylist.playlists.map((playlist, p) => (
+												)}
+												{contextPlaylist.playlists.map(playlist => (
 													<li
-														key={`playlist${p}`}
+														key={playlist.name}
 														className={this.activeClass(playlist.name)}
 														onContextMenu={e => this.showActionFromRightClick(e, 'playlist', playlist.name)}
 														onClick={() => this.changeMenu('playlist', playlist.name)}
@@ -134,12 +131,16 @@ class MainMenu extends React.Component {
 															<span
 																className="icon"
 																onClick={() => this.showAction(playlist.name)}
-															>&#8942;</span>
+															>
+																<span>&#8942;</span>
+															</span>
 															<div className="dropdown">
 																<ul>
 																	<li
 																		onClick={() => this.removePlaylist(contextPlaylist, playlist.name)}
-																	>Remove Playlist</li>
+																	>
+																		{ 'Remove Playlist' }
+																	</li>
 																</ul>
 															</div>
 														</div>
@@ -151,6 +152,9 @@ class MainMenu extends React.Component {
 								</PlaylistContext.Consumer>
 							</li>
 						</ul>
+						<div className="ad-area">
+							<div className="ad-placeholder">Advertisements</div>
+						</div>
 					</div>
 				)}
 			</LibraryContext.Consumer>
@@ -159,5 +163,9 @@ class MainMenu extends React.Component {
 }
 
 MainMenu.contextType = LibraryContext
+
+MainMenu.propTypes = {
+	changeMenu: PropTypes.func.isRequired
+}
 
 export default MainMenu

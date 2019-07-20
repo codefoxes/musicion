@@ -2,6 +2,27 @@
 @import "../../scss/splitpane";
 
 main.content {
-	height: calc(100% - #{$header-height});
+	height: calc(100% - #{$titlebar-height} - #{$header-height} - #{$footer-height});
 	position: relative;
+	font-size: 0.8rem;
+}
+
+.collapsed .Pane1 {
+	display: none;
+}
+
+.Pane1 {
+	position: absolute !important;
+	height: 100%;
+	z-index: 95;
+}
+
+.tablet {
+	main.content {
+		height: calc(100% - #{$header-height} - #{$footer-height-tablet});
+	}
+
+	.Pane1 {
+		position: relative !important;
+	}
 }

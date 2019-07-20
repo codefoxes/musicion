@@ -13,7 +13,7 @@
 	src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
 }
 
-html, body, #app {
+html, body, #app, .app {
 	height: 100%;
 	overflow: hidden;
 }
@@ -25,4 +25,9 @@ body {
 
 * {
 	user-select: none !important;
+}
+
+.app {
+	display: flex;
+	flex-direction: column;
 }
