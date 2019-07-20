@@ -3,7 +3,6 @@
 Multi-platform music player
 
 ## Features
-
 - Minimal UI Approach
 - Music Visualization
 - Supported Music file formats
@@ -17,7 +16,6 @@ Multi-platform music player
 ## Installation
 
 ### From package
-
 - Released package will be available after Beta release.
 - Installation will be as easy as Download and Open.
 - Current Status: alpha.
@@ -31,7 +29,6 @@ npm run electron
 ```
 
 ## Done
- 
 - [x] Player controls - Play, Pause, Seekbar, Volume
 - [x] Add folders to library
 - [x] Library albums grid
@@ -51,7 +48,6 @@ npm run electron
 - [x] Soft Updater
 
 ## Todo
-
 - [ ] Electron builder for Windows
 - [ ] Play button to start first album song if no song is played first
 - [ ] Edit id3 tags
