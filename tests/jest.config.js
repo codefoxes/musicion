@@ -26,6 +26,7 @@ module.exports = {
 		'!**/node_modules/**',
 		'!**/vendor/**',
 		'!**/tests/**',
+		'!**/coverage/**',
 		'!**/electron/**',
 		'!**/phonegap/**',
 		'!**/dist/**',

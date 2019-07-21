@@ -82,7 +82,7 @@ InfoPanel.defaultProps = {
 
 InfoField.propTypes = {
 	field: PropTypes.string.isRequired,
-	tags: PropTypes.objectOf(PropTypes.string).isRequired,
+	tags: PropTypes.objectOf(PropTypes.any).isRequired,
 	handleChange: PropTypes.func.isRequired
 }
 

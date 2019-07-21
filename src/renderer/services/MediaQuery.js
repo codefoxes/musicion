@@ -13,9 +13,19 @@ const queryObjects = []
 function updateMediaQueryObject (matches, queryObject) {
 	if (matches) {
 		mediaQuery.currentMedia = queryObject.device
-		if (queryObject.device === 'tablet-only') mediaQuery.currentSize = 'tablet'
-		if (queryObject.device === 'desktop-only') mediaQuery.currentSize = 'tablet desktop'
-		if (queryObject.device === 'widescreen') mediaQuery.currentSize = 'tablet desktop'
+		switch (queryObject.device) {
+			case 'tablet-only':
+				mediaQuery.currentSize = 'tablet'
+				break
+			case 'desktop-only':
+				mediaQuery.currentSize = 'tablet desktop'
+				break
+			case 'widescreen':
+				mediaQuery.currentSize = 'tablet desktop'
+				break
+			default:
+				mediaQuery.currentSize = ''
+		}
 	}
 }
 
