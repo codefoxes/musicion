@@ -4,6 +4,19 @@ import NoErrorImage from '../../shared/NoErrorImage'
 
 import './InfoPanel.scss'
 
+function InfoField (props) {
+	const { field, tags, handleChange } = props
+
+	const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
+
+	return (
+		<div className={`field-wrap ${field}`}>
+			<div className="filed-heading">{ capitalize(field) }</div>
+			<input disabled type="text" className="field" value={tags[field] || ''} onChange={e => handleChange(e, field)} />
+		</div>
+	)
+}
+
 function InfoPanel (props) {
 	const { show, file, toggleInfoPanel, handleInfoChange } = props
 	const showClass = show ? 'show' : ''
@@ -27,52 +40,32 @@ function InfoPanel (props) {
 			<div className="file-details">
 				<div className="close center" onClick={() => toggleInfoPanel(file)}>x</div>
 				<div className="heading">Song Details</div>
-				<div className="field-wrap title">
-					<div className="filed-heading">Title</div>
-					<input disabled type="text" className="field" value={tags.title || ''} onChange={e => handleChange(e, 'title')} />
-				</div>
-				<div className="field-wrap album">
-					<div className="filed-heading">Album</div>
-					<input disabled type="text" className="field" value={tags.album || ''} onChange={e => handleChange(e, 'album')} />
-				</div>
-				<div className="field-wrap artist">
-					<div className="filed-heading">Artist</div>
-					<input disabled type="text" className="field" value={tags.artist || ''} onChange={e => handleChange(e, 'artist')} />
-				</div>
-				<div className="field-wrap composer">
-					<div className="filed-heading">Composer</div>
-					<input disabled type="text" className="field" value={tags.composer || ''} onChange={e => handleChange(e, 'composer')} />
-				</div>
+				<InfoField field="title" tags={tags} handleChange={handleChange} />
+				<InfoField field="album" tags={tags} handleChange={handleChange} />
+				<InfoField field="artist" tags={tags} handleChange={handleChange} />
+				<InfoField field="composer" tags={tags} handleChange={handleChange} />
 				<div className="field-wrap encodingTechnology">
 					<div className="filed-heading">Encoding</div>
 					<div className="field">
 						{ tags.encodingTechnology || ''}
 					</div>
 				</div>
-				<div className="field-wrap genre">
-					<div className="filed-heading">Genre</div>
-					<input disabled type="text" className="field" value={tags.genre || ''} onChange={e => handleChange(e, 'genre')} />
-				</div>
-				<div className="field-wrap performerInfo">
-					<div className="filed-heading">Performer</div>
-					<input disabled type="text" className="field" value={tags.performerInfo || ''} onChange={e => handleChange(e, 'performerInfo')} />
-				</div>
-				<div className="field-wrap year">
-					<div className="filed-heading">Year</div>
-					<input disabled type="text" className="field" value={tags.year || ''} onChange={e => handleChange(e, 'year')} />
-				</div>
+				<InfoField field="genre" tags={tags} handleChange={handleChange} />
+				<InfoField field="performerInfo" tags={tags} handleChange={handleChange} />
+				<InfoField field="year" tags={tags} handleChange={handleChange} />
 				<div className="field-wrap artwork">
 					<div className="filed-heading">Artwork</div>
 					<NoErrorImage image={tags.imagePath} alt={tags.title || ''} />
 				</div>
 			</div>
-			{/* <div className="actions"> */}
-			{/* <button type="button" onClick={() => toggleInfoPanel(file)}>Cancel</button> */}
-			{/* <button type="button" className="last">Save</button> */}
-			{/* </div> */}
 		</div>
 	)
 }
+
+/* <div className="actions"> */
+/* <button type="button" onClick=() => toggleInfoPanel(file)}>Cancel</button> */
+/* <button type="button" className="last">Save</button> */
+/* </div> */
 
 InfoPanel.propTypes = {
 	show: PropTypes.bool.isRequired,
@@ -85,6 +78,12 @@ InfoPanel.propTypes = {
 
 InfoPanel.defaultProps = {
 	file: null
+}
+
+InfoField.propTypes = {
+	field: PropTypes.string.isRequired,
+	tags: PropTypes.objectOf(PropTypes.any).isRequired,
+	handleChange: PropTypes.func.isRequired
 }
 
 export default InfoPanel

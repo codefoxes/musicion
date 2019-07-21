@@ -26,6 +26,7 @@ module.exports = {
 		'!**/node_modules/**',
 		'!**/vendor/**',
 		'!**/tests/**',
+		'!**/coverage/**',
 		'!**/electron/**',
 		'!**/phonegap/**',
 		'!**/dist/**',
@@ -33,5 +34,5 @@ module.exports = {
 		'!**/webpack**',
 		'!**/webpack/**'
 	],
-	coverageDirectory: 'dist/coverage'
+	coverageDirectory: 'coverage'
 }

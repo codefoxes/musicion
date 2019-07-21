@@ -4,7 +4,9 @@ env:
     - CODECOV_TOKEN="0a108e66-bd96-41df-90f8-f5fb86679821"
 language: node_js
 node_js: '12'
-install: npm i && cd src && npm i && cd ..
+install:
+  - npm install -g codecov
+  - npm i && cd src && npm i && cd ..
 script: npm run test:cov
 notifications:
   email: false
@@ -14,3 +16,4 @@ before_script:
   - ./cc-test-reporter before-build
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - codecov
