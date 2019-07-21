@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const Dotenv = require('dotenv-webpack')
 
 const isHot = path.basename(require.main.filename) === 'webpack-dev-server.js' || process.argv.includes('--watch')
-const ver = require('./package.json').version
+const ver = require('../package.json').version
 
 module.exports = {
 	entry: './src/renderer/index.js',
@@ -13,7 +13,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				include: path.resolve(__dirname, 'src'),
+				include: path.resolve(__dirname, '..', 'src'),
 				exclude: /node_modules/,
 				use: [{
 					loader: 'babel-loader',
@@ -51,7 +51,7 @@ module.exports = {
 		extensions: ['*', '.js', '.jsx']
 	},
 	output: {
-		path: `${__dirname}/dist`,
+		path: path.resolve(__dirname, '..', 'dist'),
 		// publicPath: '/',
 		filename: 'bundle.js'
 	},

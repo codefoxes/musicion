@@ -1,7 +1,7 @@
 // Electron Soft Update Build.
 const shell = require('shelljs')
 const dirsum = require('dirsum')
-const ver = require('../package.json').version
+const ver = require('../../package.json').version
 
 const pathSafeVersion = ver.split('.').join('_')
 const zipFile = `musicion_${pathSafeVersion}.zip`

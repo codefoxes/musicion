@@ -8,7 +8,7 @@
 		"es": "webpack-dev-server --config ./webpack/electron-dev.js",
 		"ed": "electron .",
 		"ebuild": "rm -rf electron/renderer && webpack --config ./webpack/electron-prod.js",
-		"esubuild": "npm run ebuild && node ./build_scripts/soft_update.js",
+		"esubuild": "npm run ebuild && node ./build/scripts/soft_update.js",
 		"pcreate": "phonegap create phonegap --id 'com.codefoxes.musicion' --name 'musicion'",
 		"ps": "rm -rf phonegap/www/* && webpack --watch --config ./webpack/cordova-dev.js",
 		"pd": "cd phonegap && phonegap serve",
@@ -64,11 +64,11 @@
 		"compression": "maximum",
 		"files": [
 			"**/*",
-			"!**/build_scripts/*",
 			"!**/dist/*",
 			"!**/phonegap/*",
 			"!**/src/*",
 			"!**/tests/*",
+			"!**/coverage/*",
 			"!**/webpack*",
 			"!**/.env",
 			{
