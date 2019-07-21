@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { mediaQuery } from '../services/MediaQuery'
+import { init as mqInit, mediaQuery } from '../services/MediaQuery'
 import Firebase from '../services/Firebase'
+
+mqInit()
 
 const DEFAULT_STATE = {
 	settings: {

@@ -52,9 +52,11 @@ function useMediaQuery (queryInput, device) {
 
 // Reference: https://bulma.io/documentation/overview/responsiveness/
 
-useMediaQuery('(max-width:768px)', 'mobile')
-useMediaQuery('(min-width:769px) and (max-width:1023px)', 'tablet-only')
-useMediaQuery('(min-width:1024px) and (max-width:1215px)', 'desktop-only')
-useMediaQuery('(min-width:1216px)', 'widescreen')
+export const init = () => {
+	useMediaQuery('(max-width:768px)', 'mobile')
+	useMediaQuery('(min-width:769px) and (max-width:1023px)', 'tablet-only')
+	useMediaQuery('(min-width:1024px) and (max-width:1215px)', 'desktop-only')
+	useMediaQuery('(min-width:1216px)', 'widescreen')
+}
 
 export default useMediaQuery
