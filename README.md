@@ -15,12 +15,12 @@ Multi-platform music player
   - Vorbis
   - Opus
 
-## Installation
+## Download
+You can download tested install packages for OS X from following links:
+(Windows and Linux Coming soon)
+[Windows](https://codefoxes.com/musicion/#download) | [Mac](https://codefoxes.com/musicion/download.php?os=mac) | [Linux](https://codefoxes.com/musicion/#download)
 
-### From package
-- Released package will be available after Beta release.
-- Installation will be as easy as Download and Open.
-- Current Status: alpha.
+Current Version: 0.1.0
 
 ### Manual Installation / Development
 
