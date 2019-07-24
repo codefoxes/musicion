@@ -1,5 +1,5 @@
 {
-	"name": "musicion",
+	"name": "musician",
 	"version": "0.1.0",
 	"description": "Multi Platform Music Player",
 	"main": "main.js",
@@ -9,7 +9,7 @@
 		"ed": "electron .",
 		"ebuild": "rm -rf electron/renderer && webpack --config ./webpack/electron-prod.js",
 		"esubuild": "npm run ebuild && node ./build/scripts/soft_update.js",
-		"pcreate": "phonegap create phonegap --id 'com.codefoxes.musicion' --name 'musicion'",
+		"pcreate": "phonegap create phonegap --id 'com.codefoxes.musician' --name 'musician'",
 		"ps": "rm -rf phonegap/www/* && webpack --watch --config ./webpack/cordova-dev.js",
 		"pd": "cd phonegap && phonegap serve",
 		"test": "NODE_ENV=test jest --config tests/jest.config.js --no-cache --verbose --watch",
@@ -60,7 +60,7 @@
 		"webpack-merge": "^4.2.1"
 	},
 	"build": {
-		"appId": "com.codefoxes.musicion",
+		"appId": "com.codefoxes.musician",
 		"compression": "maximum",
 		"files": [
 			"**/*",
