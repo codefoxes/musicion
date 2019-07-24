@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/codefoxes/musicion.svg?branch=master)](https://travis-ci.org/codefoxes/musicion) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7562ce365edd4a0a835e6a2dc750353d)](https://www.codacy.com/app/karthik.bhat/musicion?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codefoxes/musicion&amp;utm_campaign=Badge_Grade) [![Test Coverage](https://api.codeclimate.com/v1/badges/7add68e921acfc2623b7/test_coverage)](https://codeclimate.com/github/codefoxes/musicion/test_coverage) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
+[![Build Status](https://travis-ci.org/codefoxes/musician.svg?branch=master)](https://travis-ci.org/codefoxes/musician) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0a78a7eaaf0b4dc19556346bb8fa86f3)](https://www.codacy.com/app/karthik.bhat/musician?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codefoxes/musician&amp;utm_campaign=Badge_Grade) [![Test Coverage](https://api.codeclimate.com/v1/badges/fcfbaa2bb543e530f7fa/test_coverage)](https://codeclimate.com/github/codefoxes/musician/test_coverage) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](pulls)
 
-# Musicion Player
+# Musician Player
 
 Multi-platform music player
 
@@ -15,17 +15,17 @@ Multi-platform music player
   - Vorbis
   - Opus
 
-## Installation
+## Download
+You can download tested install packages for OS X from following links:
+(Windows and Linux Coming soon)
+[Windows](https://codefoxes.com/musician/#download) | [Mac](https://codefoxes.com/musician/download.php?os=mac) | [Linux](https://codefoxes.com/musician/#download)
 
-### From package
-- Released package will be available after Beta release.
-- Installation will be as easy as Download and Open.
-- Current Status: alpha.
+Current Version: 0.1.0
 
 ### Manual Installation / Development
 
 ```
-git clone git@github.com:codefoxes/musicion.git
+git clone git@github.com:codefoxes/musician.git
 npm install
 npm run electron
 ```
@@ -69,3 +69,8 @@ npm run electron
 - Node ID3
 - ESLint - Airbnb - Standard JS
 - SVG Animations
+
+## Other
+ - [Visit Website](https://codefoxes.com/musician/)
+ - [Docs](https://codefoxes.com/docs/musician/)
+ - [Changelog](https://codefoxes.com/musician/changelog/)

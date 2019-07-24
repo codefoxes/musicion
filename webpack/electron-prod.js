@@ -2,7 +2,7 @@ const path = require('path')
 const merge = require('webpack-merge')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const common = require('../webpack.config.js')
+const common = require('./webpack.config.js')
 
 module.exports = merge(common, {
 	mode: 'production',

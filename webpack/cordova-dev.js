@@ -3,7 +3,7 @@ const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
-const common = require('../webpack.config.js')
+const common = require('./webpack.config.js')
 
 module.exports = merge(common, {
 	mode: 'development',
