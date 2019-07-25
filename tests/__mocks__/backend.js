@@ -5,13 +5,29 @@ jest.mock('backend', () => ({
 	getConfig: () => ({
 		library: {
 			folders: [],
-			albums: []
+			albums: [
+				{
+					albumId: '123',
+					album: 'Test Album',
+					files: [
+						{
+							file: 'test.mp3',
+							tags: { imagePath: 'test.jpg' }
+						}
+					]
+				}
+			]
 		}
 	}),
 	getPlaylists: () => ([
 		{
 			name: 'Default',
-			files: []
+			files: [
+				{
+					file: 'test.mp3',
+					tags: { album: 'Test Album', imagePath: 'test.jpg' }
+				}
+			]
 		}
 	]),
 	selectFolder: (cb) => {
@@ -19,5 +35,6 @@ jest.mock('backend', () => ({
 		cb(folders)
 	},
 	saveConfig: jest.fn(),
-	savePlaylists: () => (new Promise((resolve) => { resolve() }))
+	savePlaylists: () => (new Promise((resolve) => { resolve() })),
+	showContextMenu: jest.fn()
 }))

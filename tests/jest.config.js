@@ -32,7 +32,8 @@ module.exports = {
 		'!**/dist/**',
 		'!**/build**',
 		'!**/webpack**',
-		'!**/webpack/**'
+		'!**/webpack/**',
+		'!src/renderer/index.js'
 	],
 	coverageDirectory: 'coverage'
 }
